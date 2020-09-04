@@ -2,7 +2,6 @@
 
 User Stories:
      - As a Team Member I want to be able to work in a collaberative environment, find relevant tasks, and show availability in order to boost my productivity.
-     - As a user I want to be able
 
      - As a Project Owner I want to be able to see the progress and stage of development of my product. (bonus role)
 
