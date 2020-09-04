@@ -5,6 +5,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Team.associate = function(models) {
     // associations can be defined here
+    Team.hasMany(models.Project, { foreignKey: "teamId" })
+    Team.hasMany(models.User, { foreignKey: "teamId" })
   };
   return Team;
 };

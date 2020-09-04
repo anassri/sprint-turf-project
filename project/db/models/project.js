@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Project.associate = function(models) {
     // associations can be defined here
+    Project.belongsTo(models.Team, { foreignKey: "teamId"})
   };
   return Project;
 };
