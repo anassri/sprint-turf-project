@@ -1,0 +1,10 @@
+#projects-list {
+     grid-area: list;
+}
+
+.grid-container {
+     display: grid;
+     grid-template-columns: 15% 40% 45%;
+     grid-template-areas:
+     "sidebar list details";
+}
