@@ -5,6 +5,7 @@ const { environment } = require('./config');
 const indexRouter = require('./routes/index.js');
 const projectRouter = require('./routes/projectList.js');
 const path = require('path');
+const userRouter = require('./routes/users.js');
 
 const app = express();
 
