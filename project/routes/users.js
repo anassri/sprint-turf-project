@@ -1,11 +1,29 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
-const { asyncHandler, handleValidationErrors } = require('../utils');
+//const { asyncHandler, handleValidationErrors } = require('../utils');
 const { User, Team, Project } = require('../db/models');
 const { getUserToken, requireAuth } = require('../auth');
 
 const router = express.Router();
+
+const asyncHandler = (handler) => (req, res, next) =>
+  handler(req, res, next).catch(next);
+
+const handleValidationErrors = (req, res, next) => {
+  const validationErrors = validationResult(req);
+
+  if (!validationErrors.isEmpty()) {
+    const errors = validationErrors.array().map((error) => error.msg);
+
+    const err = Error("Bad request.");
+    err.status = 400;
+    err.title = "Bad request.";
+    err.errors = errors;
+    return next(err);
+  }
+  next();
+};
 
 const validateUsername =
     check("username")
@@ -22,8 +40,49 @@ const validateEmailAndPassword = [
         .withMessage("Please provide a password."),
 ];
 
+router.get(
+  "/login",
+  asyncHandler(async (req, res) => {
+      console.log("inside login")
 
-router.post('/', validateUsername, validateEmailAndPassword, handleValidationErrors, asyncHandler(async (req, res) => {
+    //const { username, email, password } = req.body;
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    // const user = await User.create({ username, email, hashedPassword });
+    // const token = getUserToken(user);
+    res.render('log-in');
+  
+    
+
+//     const token = getUserToken(user);
+//     res.status(201).json({
+//       user: { id: user.id },
+//       token,
+//     });
+  })
+);
+
+router.get(
+  "/signup", asyncHandler(async (req, res) => {
+    console.log("sign up ");
+    const projects = await Project.findAll();
+        res.render("sign-up", projects);
+
+    //const { username, email, password } = req.body;
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    // const user = await User.create({ username, email, hashedPassword });
+    // const token = getUserToken(user);
+    //res.render("sign-up");
+
+    //     const token = getUserToken(user);
+    //     res.status(201).json({
+    //       user: { id: user.id },
+    //       token,
+    //     });
+  })
+);
+
+
+router.post('/login', validateUsername, validateEmailAndPassword, handleValidationErrors, asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ username, email, hashedPassword });
