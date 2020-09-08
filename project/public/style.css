@@ -1,4 +1,9 @@
 .navbar-expand-lg{
-  justify-items: center;
   justify-content: space-between;
+}
+a {
+  color: white
+}
+.form-inline {
+  float: left;
 }
