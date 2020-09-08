@@ -26,7 +26,6 @@ module.exports = {
         type: Sequelize.TEXT
       },
       teamId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: { model: "Teams" }
       },
