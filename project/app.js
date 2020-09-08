@@ -1,12 +1,21 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const { environment } = require('./config');
+const indexRouter = require('./routes/index.js');
+const projectRouter = require('./routes/projectList.js');
+const path = require('path');
 
 const app = express();
 
+app.set('view engine', 'pug');
+
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:8080" }));
+app.use(projectRouter);
+app.use(indexRouter);
 
 
 //catch unhandled requests and forwawrd to error handler.
@@ -16,7 +25,7 @@ app.use((req, res, next) => {
     next(err);
 });
 
-//generic error handler. 
+//generic error handler.
 app.use((err, req, res, next) => {
     res.status(err.status || 500);
     const isProduction = environment === "production";
@@ -27,4 +36,4 @@ app.use((err, req, res, next) => {
     });
 });
 
-module.exporst = app;
+module.exports = app;
