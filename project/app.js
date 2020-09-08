@@ -1,13 +1,20 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const { environment } = require("./config");
+const userRouter = require("./routes/users");
 
 const app = express();
 
+app.set("view engine", "pug");
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:8080" }));
 
+
+
+
+app.use("/user", userRouter);
 
 //catch unhandled requests and forwawrd to error handler.
 app.use((req, res, next) => {
