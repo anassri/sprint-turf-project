@@ -1,0 +1,14 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Sprintturf
+  body
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      a.navbar-brand(href='/') Sprint Turf
+      .navbar-nav
+        a.nav-item.nav-link(href='/profile') My Sprints
+        a.nav-item.nav-link(href='/logout') Sign Out
+      input(type="text" placeholder="Search...")
+    block content

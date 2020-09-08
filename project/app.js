@@ -16,7 +16,7 @@ app.use((req, res, next) => {
     next(err);
 });
 
-//generic error handler. 
+//generic error handler.
 app.use((err, req, res, next) => {
     res.status(err.status || 500);
     const isProduction = environment === "production";
@@ -27,4 +27,4 @@ app.use((err, req, res, next) => {
     });
 });
 
-module.exporst = app;
+module.exports = app;
