@@ -102,6 +102,4 @@ router.get('/:id(\\d+)/tweets', requireAuth, asyncHandler(async (req, res) => {
     res.json({ tweets });
 }))
 
-
-
 module.exports = router;
