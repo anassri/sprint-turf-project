@@ -14,7 +14,6 @@ module.exports = {
         unique: true
       },
       deadline: {
-        allowNull: false,
         type: Sequelize.DATE
       },
       status: {
