@@ -12,11 +12,9 @@ app.use(express.json());
 app.use(cors({ origin: "http://localhost:8080" }));
 
 
+app.use("/users", userRouter);
 
-
-app.use("/user", userRouter);
-
-//catch unhandled requests and forwawrd to error handler.
+//catch unhandled requests and forward to error handler.
 app.use((req, res, next) => {
     const err = new Error("The requested resource couldn't be found.");
     err.status = 404;

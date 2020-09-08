@@ -17,7 +17,7 @@ const handleValidationErrors = (req,res,next) =>{
 
 const asyncHandler = (handler) => (req, res, next) => handler(req, res, next).catch(next);
 
-module.exporst = {
+module.exports = {
     handleValidationErrors,
     asyncHandler
 }

@@ -1,29 +1,12 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
-//const { asyncHandler, handleValidationErrors } = require('../utils');
+const { asyncHandler, handleValidationErrors } = require('../utils');
 const { User, Team, Project } = require('../db/models');
 const { getUserToken, requireAuth } = require('../auth');
 
 const router = express.Router();
 
-const asyncHandler = (handler) => (req, res, next) =>
-  handler(req, res, next).catch(next);
-
-const handleValidationErrors = (req, res, next) => {
-  const validationErrors = validationResult(req);
-
-  if (!validationErrors.isEmpty()) {
-    const errors = validationErrors.array().map((error) => error.msg);
-
-    const err = Error("Bad request.");
-    err.status = 400;
-    err.title = "Bad request.";
-    err.errors = errors;
-    return next(err);
-  }
-  next();
-};
 
 const validateUsername =
     check("username")
@@ -118,5 +101,7 @@ router.get('/:id(\\d+)/tweets', requireAuth, asyncHandler(async (req, res) => {
     const tweets = await Tweet.findAll({ where: { userId: id } });
     res.json({ tweets });
 }))
+
+
 
 module.exports = router;
