@@ -24,8 +24,12 @@ block content
             span#team-name.info Test
           .details
             span.title Details
-            span#details-area.info Test
+            .details-area
+              ul#details-list
       div.stats-area
         h3 Stats
-        p Test paragraph
+        .stats-container
+          #project-count.count-area
+          #overdue-count.count-area
+          #completed-count.count-area
     script(src="/public/js/projects.js" type="module")

@@ -75,6 +75,8 @@
      margin-left: 50px;
 }
 
-#details-area {
-     max-width: 40%;
+.stats-container {
+     max-width: 60%;
+     display: flex;
+     justify-content: space-between;
 }
