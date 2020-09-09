@@ -9,8 +9,7 @@ logIn.addEventListener("submit", async (e) => {
   const password = formData.get("password");
   const body = { email, password };
 
-  try {
-   
+  try { 
     const res = await fetch("/users/token", {
       method: "POST",
       body: JSON.stringify(body),
@@ -18,17 +17,16 @@ logIn.addEventListener("submit", async (e) => {
         "Content-Type": "application/json",
       },
     });
+
     if (!res.ok) {
       throw res;
     }
-    const {
-      token,
-      user: { id },
-    } = await res.json();
+    const { token, user: { id },} = await res.json();
 
     localStorage.setItem("TURF_ACCESS_TOKEN", token);
     localStorage.setItem("TURF_CURRENT_USER_ID", id);
  
+    // We have to redirect after Login
     window.location.href = "/";
     
   } catch (err) {

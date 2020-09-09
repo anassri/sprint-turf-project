@@ -1,4 +1,6 @@
 'use strict';
+const bcrypt = require("bcryptjs");
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstName: DataTypes.STRING,
@@ -11,5 +13,11 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     User.belongsTo(models.Team, { foreignKey: "teamId" })
   };
+
+  User.prototype.validatePassword = function (password) {
+    return bcrypt.compareSync(password, this.hashedPassword.toString());
+  };
+
   return User;
+
 };
