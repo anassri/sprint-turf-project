@@ -1,0 +1,29 @@
+extends layout.pug
+
+  
+block content
+    div(class="sign-up-container")
+        div(class="errors-container")
+        h2 Sign Up
+        form.sign-up-form(action="/users/" method="post")
+            .form-group
+                input(type="hidden" name="_csrf" value=csrfToken)
+            .form-group
+                label(for='firstName') First Name
+                input#firstName.form-control(type='text' name='firstName' placeholder="First Name")
+            .form-group
+                label(for='lastName') Last Name
+                input#lastName.form-control(type='text' name='lastName' placeholder="Last Name")
+            .form-group
+                label(for='email') Email
+                input#email.form-control(type='text' name='email' placeholder="Email")
+            .form-group
+                label(for='password') Password
+                input#password.form-control(type='password' name='password' placeholder="Password")
+            .form-group
+                label(for='confirmPassword') Confirm Password
+                input#confirmPassword.form-control(type='password' name='confirmPassword' placeholder="Confirm Password")
+            .py-4   
+                button.btn.btn-primary(type='submit') Sign Up
+                a.mr-4(href='/users/login') Already have an account? Log in here.
+    script(src="/public/js/sign-up.js" type="module" defer)

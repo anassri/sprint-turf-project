@@ -25,7 +25,6 @@ module.exports = {
         type: Sequelize.STRING.BINARY
       },
       teamId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: { model: "Teams" }
       },
