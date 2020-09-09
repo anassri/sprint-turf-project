@@ -1,0 +1,80 @@
+#projects-list {
+     grid-area: list;
+}
+
+.grid-container {
+     margin-top: 50px;
+     display: grid;
+     grid-template-columns: 15% 40% 45%;
+     grid-template-areas:
+     "sidebar list details";
+}
+
+.selected {
+     background-color: green;
+}
+
+.description-area {
+     margin-left: 50px;
+     grid-area: details;
+}
+
+.stats-area {
+     margin-left: 50px;
+     grid-area: details;
+}
+
+.hidden {
+     display: none;
+}
+
+.details-container {
+     max-width: 70%;
+     display: grid;
+     grid-template-columns: 50% 50%;
+     grid-template-rows: auto;
+     grid-template-areas:
+     "start start"
+     "due due"
+     "list list"
+     "assigned assigned"
+     "details details";
+}
+
+#project-title {
+     font-weight: bold;
+}
+
+.start, .due, .list, .assigned, .details {
+     margin-top: 30px;
+     display: flex;
+     justify-content: space-between;
+}
+
+.start {
+     grid-area: start;
+}
+
+.due {
+     grid-area: due;
+}
+
+.list {
+     grid-area: list;
+}
+
+.assigned {
+     grid-area: assigned;
+}
+
+.details {
+     grid-area: details;
+}
+
+.title {
+     margin-left: 50px;
+}
+
+#details-area {
+     max-width: 40%;
+}

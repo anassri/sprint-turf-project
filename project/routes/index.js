@@ -5,12 +5,12 @@ const { csrfProtection } = require('../utils');
 
 router.use(express.static(path.join(__dirname, 'public')));
 
-router.get("/", (req, res) => {
-    res.send("Home page");
+router.get('/', (req, res) => {
+    res.render('projects-list');
 });
 
-router.get('/projects', (req, res) => {
-    res.render('projects-list');
+router.get("/users/login", (req, res) => {
+    res.render('log-in');
 });
 
 router.get('/users/sign-up', csrfProtection, (req, res)=>{

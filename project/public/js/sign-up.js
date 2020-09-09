@@ -1,7 +1,5 @@
 import { handleErrors } from "./utils.js"
 
-// const errorsContainer = document.querySelector(".errors-container");
-
 const signUpForm = document.querySelector(".sign-up-form");
 
 signUpForm.addEventListener('submit', async (e) =>{
@@ -17,8 +15,6 @@ signUpForm.addEventListener('submit', async (e) =>{
     const password = formData.get("password");
     const confirmPassword = formData.get("confirmPassword");
     const _csrf = formData.get("_csrf");
-    // console.log(firstName);
-    
     
     const body = { firstName, lastName, email, password, confirmPassword, _csrf };
     console.log(body);
