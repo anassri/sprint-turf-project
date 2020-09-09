@@ -52,6 +52,9 @@ window.addEventListener("DOMContentLoaded", async event => {
                     populateList(completed);
                }
           });
+
+     document.getElementById('add-project')
+          .add
 });
 
 // Sam- function to remove the time stamp from the databases date entries

@@ -4,8 +4,16 @@ append head
   link(rel="stylesheet" href="/public/list-styles.css")
 
 block content
+    .overlay.hidden
+      .create-project-form
+        form(method='post' action='/projects-data')
+          .form-group
+            label(for="projectName")
+            input(type='text' name="projectName")
     div.grid-container
       div#projects-list
+        #add-project-area
+          #add-project.btn.btn-success Create New Project
         #complete-inc-container
           #incomplete-box.completed-bar.border
             span#incomplete.bar-text Incomplete
