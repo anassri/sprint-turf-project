@@ -39,7 +39,15 @@ module.exports = {
      teamId: 2,
      createdAt: new Date(),
      updatedAt: new Date()
-   }
+   },
+   {
+    projectName: "Yeehaw",
+    deadline: new Date(),
+    status: false,
+    description: "[\"Test10\",\"Test11\",\"Test12\"]",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }
    ])
   },
 

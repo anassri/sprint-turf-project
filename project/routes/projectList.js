@@ -14,9 +14,15 @@ router.get('/projects-data', asyncHandler(async (req, res) => {
 
 // Sam - route for fetches to get team data
 router.get('/team-names/:id(\\d+)', asyncHandler(async (req, res) => {
-     let id = parseInt(req.params.id)
      const teamName = await Team.findByPk(req.params.id);
      res.json( teamName );
 }));
 
+router.get('/projects-data/:value', asyncHandler(async (req, res) => {
+     const projects = await Project.findAll({
+          where: [{ status: req.params.value }]
+     });
+
+     res.json( projects );
+}));
 module.exports = router;
