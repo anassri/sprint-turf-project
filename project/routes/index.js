@@ -4,11 +4,7 @@ const path = require('path');
 
 router.use(express.static(path.join(__dirname, 'public')));
 
-router.get("/", (req, res) => {
-     res.render('layout')
-});
-
-router.get('/projects', (req, res) => {
+router.get('/', (req, res) => {
      res.render('projects-list');
 });
 
