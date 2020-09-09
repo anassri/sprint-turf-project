@@ -9,11 +9,15 @@ html(lang="en")
   body
     nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
       a.navbar-brand(href='/') Sprint Turf
-      form(class="form-inline")
-        input(class="form-control mr-sm-2" id="searchBar" type="search" placeholder="Search" aria-label="Search")
-        button(class="btn btn-outline-success my-2 my-sm-0" type="submit") Search
+      div
+        form(class="form-inline")
+          input(class="form-control mr-sm-2" id="searchBar" type="search" placeholder="Search" aria-label="Search")
+          button(class="btn btn-outline-success my-2 my-sm-0" type="submit") Search
+      div
+        ul(id="searchList")
       div
         form(class="form-inline")
           a.nav-item.nav-link(href='/profile') My Profile
           a.nav-item.nav-link(href='/logout') Sign Out
+    script(src="js/searchBar.js" type="module")
     block content
