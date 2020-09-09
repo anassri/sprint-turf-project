@@ -19,8 +19,11 @@ router.get('/team-names/:id(\\d+)', asyncHandler(async (req, res) => {
      res.json( teamName );
 }));
 
-router.get('/projects/:id/notes', asyncHandler(async (req, res) => {
-     const notes = await Note.findAll()
-}));
+router.get('/projects-data/:value', asyncHandler(async (req, res) => {
+     const projects = await Project.findAll({
+          where: [{ status: req.params.value }]
+     });
 
+     res.json( projects );
+}));
 module.exports = router;
