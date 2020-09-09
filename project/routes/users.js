@@ -46,15 +46,13 @@ router.get("/login", asyncHandler(async (req, res) => {
   })
 );
 
+
+// logging in
 router.post(
   "/token",
   validateEmailAndPassword,
   asyncHandler(async (req, res, next) => {
-
-    //console.log("req:::::::", req);
-
     const { email, password } = req.body;
-    
     console.log("req.body", req.body)
 
     const user = await User.findOne({

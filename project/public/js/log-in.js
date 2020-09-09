@@ -4,14 +4,13 @@ logIn.addEventListener("submit", async (e) => {
   
   e.preventDefault();
 
-  console.log("AAAAAAAAA");
   const formData = new FormData(logIn);
   const email = formData.get("email");
   const password = formData.get("password");
   const body = { email, password };
 
   try {
-    console.log("body::::: ", body);
+   
     const res = await fetch("/users/token", {
       method: "POST",
       body: JSON.stringify(body),
