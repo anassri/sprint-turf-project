@@ -1,9 +1,13 @@
 import { handleErrors } from "./utils.js"
 
+// const errorsContainer = document.querySelector(".errors-container");
+
 const signUpForm = document.querySelector(".sign-up-form");
 
-signUpForm.addEventListener("submit", async(e)=>{
+signUpForm.addEventListener('submit', async (e) =>{
     e.preventDefault();
+    
+    console.log("I got here");
     
     const formData = new FormData(signUpForm);
     
@@ -12,9 +16,12 @@ signUpForm.addEventListener("submit", async(e)=>{
     const email = formData.get("email");
     const password = formData.get("password");
     const confirmPassword = formData.get("confirmPassword");
+    const _csrf = formData.get("_csrf");
+    // console.log(firstName);
     
     
-    const body = { firstName, lastName, email, password, confirmPassword };
+    const body = { firstName, lastName, email, password, confirmPassword, _csrf };
+    console.log(body);
     
     try {
         const res = await fetch("/users", {
@@ -25,6 +32,7 @@ signUpForm.addEventListener("submit", async(e)=>{
             }
         });
         
+        console.log(res.ok);
         if (!res.ok) throw res;
         
         const {
