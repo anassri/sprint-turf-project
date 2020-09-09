@@ -1,3 +1,5 @@
+const note = require("../../db/models/note");
+
 window.addEventListener("DOMContentLoaded", async event => {
      // Sam - Populate the projects list with the data from the database
      let list = document.querySelector('.list-group');
@@ -43,7 +45,8 @@ window.addEventListener("DOMContentLoaded", async event => {
                let projId = Number(target);
                projects.forEach(project => {
                     if (projId === project.id) {
-                         populateDetails(project)
+                         populateDetails(project);
+                         fetchNotes(project);
                     }
                });
           });
@@ -136,3 +139,27 @@ function enumerateStats(projects) {
           <span id="complete-count-text" class="counter-text">Completed</span>`;
 }
 
+async function fetchNotes(project){
+     try{
+          const res = await fetch(`/projects/${project.teamId}/notes`);
+          if(res.status===401){
+               window.location.href = "/users/login";
+               return;
+          }    
+          const { notes } = await res.json();
+          
+          const notesContainer = document.querySelector('.notes-container');
+          const notesHtml = notes.map((note, id) => `
+               <div class="card" id="note-${id}">
+                    <div class="card-body">
+                    <p class="card-text">${note}</p>
+                    </div>
+               </div>
+               `
+          );
+          
+          notesContainer.innerHTML = notesHtml.join("");
+     } catch(e){
+          console.error(err);
+     }
+}

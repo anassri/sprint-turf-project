@@ -14,13 +14,19 @@ router.get('/projects-data', asyncHandler(async (req, res) => {
 
 // Sam - route for fetches to get team data
 router.get('/team-names/:id(\\d+)', asyncHandler(async (req, res) => {
-     let id = parseInt(req.params.id)
      const teamName = await Team.findByPk(req.params.id);
-     res.json( teamName );
+     res.json(teamName);
 }));
 
 router.get('/projects/:id/notes', asyncHandler(async (req, res) => {
-     const notes = await Note.findAll()
+     const notes = await Note.findAll({
+          where: { teamId: req.params.id },
+          include: [{
+               model: User,
+               attributes: ["firstName", "lastName"]
+          }]
+     });
+     req.json({ notes });
 }));
 
 module.exports = router;
