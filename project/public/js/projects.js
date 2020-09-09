@@ -54,7 +54,23 @@ window.addEventListener("DOMContentLoaded", async event => {
           });
 
      document.getElementById('add-project')
-          .add
+          .addEventListener('click', event => {
+               let overlay = document.getElementById('overlay');
+               let formDiv = document.getElementById('create-form');
+               overlay.classList.add('overlay');
+               formDiv.classList.remove('hidden');
+          });
+
+     document.getElementById('overlay')
+          .addEventListener('click', event => {
+               let overlay = document.getElementById('overlay')
+               let formDiv = document.getElementById('create-form')
+               if (event.target.id === 'overlay') {
+                    console.log('here');
+                    formDiv.classList.add('hidden');
+                    overlay.classList.remove('overlay');
+               }
+          });
 });
 
 // Sam- function to remove the time stamp from the databases date entries
@@ -122,19 +138,15 @@ function enumerateStats(projects) {
      projects.forEach(project => {
           let currentDate = Date.parse(new Date());
           let dueDate = Date.parse(project.deadline);
-          console.log(project.status)
           if (currentDate > dueDate && !project.status) {
-               console.log('over')
                overdueCount++;
           }
 
           if (project.status) {
-               console.log('complete')
                completedCount++;
           }
 
           if (!project.status) {
-               console.log('incomplete')
                totalCount++;
           }
      });

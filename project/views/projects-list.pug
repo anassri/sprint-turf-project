@@ -4,12 +4,24 @@ append head
   link(rel="stylesheet" href="/public/list-styles.css")
 
 block content
-    .overlay.hidden
-      .create-project-form
+    #overlay
+      .create-project-form#create-form.hidden
         form(method='post' action='/projects-data')
           .form-group
-            label(for="projectName")
-            input(type='text' name="projectName")
+            label(for="projectName") Enter a project name
+            input(type='text' name="projectName" class="form-control")
+          .form-group
+            label(for="deadline") Select a deadline
+            input(type='date' name="deadline" class="form-control")
+          .form-group
+            label(for='teamId') Select the team
+            select(name='teamId' class="form-control")
+          .form-group
+            label(for='description') Enter tasks for the project, separated by commas
+            textarea(name='description' class="form-control")
+          button(type="submit" class="btn btn-primary" class="form-control") Create Project
+
+
     div.grid-container
       div#projects-list
         #add-project-area

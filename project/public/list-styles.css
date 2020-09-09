@@ -3,7 +3,7 @@
 }
 
 .grid-container {
-     margin-top: 50px;
+     padding-top: 100px;
      display: grid;
      grid-template-columns: 15% 40% 45%;
      grid-template-areas:
@@ -34,6 +34,16 @@
      height: 100%;
      background-color: rgba(0, 0, 0, 0.60);
      z-index: 1;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+.create-project-form {
+     background-color: gainsboro;
+     width: 33%;
+     padding: 30px;
+     border-radius: 12px;
 }
 
 .details-container {
