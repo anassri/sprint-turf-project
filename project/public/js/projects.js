@@ -3,6 +3,7 @@ window.addEventListener("DOMContentLoaded", async event => {
      let list = document.querySelector('.list-group');
      const res = await fetch("/projects-data");
      const projects = await res.json();
+     enumerateStats(projects);
      projects.forEach((project, i) => {
           i++
           let conDiv = document.createElement('div');
@@ -26,6 +27,7 @@ window.addEventListener("DOMContentLoaded", async event => {
                if (element.classList.contains('selected')) {
                     element.classList.remove('selected');
                     details.classList.add('hidden');
+                    enumerateStats(projects);
                     stats.classList.remove('hidden');
                     return;
                }
@@ -60,7 +62,7 @@ async function populateDetails(project) {
      let due = document.getElementById('due-date');
      let list = document.getElementById('list-entry');
      let team = document.getElementById('team-name');
-     let details = document.getElementById('details-area');
+     let details = document.getElementById('details-list');
      let title = document.getElementById('project-title');
 
      let res = await fetch('/team-names');
@@ -81,5 +83,64 @@ async function populateDetails(project) {
      due.innerHTML = splitDate(project.deadline);
      list.innerHTML = "Add when lists/tags are a thing"
      team.innerHTML = teamName;
-     details.innerHTML = project.description;
+     let taskList = JSON.parse(project.description);
+     if (details.hasChildNodes) {
+          details.innerHTML = '';
+     }
+     taskList.forEach(task => {
+          let check = document.createElement('input');
+          let checkLabel = document.createElement('label');
+          let conDiv = document.createElement('div');
+          conDiv.classList.add('details-check-container');
+          check.setAttribute('type', 'checkbox');
+          check.setAttribute('name', task);
+          check.classList.add('check-item');
+          check.classList.add('form-check-input');
+          checkLabel.classList.add('check-label');
+          checkLabel.classList.add('form-check-label');
+          checkLabel.setAttribute('for', task);
+          checkLabel.innerHTML = task;
+          conDiv.appendChild(check);
+          conDiv.appendChild(checkLabel);
+          details.appendChild(conDiv);
+     });
+}
+
+// Function for generating the stats values and enumerating the page with them.
+function enumerateStats(projects) {
+     let projectsStat = document.getElementById('project-count');
+     let overdueStat = document.getElementById('overdue-count');
+     let completedStat = document.getElementById('completed-count');
+
+     let totalCount = 0;
+     let overdueCount = 0;
+     let completedCount = 0;
+
+     projects.forEach(project => {
+          let currentDate = Date.parse(new Date());
+          let dueDate = Date.parse(project.deadline);
+          if (currentDate > dueDate && !project.status) {
+               overdueCount++;
+          }
+
+          if (project.status) {
+               completedCount++;
+          }
+
+          if (!project.status) {
+               totalCount++;
+          }
+     });
+
+     projectsStat.innerHTML = `
+          <span id="incomplete-count" class="counter">${totalCount}</span>
+          <span id="incomplete-count-title" class="counter-text">Projects</span>`;
+
+     overdueStat.innerHTML = `
+          <span id="overdue-count" class="counter">${overdueCount}</span>
+          <span id="overdue-count-title" class="counter-text">Overdue</span>`;
+
+     completedStat.innerHTML = `
+          <span id="complete-count" class="counter">${completedCount}</span>
+          <span id="complete-count-text" class="counter-text">Completed</span>`;
 }
