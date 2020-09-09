@@ -7,10 +7,10 @@ block content
     div.grid-container
       div#projects-list
         #complete-inc-container
-          #incomplete.completed-bar.border
-            span.bar-text Incomplete
-          #completed.completed-bar.border
-            span.bar-text Completed
+          #incomplete-box.completed-bar.border
+            span#incomplete.bar-text Incomplete
+          #complete-box.completed-bar.border
+            span#complete.bar-text Completed
         ul.list-group#list-area
       div.description-area.hidden
         h3#project-title Test title
@@ -32,6 +32,7 @@ block content
             .details-area
               ul#details-list
         .notes-area
+          .errors-container
           .add-note
           .notes-container
       div.stats-area
@@ -41,3 +42,4 @@ block content
           #overdue-count.count-area
           #completed-count.count-area
     script(src="/public/js/projects.js" type="module")
+    //- script(src="/public/js/add-note.js" type="module")

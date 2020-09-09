@@ -1,23 +1,16 @@
-const note = require("../../db/models/note");
+// const note = require("../../db/models/note");
+import { handleErrors } from "./utils.js"
 
 window.addEventListener("DOMContentLoaded", async event => {
      // Sam - Populate the projects list with the data from the database
-     let list = document.querySelector('.list-group');
-     const res = await fetch("/projects-data");
-     const projects = await res.json();
-     enumerateStats(projects);
-     projects.forEach((project, i) => {
-          i++
-          let conDiv = document.createElement('div');
-          let li = document.createElement('li');
-          li.classList.add('list-group-item');
-          li.classList.add('project-items')
-          li.setAttribute('id', `${project.id}`);
-          li.innerHTML = `${i}. ${project.projectName}`;
-          conDiv.appendChild(li);
 
-          list.appendChild(conDiv);
-     });
+     const res = await fetch("/projects-data");
+     const resInc = await fetch('/projects-data/false');
+     const projects = await res.json();
+     const incProjects = await resInc.json();
+     
+     enumerateStats(projects);
+     populateList(incProjects);
      // Sam - Event handler to open up stats/details on click of a list element and populate details data
      document.getElementById('list-area')
           .addEventListener('click', e => {
@@ -50,6 +43,23 @@ window.addEventListener("DOMContentLoaded", async event => {
                     }
                });
           });
+
+     document.getElementById('complete-inc-container')
+          .addEventListener('click', async event => {
+               let target = event.target.id;
+               if (target === 'incomplete' || target === 'incomplete-box') {
+                    let res = await fetch(`/projects-data/false`);
+                    let incomplete = await res.json();
+                    populateList(incomplete);
+               } else if (target === 'complete' || target === 'complete-box') {
+                    let res = await fetch(`/projects-data/true`);
+                    let completed = await res.json();
+                    populateList(completed);
+               }
+          });
+          
+    
+     
 });
 
 // Sam- function to remove the time stamp from the databases date entries
@@ -76,7 +86,11 @@ async function populateDetails(project) {
      start.innerHTML = splitDate(project.createdAt);
      due.innerHTML = splitDate(project.deadline);
      list.innerHTML = "Add when lists/tags are a thing"
-     team.innerHTML = teamName;
+     if (teamName === undefined) {
+          team.innerHTML = 'No team has been assigned yet';
+     } else {
+          team.innerHTML = teamName;
+     }
      let taskList = JSON.parse(project.description);
      if (details.hasChildNodes) {
           details.innerHTML = '';
@@ -100,7 +114,7 @@ async function populateDetails(project) {
      });
 }
 
-// Function for generating the stats values and enumerating the page with them.
+// Sam - Function for generating the stats values and enumerating the page with them.
 function enumerateStats(projects) {
      let projectsStat = document.getElementById('project-count');
      let overdueStat = document.getElementById('overdue-count');
@@ -113,15 +127,19 @@ function enumerateStats(projects) {
      projects.forEach(project => {
           let currentDate = Date.parse(new Date());
           let dueDate = Date.parse(project.deadline);
+          console.log(project.status)
           if (currentDate > dueDate && !project.status) {
+               console.log('over')
                overdueCount++;
           }
 
           if (project.status) {
+               console.log('complete')
                completedCount++;
           }
 
           if (!project.status) {
+               console.log('incomplete')
                totalCount++;
           }
      });
@@ -138,7 +156,47 @@ function enumerateStats(projects) {
           <span id="complete-count" class="counter">${completedCount}</span>
           <span id="complete-count-text" class="counter-text">Completed</span>`;
 }
+// Ammar - add a note to a specific project
+async function addNote(project) {
+     const addNoteForm = document.querySelector(".note-form");
 
+     addNoteForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          
+          console.log("I'm activated");
+
+          const formData = new FormData(addNoteForm);
+          const note = formData.get("note");
+          const userId = localStorage.getItem("SPRINT_TURF_CURRENT_USER_ID");
+          const teamId = project.teamId;
+          console.log(note);
+          const body = { note, teamId, userId };
+          try {
+               const res = await fetch(`/projects/${teamId}/notes`, {
+                    method: "POST",
+                    body: JSON.stringify(body),
+                    headers:{
+                         "Content-Type": "application/json",
+                         Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}` 
+                    },
+               });
+               if(res.status === 401){
+                    window.location.href = "/users/login";
+                    return;
+               }
+               if (!res.ok) throw res;
+               console.log("Added");
+               fetchNotes(project);
+               
+          } catch (e) {
+               handleErrors(e);
+          }
+
+
+     });    
+}
+
+// Ammar - display project notes
 async function fetchNotes(project){
      try{
           const res = await fetch(`/projects/${project.teamId}/notes`);
@@ -146,20 +204,58 @@ async function fetchNotes(project){
                window.location.href = "/users/login";
                return;
           }    
-          const { notes } = await res.json();
-          
+          console.log(res.ok);
+          const notes = await res.json();
+          // console.log(await res.json());
+          console.log(notes);
+          const addNoteContainer = document.querySelector('.add-note');
+          addNoteContainer.innerHTML = "";
+          addNoteContainer.innerHTML =
+               `<form class="note-form">
+                    <div class="add-note">
+                         <textarea id="add-a-note" name="note" class="form-control" rows="1" value="Add a Note"></textarea>
+                    </div>
+                    <div class="py-4">
+                         <button type='submit' class='btn btn-primary'>Save</button>
+                         <a href="" class='btn btn-warning ml-2'>cancel</a>
+                    </div>
+               </form>`;
           const notesContainer = document.querySelector('.notes-container');
+          
           const notesHtml = notes.map((note, id) => `
                <div class="card" id="note-${id}">
                     <div class="card-body">
-                    <p class="card-text">${note}</p>
+                    <p class="card-text">${note.User.firstName} ${note.User.lastName}</p>
+                    <p class="card-text">${note.note}</p>
                     </div>
                </div>
                `
           );
           
+          notesContainer.innerHTML = "";
           notesContainer.innerHTML = notesHtml.join("");
+          addNote(project);
      } catch(e){
-          console.error(err);
+          console.error(e);
      }
+}
+function populateList(projects) {
+     let list = document.querySelector('.list-group');
+     list.innerHTML = '';
+     if (projects.length === 0) {
+          return '';
+     }
+
+     projects.forEach((project, i) => {
+          i++
+          let conDiv = document.createElement('div');
+          let li = document.createElement('li');
+          li.classList.add('list-group-item');
+          li.classList.add('project-items')
+          li.setAttribute('id', `${project.id}`);
+          li.innerHTML = `${i}. ${project.projectName}`;
+          conDiv.appendChild(li);
+
+          list.appendChild(conDiv);
+     });
 }

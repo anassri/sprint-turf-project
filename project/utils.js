@@ -3,7 +3,6 @@ const { check, validationResult } = require('express-validator');
 
 const csrf = require('csurf');
 
-
 const csrfProtection = csrf({ cookie: true });
 
 const handleValidationErrors = (req,res,next) =>{
@@ -36,6 +35,7 @@ const validateEmailAndPassword = [
     check("password")
         .exists({ checkFalsy: true })
         .withMessage("Please provide a password."),
+    handleValidationErrors,
 ];
 
 const userValidators = [
@@ -81,7 +81,8 @@ const userValidators = [
                 throw new Error('Password must match');
             }
             return true;
-        })
+        }),
+    handleValidationErrors,
 ];
 
 module.exports = {
