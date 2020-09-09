@@ -1,6 +1,115 @@
-.navbar-expand-lg{
+body {
+  background-color: #f1f1f1;
+  border-radius: 50%;
+}
+
+.nav-main {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  background-color: black;
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 10000;
+}
+
+.sprint-img {
+  background-image: url(http://images.clipartpanda.com/sprinter-clipart-runner-hi.png);
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-color: black;
+  width: 60px;
+  height: 60px;
+  background-position: center;
+
+}
+
+.btn-toggle-nav {
+  position: absolute;
+  right: 0%;
+  width: 60px;
+  height: 60px;
+  background-color: mediumspringgreen;
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/220px-Hamburger_icon.svg.png);
+  background-repeat: no-repeat;
+  background-size: 50%;
+  background-position: center;
+  cursor: pointer;
+}
+
+.btn-toggle-nav:hover {
+  opacity: 0.5;
+}
+
+#searchBar {
+  height: 40%
+}
+.nav-main ul {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 15px;
+}
+
+.nav-main ul li {
+  list-style: none;
+  line-height: 60px;
+}
+
+.nav-main ul li a {
+  display: block;
+  height: 100%;
+  padding: 0 10px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+.nav-sidebar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  /* padding: 0 5px; */
+  height: calc(100vh - 60px);
+  background-color: #1b1b1b;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-sidebar ul {
+  padding-top: 15px;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.nav-sidebar ul li {
+  line-height: 60px;
+  list-style: none;
+}
+
+.nav-sidebar ul li span, .nav-sidebar ul li a {
+  display: block;
+  text-align: start;
+  height: 60px;
+  padding: 0 10px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #fff;
+  font-size: 16px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-sidebar ul li a:hover {
+  background-color: #222;
+}
+/* .navbar-expand-lg{
   justify-content: space-between;
 }
 a {
   color: white
-}
+} */
