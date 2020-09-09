@@ -6,6 +6,11 @@ append head
 block content
     div.grid-container
       div#projects-list
+        #complete-inc-container
+          #incomplete-box.completed-bar.border
+            span#incomplete.bar-text Incomplete
+          #complete-box.completed-bar.border
+            span#complete.bar-text Completed
         ul.list-group#list-area
       div.description-area.hidden
         h3#project-title Test title
@@ -24,8 +29,12 @@ block content
             span#team-name.info Test
           .details
             span.title Details
-            span#details-area.info Test
+            .details-area
+              ul#details-list
       div.stats-area
         h3 Stats
-        p Test paragraph
+        .stats-container
+          #project-count.count-area
+          #overdue-count.count-area
+          #completed-count.count-area
     script(src="/public/js/projects.js" type="module")
