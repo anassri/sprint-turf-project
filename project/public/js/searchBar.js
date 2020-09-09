@@ -9,22 +9,3 @@ searchBar.addEventListener('keyup', (event) => {
   })
 
 })
-
-
-// const loadData = async () => {
-//   try {
-//     const res = await fetch('/db/')
-//     let projectNames = await res.json();
-//     displayProjects(projectNames);
-//   }
-// }
-
-
-// const projectNames = (projects) => {
-//   const pugString = projects
-//   .map((project) => {
-//     return
-//     li(class="projects")
-
-//   })
-// }
