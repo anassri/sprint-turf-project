@@ -144,3 +144,4 @@ function enumerateStats(projects) {
           <span id="complete-count" class="counter">${completedCount}</span>
           <span id="complete-count-text" class="counter-text">Completed</span>`;
 }
+
