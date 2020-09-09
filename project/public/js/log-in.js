@@ -1,12 +1,14 @@
 import { handleErrors } from "./utils.js"
 
-const logIn = document.querySelector(".log-in-form");
+//const logIn = document.querySelector(".log-in-form");
+const logIn = document.getElementById("login")
 const logOut = document.getElementById("logout")
 const logInButton = document.querySelector(".btn-primary")
 
 // console.log("logIN::::::::", logIn)
+console.log(typeof(logIn))
 logIn.addEventListener("submit", async (e) => {
-
+  
   console.log("INSIDE LOGIN")
   e.preventDefault();
   const formData = new FormData(logIn);
