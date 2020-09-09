@@ -1,6 +1,16 @@
+extends layout.pug
 
-head
-body
-  div.projects-list
-    ul.projects
-  script(src="js/projects-list.js" type="module")
+append head
+  link(rel="stylesheet" href="/public/list-styles.css")
+
+block content
+    div.grid-container
+      div#projects-list
+        ul.list-group#list-area
+      div.description-area.hidden
+        h3 Details
+        p#description
+      div.stats-area
+        h3 Stats
+        p Test paragraph
+    script(src="/public/js/projects.js" type="module")
