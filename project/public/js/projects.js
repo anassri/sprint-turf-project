@@ -65,18 +65,9 @@ async function populateDetails(project) {
      let details = document.getElementById('details-list');
      let title = document.getElementById('project-title');
 
-     let res = await fetch('/team-names');
-     let teamNames = await res.json();
-     let teamName;
-     if (project.teamId === undefined) {
-          teamName === 'Project not assigned'
-     } else {
-          teamNames.forEach(team => {
-               if (team.id === project.teamId) {
-                    teamName = team.name;
-               }
-          });
-     }
+     let res = await fetch(`/team-names/${project.teamId}`);
+     let teamSelected = await res.json();
+     let teamName = teamSelected.name;
 
      title.innerHTML = project.projectName;
      start.innerHTML = splitDate(project.createdAt);

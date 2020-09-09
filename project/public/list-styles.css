@@ -80,3 +80,18 @@
      display: flex;
      justify-content: space-between;
 }
+
+.border {
+     padding: 10px;
+}
+
+.completed-bar {
+     width: 50%;
+     display: inline-flex;
+     justify-content: space-between;
+     align-items: center;
+}
+
+.bar-text {
+     margin: 0 auto;
+}
