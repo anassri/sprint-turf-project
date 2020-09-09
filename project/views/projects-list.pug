@@ -1,9 +1,15 @@
 
 head
   link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous")
-  link(rel="stylesheet" href="list-styles.css")
+  link(rel="stylesheet" href="/public/list-styles.css")
 body
   div.grid-container
     div#projects-list
       ul.list-group#list-area
-  script(src="js/projects-list.js" type="module")
+    div.description-area.hidden
+      h3 Details
+      p#description
+    div.stats-area
+      h3 Stats
+      p Test paragraph
+  script(src="/public/js/projects.js" type="module")
