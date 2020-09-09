@@ -13,9 +13,10 @@ router.get('/projects-data', asyncHandler(async (req, res) => {
 }));
 
 // Sam - route for fetches to get team data
-router.get('/team-names', asyncHandler(async (req, res) => {
-     const teamNames = await Team.findAll();
-     res.json( teamNames );
+router.get('/team-names/:id(\\d+)', asyncHandler(async (req, res) => {
+     let id = parseInt(req.params.id)
+     const teamName = await Team.findByPk(req.params.id);
+     res.json( teamName );
 }));
 
 module.exports = router;
