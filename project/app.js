@@ -5,6 +5,7 @@ const { environment } = require("./config");
 const userRouter = require("./routes/users");
 
 const app = express();
+app.use("/public", express.static("public"));
 
 app.set("view engine", "pug");
 app.use(morgan("dev"));
@@ -14,7 +15,7 @@ app.use(cors({ origin: "http://localhost:8080" }));
 
 
 
-app.use("/user", userRouter);
+app.use("/users", userRouter);
 
 //catch unhandled requests and forwawrd to error handler.
 app.use((req, res, next) => {
