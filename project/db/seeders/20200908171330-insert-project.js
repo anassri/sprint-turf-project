@@ -17,7 +17,7 @@ module.exports = {
       projectName: "Twitter-Lite",
       deadline: new Date(),
       status: true,
-      description: "This is a project from App/A that functions similarly to twitter at a basic level, this a test description for the project",
+      description: "[\"Test1\",\"Test2\",\"Test3\"]",
       teamId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
@@ -26,7 +26,7 @@ module.exports = {
      projectName: "Remember the milk clone",
      deadline: new Date(),
      status: true,
-     description: "First project from App/A, this a test description for the project",
+     description: "[\"Test4\",\"Test5\",\"Test6\"]",
      teamId: 1,
      createdAt: new Date(),
      updatedAt: new Date()
@@ -35,11 +35,19 @@ module.exports = {
      projectName: "Order66",
      deadline: new Date(),
      status: true,
-     description: "All jedi are traitors and must be eliminated, this a test description for the project",
+     description: "[\"Test7\",\"Test8\",\"Test9\"]",
      teamId: 2,
      createdAt: new Date(),
      updatedAt: new Date()
-   }
+   },
+   {
+    projectName: "Yeehaw",
+    deadline: new Date(),
+    status: false,
+    description: "[\"Test10\",\"Test11\",\"Test12\"]",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }
    ])
   },
 

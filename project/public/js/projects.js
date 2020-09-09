@@ -1,20 +1,12 @@
 window.addEventListener("DOMContentLoaded", async event => {
      // Sam - Populate the projects list with the data from the database
-     let list = document.querySelector('.list-group');
-     const res = await fetch("/projects-data");
-     const projects = await res.json();
-     projects.forEach((project, i) => {
-          i++
-          let conDiv = document.createElement('div');
-          let li = document.createElement('li');
-          li.classList.add('list-group-item');
-          li.classList.add('project-items')
-          li.setAttribute('id', `${project.id}`);
-          li.innerHTML = `${i}. ${project.projectName}`;
-          conDiv.appendChild(li);
 
-          list.appendChild(conDiv);
-     });
+     const res = await fetch("/projects-data");
+     const resInc = await fetch('/projects-data/false');
+     const projects = await res.json();
+     const incProjects = await resInc.json();
+     enumerateStats(projects);
+     populateList(incProjects);
      // Sam - Event handler to open up stats/details on click of a list element and populate details data
      document.getElementById('list-area')
           .addEventListener('click', e => {
@@ -26,6 +18,7 @@ window.addEventListener("DOMContentLoaded", async event => {
                if (element.classList.contains('selected')) {
                     element.classList.remove('selected');
                     details.classList.add('hidden');
+                    enumerateStats(projects);
                     stats.classList.remove('hidden');
                     return;
                }
@@ -45,6 +38,20 @@ window.addEventListener("DOMContentLoaded", async event => {
                     }
                });
           });
+
+     document.getElementById('complete-inc-container')
+          .addEventListener('click', async event => {
+               let target = event.target.id;
+               if (target === 'incomplete' || target === 'incomplete-box') {
+                    let res = await fetch(`/projects-data/false`);
+                    let incomplete = await res.json();
+                    populateList(incomplete);
+               } else if (target === 'complete' || target === 'complete-box') {
+                    let res = await fetch(`/projects-data/true`);
+                    let completed = await res.json();
+                    populateList(completed);
+               }
+          });
 });
 
 // Sam- function to remove the time stamp from the databases date entries
@@ -60,26 +67,105 @@ async function populateDetails(project) {
      let due = document.getElementById('due-date');
      let list = document.getElementById('list-entry');
      let team = document.getElementById('team-name');
-     let details = document.getElementById('details-area');
+     let details = document.getElementById('details-list');
      let title = document.getElementById('project-title');
 
-     let res = await fetch('/team-names');
-     let teamNames = await res.json();
-     let teamName;
-     if (project.teamId === undefined) {
-          teamName === 'Project not assigned'
-     } else {
-          teamNames.forEach(team => {
-               if (team.id === project.teamId) {
-                    teamName = team.name;
-               }
-          });
-     }
+     let res = await fetch(`/team-names/${project.teamId}`);
+     let teamSelected = await res.json();
+     let teamName = teamSelected.name;
 
      title.innerHTML = project.projectName;
      start.innerHTML = splitDate(project.createdAt);
      due.innerHTML = splitDate(project.deadline);
      list.innerHTML = "Add when lists/tags are a thing"
-     team.innerHTML = teamName;
-     details.innerHTML = project.description;
+     if (teamName === undefined) {
+          team.innerHTML = 'No team has been assigned yet';
+     } else {
+          team.innerHTML = teamName;
+     }
+     let taskList = JSON.parse(project.description);
+     if (details.hasChildNodes) {
+          details.innerHTML = '';
+     }
+     taskList.forEach(task => {
+          let check = document.createElement('input');
+          let checkLabel = document.createElement('label');
+          let conDiv = document.createElement('div');
+          conDiv.classList.add('details-check-container');
+          check.setAttribute('type', 'checkbox');
+          check.setAttribute('name', task);
+          check.classList.add('check-item');
+          check.classList.add('form-check-input');
+          checkLabel.classList.add('check-label');
+          checkLabel.classList.add('form-check-label');
+          checkLabel.setAttribute('for', task);
+          checkLabel.innerHTML = task;
+          conDiv.appendChild(check);
+          conDiv.appendChild(checkLabel);
+          details.appendChild(conDiv);
+     });
+}
+
+// Sam - Function for generating the stats values and enumerating the page with them.
+function enumerateStats(projects) {
+     let projectsStat = document.getElementById('project-count');
+     let overdueStat = document.getElementById('overdue-count');
+     let completedStat = document.getElementById('completed-count');
+
+     let totalCount = 0;
+     let overdueCount = 0;
+     let completedCount = 0;
+
+     projects.forEach(project => {
+          let currentDate = Date.parse(new Date());
+          let dueDate = Date.parse(project.deadline);
+          console.log(project.status)
+          if (currentDate > dueDate && !project.status) {
+               console.log('over')
+               overdueCount++;
+          }
+
+          if (project.status) {
+               console.log('complete')
+               completedCount++;
+          }
+
+          if (!project.status) {
+               console.log('incomplete')
+               totalCount++;
+          }
+     });
+
+     projectsStat.innerHTML = `
+          <span id="incomplete-count" class="counter">${totalCount}</span>
+          <span id="incomplete-count-title" class="counter-text">Projects</span>`;
+
+     overdueStat.innerHTML = `
+          <span id="overdue-count" class="counter">${overdueCount}</span>
+          <span id="overdue-count-title" class="counter-text">Overdue</span>`;
+
+     completedStat.innerHTML = `
+          <span id="complete-count" class="counter">${completedCount}</span>
+          <span id="complete-count-text" class="counter-text">Completed</span>`;
+}
+
+function populateList(projects) {
+     let list = document.querySelector('.list-group');
+     list.innerHTML = '';
+     if (projects.length === 0) {
+          return '';
+     }
+
+     projects.forEach((project, i) => {
+          i++
+          let conDiv = document.createElement('div');
+          let li = document.createElement('li');
+          li.classList.add('list-group-item');
+          li.classList.add('project-items')
+          li.setAttribute('id', `${project.id}`);
+          li.innerHTML = `${i}. ${project.projectName}`;
+          conDiv.appendChild(li);
+
+          list.appendChild(conDiv);
+     });
 }
