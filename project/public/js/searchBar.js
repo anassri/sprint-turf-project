@@ -5,17 +5,15 @@ let projectNames = [];
 searchBar.addEventListener('keyup', (event) => {
   const searchString = event.target.value.toLowerCase();
   const projects = list.getElementsByTagName('li');
+
   Array.from(projects).forEach((project) => {
-    const name = project.projectName;
+    // console.log("project------",project)
+    const name = project.innerHTML;
+    // console.log("name-----",name)
     if (name.toLowerCase().indexOf(searchString) !== -1) {
       project.style.display = 'block';
     } else {
-      book.style.display = 'none'
+      project.style.display = 'none'
     }
   })
-
 })
-
-const projectName = async () => {
-
-}
