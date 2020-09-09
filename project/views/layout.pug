@@ -19,6 +19,8 @@ html(lang="en")
       div
         form(class="form-inline")
           a.nav-item.nav-link(href='/profile') My Profile
-          a.nav-item.nav-link(href='/logout') Sign Out
+          a.nav-item.nav-link#logout(href='/users/login') Sign Out
     script(src="/public/js/searchBar.js" type="module")
+    script(src="/public/js/log-in.js" type="module")
     block content
+

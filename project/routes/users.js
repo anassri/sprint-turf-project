@@ -26,7 +26,6 @@ router.get("/login", asyncHandler(async (req, res) => {
   })
 );
 
-
 // logging in
 router.post(
   "/token",
@@ -48,7 +47,14 @@ router.post(
     const token = getUserToken(user);
     res.json({ token, user: { id: user.id } });
   })
-
 );
+
+// Log Out
+router.delete('/session', asyncHandler(async (req, res) => {
+  console.log("AAAAAA")
+  res.clearCookie('token');
+  res.json({ message: 'success' });
+}));
+
 
 module.exports = router;
