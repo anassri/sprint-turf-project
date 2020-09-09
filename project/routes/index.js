@@ -5,7 +5,7 @@ const path = require('path');
 router.use(express.static(path.join(__dirname, 'public')));
 
 router.get("/", (req, res) => {
-     res.send("Home page");
+     res.render('layout')
 });
 
 router.get('/projects', (req, res) => {
