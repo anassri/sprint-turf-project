@@ -170,6 +170,7 @@ async function addNote(project) {
           const userId = localStorage.getItem("SPRINT_TURF_CURRENT_USER_ID");
           const projectId = project.id;
           console.log(note);
+          console.log(projectId);
           const body = { note, projectId, userId };
           try {
                const res = await fetch(`/projects/${projectId}/notes`, {
@@ -180,6 +181,8 @@ async function addNote(project) {
                          Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}` 
                     },
                });
+               console.log(res.body);
+               console.log(res.ok);
                if(res.status === 401){
                     window.location.href = "/users/login";
                     return;
@@ -204,10 +207,11 @@ async function fetchNotes(project){
                window.location.href = "/users/login";
                return;
           }    
-          console.log(res.ok);
           const notes = await res.json();
           // console.log(await res.json());
           console.log(notes);
+          const errorsContainer = document.querySelector(".errors-container");
+          errorsContainer.innerHTML = "";
           const addNoteContainer = document.querySelector('.add-note');
           addNoteContainer.innerHTML = "";
           addNoteContainer.innerHTML =
@@ -236,7 +240,7 @@ async function fetchNotes(project){
           notesContainer.innerHTML = notesHtml.join("");
           addNote(project);
      } catch(e){
-          console.error(e);
+          handleErrors(e);
      }
 }
 function populateList(projects) {

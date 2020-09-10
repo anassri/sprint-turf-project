@@ -1,10 +1,11 @@
 const express = require('express');
-const router = express.Router();
 const db = require('../db/models');
 const { Project, User, Team, Note } = db;
-const { asyncHandler } = require('../utils.js');
-const { requireAuth, handleValidationErrors } = require('../auth');
+const { asyncHandler, handleValidationErrors } = require('../utils.js');
+const { requireAuth } = require('../auth');
 const { check, validationResult } = require('express-validator');
+
+const router = express.Router();
 
 const validateNote = [
      check("note")
@@ -39,12 +40,18 @@ router.get('/projects/:id/notes', requireAuth, asyncHandler(async (req, res) => 
      res.json(notes);
 }));
 
-router.post('/projects/:id/notes',  asyncHandler(async (req, res) => {
+router.post('/projects/:id/notes', validateNote, handleValidationErrors, asyncHandler(async (req, res, next) => {
      const { note, projectId, userId } = req.body;
-     console.log(req.body);
-     const newNote = await Note.create({ note, projectId, userId });
-     console.log(newNote);
-     res.json({ newNote });
+     const userIdInt = Number(userId);
+     // console.log(req.body);
+     console.log(note, projectId, userIdInt);
+     try {
+          const newNote = await Note.create({ note, userId: userIdInt, projectId });
+          console.log(newNote);
+          res.json({ newNote });
+     } catch (e){
+          console.log(e);
+     } 
 }));
 
 router.get('/projects-data/:value', asyncHandler(async (req, res) => {
@@ -54,4 +61,5 @@ router.get('/projects-data/:value', asyncHandler(async (req, res) => {
 
      res.json( projects );
 }));
+
 module.exports = router;
