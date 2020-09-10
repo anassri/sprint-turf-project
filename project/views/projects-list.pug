@@ -2,9 +2,17 @@ extends layout.pug
 
 append head
   link(rel="stylesheet" href="/public/list-styles.css")
-
+  link(rel="stylesheet" href="/public/filter-list.css")
 block content
     div.grid-container
+      div(class="filter-list")
+        div(id="tasks") All Tasks
+          ul.tasks-list.hidden
+            li#today Today
+            li#tomorrow Tomorrow
+            li#week This Week
+            li#given Given To Others
+            li#trash Trash
       div#projects-list
         #complete-inc-container
           #incomplete-box.completed-bar.border
@@ -38,3 +46,4 @@ block content
           #overdue-count.count-area
           #completed-count.count-area
     script(src="/public/js/projects.js" type="module")
+    script(src="/public/js/filter-list.js" type="module")

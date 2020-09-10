@@ -1,0 +1,22 @@
+
+#tasks {
+  padding: 10px;
+}
+
+#tasks:hover {
+  background-color: lightgray;
+}
+.tasks-list {
+  margin-right: 60px;
+  padding: 0;
+}
+
+.tasks-list li {
+  padding: 5px;
+  font-size: 14px;
+  list-style: none;
+}
+
+.tasks-list li:hover {
+  background-color: #f1f1f1;
+}
