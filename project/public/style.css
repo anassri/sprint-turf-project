@@ -1,8 +1,9 @@
 body {
   background-color: #f1f1f1;
-  border-radius: 50%;
+  box-sizing: border-box;
+  border-radius: 20px;
 }
-form{
+#search-form {
   position: relative;
   top: 40%;
   left: 50%;
@@ -17,7 +18,7 @@ form{
   padding: 5px;
 }
 
-input{
+.search-bar {
   position: absolute;
   top: 0;
   left: 0;
@@ -43,16 +44,16 @@ input{
   transition: all 1s;
 }
 
-form:hover{
+#search-form:hover{
   width: 200px;
   cursor: pointer;
 }
 
-form:hover input{
+#search-form:hover input{
   display: block;
 }
 
-form:hover .fa{
+#search-form:hover .fa{
   background: white;
   color: white;
 }
