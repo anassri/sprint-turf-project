@@ -56,4 +56,41 @@ router.get('/projects-data/:value', asyncHandler(async (req, res) => {
      res.json( projects );
 }));
 
+router.get('/projects/name', asyncHandler(async (req, res) => {
+     const projects = await Project.findAll({
+          where:{
+               status: false
+          },
+          order: [["projectName", "ASC"]]
+     });
+     res.json(projects);
+}));
+router.get('/projects/priority', asyncHandler(async (req, res) => {
+     const projects = await Project.findAll({
+          where: {
+               status: false
+          },
+          order: [["priority", "ASC"]]
+     });
+     res.json(projects);
+}));
+router.get('/projects/deadline', asyncHandler(async (req, res) => {
+     const projects = await Project.findAll({
+          where: {
+               status: false
+          },
+          order: [["deadline", "ASC"]]
+     });
+     res.json(projects);
+}));
+router.get('/projects/team', asyncHandler(async (req, res) => {
+     const projects = await Project.findAll({
+          where: {
+               status: false
+          },
+          order: [["teamId", "ASC"]]
+     });
+     res.json(projects);
+}));
+
 module.exports = router;
