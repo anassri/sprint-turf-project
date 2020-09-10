@@ -28,7 +28,7 @@ module.exports = {
      status: true,
      description: "[\"Test4\",\"Test5\",\"Test6\"]",
      priority: 2,
-     tagId: 2,
+     tagId: 3,
      teamId: 2,
      createdAt: new Date(),
      updatedAt: new Date()
@@ -60,7 +60,6 @@ module.exports = {
     deadline: new Date(),
     status: true,
     description: "[\"Test13\",\"Test14\",\"Test15\"]",
-    teamId: 2,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -69,7 +68,6 @@ module.exports = {
     deadline: new Date(),
     status: false,
     description: "[\"Test16\",\"Test17\",\"Test18\"]",
-    teamId: 3,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -78,7 +76,6 @@ module.exports = {
     deadline: new Date(),
     status: true,
     description: "[\"Test19\",\"Test20\",\"Test21\"]",
-    teamId: 1,
     createdAt: new Date(),
     updatedAt: new Date()
   },

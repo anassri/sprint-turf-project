@@ -13,9 +13,9 @@ module.exports = {
       }], {});
     */
    return queryInterface.bulkInsert('Tags', [
-     {name: "HR"},
-     {name: "IT"},
-     {name: "Marketing"}
+     {name: "HR", createdAt: new Date(), updatedAt: new Date()},
+     {name: "IT", createdAt: new Date(), updatedAt: new Date()},
+     {name: "Marketing", createdAt: new Date(), updatedAt: new Date()}
   ])
   },
 
