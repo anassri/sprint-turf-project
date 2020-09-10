@@ -1,10 +1,12 @@
+import { handleCreationErrors } from './creation-utils.js';
+
 window.addEventListener("DOMContentLoaded", async event => {
      // Sam - Populate the projects list with the data from the database
-
      const res = await fetch("/projects-data");
      const resInc = await fetch('/projects-data/false');
      const projects = await res.json();
      const incProjects = await resInc.json();
+     let errCon = document.querySelector('.errors-container')
      enumerateStats(projects);
      populateList(incProjects);
      // Sam - Event handler to open up stats/details on click of a list element and populate details data
@@ -53,24 +55,36 @@ window.addEventListener("DOMContentLoaded", async event => {
                }
           });
 
-     document.getElementById('add-project')
-          .addEventListener('click', event => {
-               let overlay = document.getElementById('overlay');
-               let formDiv = document.getElementById('create-form');
-               overlay.classList.add('overlay');
-               formDiv.classList.remove('hidden');
+     document.getElementById('create-project-form')
+          .addEventListener('submit', event => {
+               event.preventDefault();
+               let form = document.getElementById('create-project-form');
+               let popouts = document.querySelectorAll('.form-pop')
+               popouts.forEach(pop => {
+                    pop.classList.remove('hidden');
+               })
+               createProject(form);
           });
 
-     document.getElementById('overlay')
-          .addEventListener('click', event => {
-               let overlay = document.getElementById('overlay')
-               let formDiv = document.getElementById('create-form')
-               if (event.target.id === 'overlay') {
-                    console.log('here');
-                    formDiv.classList.add('hidden');
-                    overlay.classList.remove('overlay');
-               }
+     document.getElementById('name-entry')
+          .addEventListener('focus', event => {
+               errCon.innerHTML = '';
+               let popouts = document.querySelectorAll('.form-pop')
+               popouts.forEach(pop => {
+                    pop.classList.remove('hidden');
+               })
+               errCon.classList.remove('hidden');
           });
+
+     document.getElementById('cancel')
+          .addEventListener('click', event => {
+               let popouts = document.querySelectorAll('.form-pop')
+               popouts.forEach(pop => {
+                    pop.classList.add('hidden');
+               });
+               errCon.classList.add('hidden');
+          });
+
 });
 
 // Sam- function to remove the time stamp from the databases date entries
@@ -183,4 +197,33 @@ function populateList(projects) {
 
           list.appendChild(conDiv);
      });
+}
+
+async function createProject(form) {
+     const createdAt = new Date();
+     const updatedAt = new Date();
+     const formData = new FormData(form);
+     const projectName = formData.get('projectName');
+     const deadline = formData.get('deadline');
+     const teamId = formData.get('teamId');
+     const descriptionString = formData.get('description');
+     const status = false;
+     const description = JSON.stringify(descriptionString.split(', '));
+
+     const body = { projectName, deadline, teamId, description, status, createdAt, updatedAt };
+     try {
+          const res = await fetch("/projects-data", {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!res.ok) {
+            throw res;
+          }
+     } catch (err) {
+          handleCreationErrors(err);
+     }
 }

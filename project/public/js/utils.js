@@ -11,9 +11,9 @@ export const handleErrors = async (err) => {
         ];
         if (errorJSON.errors && Array.isArray(errorJSON.errors)) {
             errorsHtml = errorJSON.errors.map(
-                (message) => `
+                (error) => `
                     <div class="alert alert-danger">
-                        ${message}
+                        ${error.message}
                     </div>
                 `
             );
@@ -27,4 +27,3 @@ export const handleErrors = async (err) => {
 
     }
 };
-
