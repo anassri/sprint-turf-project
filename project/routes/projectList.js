@@ -76,18 +76,29 @@ router.post('/projects-data',
                updatedAt
           } = req.body;
 
-          const newProj = await Project.create({
-               projectName,
-               deadline,
-               teamId,
-               description,
-               status,
-               createdAt,
-               updatedAt
-          })
+          if (teamId === '0') {
+               const newProj = await Project.create({
+                    projectName,
+                    deadline,
+                    description,
+                    status,
+                    createdAt,
+                    updatedAt
+               })
+          } else {
+               const newProj = await Project.create({
+                    projectName,
+                    deadline,
+                    description,
+                    teamId,
+                    status,
+                    createdAt,
+                    updatedAt
+               })
+          }
           const projects = await Project.findAll({
                order: [["createdAt", "ASC"]]
           });
-          res.json(projects).redirect('/');
+          res.json(projects);
 }));
 module.exports = router;

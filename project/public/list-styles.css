@@ -2,7 +2,7 @@
      grid-area: list;
      display: grid;
      grid-template-columns: 100%;
-     grid-template-rows: auto;
+     grid-template-rows: auto 1fr;
      grid-template-areas:
      "create-task"
      "project-list";
@@ -12,9 +12,16 @@
      grid-area: project-list;
 }
 
+#add-project-area {
+     grid-area: create-task;
+}
+body {
+     height: 100vh;
+}
 .button-div {
      display: flex;
      justify-content: space-between;
+     margin-bottom: 20px;
 }
 
 .create-button {
@@ -24,6 +31,7 @@
 .grid-container {
      padding-top: 100px;
      display: grid;
+     min-height: 80vh;
      grid-template-columns: 15% 40% 45%;
      grid-template-areas:
      "sidebar list details";

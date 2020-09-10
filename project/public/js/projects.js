@@ -18,30 +18,31 @@ window.addEventListener("DOMContentLoaded", async event => {
                let stats = document.querySelector('.stats-area');
                let details = document.querySelector('.description-area');
                let element = document.getElementById(target);
-
-               if (element.classList.contains('selected')) {
-                    element.classList.remove('selected');
-                    details.classList.add('hidden');
-                    enumerateStats(projects);
-                    stats.classList.remove('hidden');
-                    return;
-               }
-
-               let projectItems = document.querySelectorAll('.project-items');
-               projectItems.forEach(project => {
-                    project.classList.remove('selected');
-               });
-
-               element.classList.add('selected');
-               stats.classList.add('hidden');
-               details.classList.remove('hidden');
-               let projId = Number(target);
-               projects.forEach(project => {
-                    if (projId === project.id) {
-                         populateDetails(project);
-                         fetchNotes(project);
+               if (element.classList.contains('project-items')) {
+                    if (element.classList.contains('selected')) {
+                         element.classList.remove('selected');
+                         details.classList.add('hidden');
+                         enumerateStats(projects);
+                         stats.classList.remove('hidden');
+                         return;
                     }
-               });
+
+                    let projectItems = document.querySelectorAll('.project-items');
+                    projectItems.forEach(project => {
+                         project.classList.remove('selected');
+                    });
+
+                    element.classList.add('selected');
+                    stats.classList.add('hidden');
+                    details.classList.remove('hidden');
+                    let projId = Number(target);
+                    projects.forEach(project => {
+                         if (projId === project.id) {
+                              populateDetails(project);
+                              fetchNotes(project);
+                         }
+                    });
+               }
           });
 
      document.getElementById('complete-inc-container')
@@ -64,13 +65,15 @@ window.addEventListener("DOMContentLoaded", async event => {
                let form = document.getElementById('create-project-form');
                let popouts = document.querySelectorAll('.form-pop')
                popouts.forEach(pop => {
-                    pop.classList.remove('hidden');
+                    pop.classList.add('hidden');
                })
                createProject(form);
+
           });
 
      document.getElementById('name-entry')
           .addEventListener('focus', event => {
+               getTeams();
                errCon.innerHTML = '';
                let popouts = document.querySelectorAll('.form-pop')
                popouts.forEach(pop => {
@@ -280,6 +283,7 @@ async function fetchNotes(project){
           handleErrors(e);
      }
 }
+
 function populateList(projects) {
      let list = document.querySelector('.list-group');
      list.innerHTML = '';
@@ -328,4 +332,22 @@ async function createProject(form) {
      } catch (err) {
           handleCreationErrors(err);
      }
+}
+
+async function getTeams() {
+     const res = await fetch('/team-names')
+     const teams = await res.json();
+
+     const teamSelect = document.getElementById('team-selector');
+
+     teams.forEach(team => {
+          let opt = document.createElement('option');
+          opt.setAttribute('value', `${team.id}`);
+          opt.innerHTML = team.name;
+          teamSelect.appendChild(opt);
+     });
+     let noTeamOpt = document.createElement('option');
+     noTeamOpt.setAttribute('value', '0');
+     noTeamOpt.innerHTML = 'No Team';
+     teamSelect.appendChild(noTeamOpt);
 }
