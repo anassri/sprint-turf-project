@@ -3,6 +3,7 @@ export const handleCreationErrors = async (err) => {
          const errorJSON = await err.json();
          console.log(errorJSON);
          const errorsContainer = document.querySelector(".errors-container");
+         console.log(errorsContainer);
          const div = document.createElement('div');
          div.classList.add('alert');
          div.classList.add('alert-danger');

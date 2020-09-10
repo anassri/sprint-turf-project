@@ -1,6 +1,10 @@
-import { handleCreationErrors } from './creation-utils.js';
+import {
+     handleCreationErrors
+} from './creation-utils.js';
 // const note = require("../../db/models/note");
-import { handleErrors } from "./utils.js"
+import {
+     handleErrors
+} from "./utils.js"
 
 window.addEventListener("DOMContentLoaded", async event => {
      // Sam - Populate the projects list with the data from the database
@@ -60,15 +64,17 @@ window.addEventListener("DOMContentLoaded", async event => {
           });
 
      document.getElementById('create-project-form')
-          .addEventListener('submit', event => {
+          .addEventListener('submit', async event => {
                event.preventDefault();
                let form = document.getElementById('create-project-form');
                let popouts = document.querySelectorAll('.form-pop')
                popouts.forEach(pop => {
                     pop.classList.add('hidden');
                })
-               createProject(form);
-
+               await createProject(form);
+               let res = await fetch('/projects-data/false')
+               let newProj = await res.json();
+               populateList(newProj);
           });
 
      document.getElementById('name-entry')
@@ -215,17 +221,21 @@ async function addNote(project) {
           const note = formData.get("note");
           const userId = localStorage.getItem("SPRINT_TURF_CURRENT_USER_ID");
           const projectId = project.id;
-          const body = { note, projectId, userId };
+          const body = {
+               note,
+               projectId,
+               userId
+          };
           try {
                const res = await fetch(`/projects/${projectId}/notes`, {
                     method: "POST",
                     body: JSON.stringify(body),
-                    headers:{
+                    headers: {
                          "Content-Type": "application/json",
                          Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}`
                     },
                });
-               if(res.status === 401){
+               if (res.status === 401) {
                     window.location.href = "/users/login";
                     return;
                }
@@ -242,10 +252,10 @@ async function addNote(project) {
 }
 
 // Ammar - display project notes
-async function fetchNotes(project){
-     try{
+async function fetchNotes(project) {
+     try {
           const res = await fetch(`/projects/${project.id}/notes`);
-          if(res.status===401){
+          if (res.status === 401) {
                window.location.href = "/users/login";
                return;
           }
@@ -273,13 +283,12 @@ async function fetchNotes(project){
                     <p class="card-text" style="font-size:10px">${note.User.firstName} ${note.User.lastName}, ${splitDate(note.createdAt)}</p>
                     </div>
                </div>
-               `
-          );
+               `);
 
           notesContainer.innerHTML = "";
           notesContainer.innerHTML = notesHtml.join("");
           addNote(project);
-     } catch(e){
+     } catch (e) {
           handleErrors(e);
      }
 }
@@ -316,18 +325,28 @@ async function createProject(form) {
      const status = false;
      const description = JSON.stringify(descriptionString.split(', '));
 
-     const body = { projectName, deadline, teamId, description, status, createdAt, updatedAt };
+     const body = {
+          projectName,
+          deadline,
+          teamId,
+          description,
+          status,
+          createdAt,
+          updatedAt
+     };
      try {
           const res = await fetch("/projects-data", {
-            method: "POST",
-            body: JSON.stringify(body),
-            headers: {
-              "Content-Type": "application/json",
-            },
+               method: "POST",
+               body: JSON.stringify(body),
+               headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}`
+               },
           });
-
-          if (!res.ok) {
-            throw res;
+          if (!res.ok) throw res;
+          if (res.status === 401) {
+               window.location.href = "/users/login";
+               return;
           }
      } catch (err) {
           handleCreationErrors(err);
