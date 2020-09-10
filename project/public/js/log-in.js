@@ -25,8 +25,8 @@ logIn.addEventListener("submit", async (e) => {
     }
     const { token, user: { id },} = await res.json();
 
-    localStorage.setItem("TURF_ACCESS_TOKEN", token);
-    localStorage.setItem("TURF_CURRENT_USER_ID", id);
+    localStorage.setItem("SPRINT_TURF_ACCESS_TOKEN", token);
+    localStorage.setItem("SPRINT_TURF_CURRENT_USER_ID", id);
 
     window.location.href = "/";
     
