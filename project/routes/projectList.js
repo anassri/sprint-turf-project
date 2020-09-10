@@ -25,4 +25,11 @@ router.get('/projects-data/:value', asyncHandler(async (req, res) => {
 
      res.json( projects );
 }));
+
+// yongho - route for fetch to get team
+router.get('/teams-names', asyncHandler(async (req, res) => {
+     const teamNames = await Team.findAll();
+     res.json(teamNames);
+}));
+
 module.exports = router;

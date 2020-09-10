@@ -7,6 +7,7 @@ window.addEventListener("DOMContentLoaded", async event => {
      const incProjects = await resInc.json();
      enumerateStats(projects);
      populateList(incProjects);
+
      // Sam - Event handler to open up stats/details on click of a list element and populate details data
      document.getElementById('list-area')
           .addEventListener('click', e => {
@@ -149,12 +150,18 @@ function enumerateStats(projects) {
           <span id="complete-count-text" class="counter-text">Completed</span>`;
 }
 
-function populateList(projects) {
+async function populateList(projects) {
      let list = document.querySelector('.list-group');
      list.innerHTML = '';
      if (projects.length === 0) {
           return '';
      }
+
+     //yongho - get team names
+     const resTeams = await fetch("/teams-names");
+     const teams = await resTeams.json();     
+     console.log("teams ::::: ", teams)
+   
 
      projects.forEach((project, i) => {
           i++
@@ -163,9 +170,38 @@ function populateList(projects) {
           li.classList.add('list-group-item');
           li.classList.add('project-items')
           li.setAttribute('id', `${project.id}`);
-          li.innerHTML = `${i}. ${project.projectName}`;
-          conDiv.appendChild(li);
 
+          //yongho
+          // let teamBtn = document.createElement('button');
+          // teamBtn.classList.add('list-group-item');
+          // teamBtn.classList.add('project-items');
+          // teamBtn.setAttribute('label', 'Assign')
+
+          let teamAssgin = document.createElement('div');
+          //teamAssgin.setAttribute('id', )
+
+          li.innerHTML = `${i}. ${project.projectName} `;
+          //yongho adding dropdown for assigning project to different team
+        
+          console.log("project::::", project.teamId);
+          let teamHtml =
+          `    <label> Team </label>
+               <select name="assignTeamId" id="assignTeamId">
+          `
+          for(let j=0; j<teams.length; j++){
+               teamHtml +=` 
+               <option value=${teams[j].id}>${teams[j].name}</option>`         
+          }
+
+          teamHtml += `</select>`
+          teamAssgin.innerHTML = teamHtml;
+          console.log(teamHtml);
+   
+     
+         // li.appendChild(teamBtn);
+          li.appendChild(teamAssgin);
+
+          conDiv.appendChild(li);
           list.appendChild(conDiv);
      });
 }
