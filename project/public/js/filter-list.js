@@ -14,7 +14,7 @@ taskBtn.addEventListener("click", (event) => {
   }
 })
 
-const todayBtn = document.querySelector('#today');
+const deadlineBtn = document.querySelector('#deadline');
 
 todayBtn.addEventListener("click", (event) => {
 
