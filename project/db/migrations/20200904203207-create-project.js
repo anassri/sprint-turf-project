@@ -30,10 +30,6 @@ module.exports = {
       priority: {
         type: Sequelize.NUMERIC(0,3)
       },
-      assignedToId: {
-        type: Sequelize.INTEGER,
-        references: { model: "Users" }
-      },
       teamId: {
         type: Sequelize.INTEGER,
         references: { model: "Teams" }
