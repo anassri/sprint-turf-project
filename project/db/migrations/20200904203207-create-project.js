@@ -24,6 +24,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.TEXT
       },
+      priority: {
+        type: Sequelize.NUMERIC(0,3)
+      },
+      tagId: {
+        type: Sequelize.INTEGER,
+        references: { model: 'Tags' }
+      },
       teamId: {
         type: Sequelize.INTEGER,
         references: { model: "Teams" }
