@@ -168,11 +168,11 @@ async function addNote(project) {
           const formData = new FormData(addNoteForm);
           const note = formData.get("note");
           const userId = localStorage.getItem("SPRINT_TURF_CURRENT_USER_ID");
-          const teamId = project.teamId;
+          const projectId = project.id;
           console.log(note);
-          const body = { note, teamId, userId };
+          const body = { note, projectId, userId };
           try {
-               const res = await fetch(`/projects/${teamId}/notes`, {
+               const res = await fetch(`/projects/${projectId}/notes`, {
                     method: "POST",
                     body: JSON.stringify(body),
                     headers:{
@@ -199,7 +199,7 @@ async function addNote(project) {
 // Ammar - display project notes
 async function fetchNotes(project){
      try{
-          const res = await fetch(`/projects/${project.teamId}/notes`);
+          const res = await fetch(`/projects/${project.id}/notes`);
           if(res.status===401){
                window.location.href = "/users/login";
                return;

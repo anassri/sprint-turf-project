@@ -28,7 +28,7 @@ router.get('/team-names/:id(\\d+)', asyncHandler(async (req, res) => {
 
 router.get('/projects/:id/notes', requireAuth, asyncHandler(async (req, res) => {
      const notes = await Note.findAll({
-          where: { teamId: req.params.id },
+          where: { projectId: req.params.id },
           include: [{
                model: User,
                attributes: ["firstName", "lastName"]
@@ -40,9 +40,10 @@ router.get('/projects/:id/notes', requireAuth, asyncHandler(async (req, res) => 
 }));
 
 router.post('/projects/:id/notes',  asyncHandler(async (req, res) => {
-     const { note, teamId, userId } = req.body;
+     const { note, projectId, userId } = req.body;
      console.log(req.body);
-     const newNote = await Note.create({ note, teamId, userId });
+     const newNote = await Note.create({ note, projectId, userId });
+     console.log(newNote);
      res.json({ newNote });
 }));
 

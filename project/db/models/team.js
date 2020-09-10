@@ -7,7 +7,6 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Team.hasMany(models.Project, { foreignKey: "teamId" })
     Team.hasMany(models.User, { foreignKey: "teamId" })
-    Team.hasMany(models.Note, { foreignKey: "teamId" })
   };
   return Team;
 };

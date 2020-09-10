@@ -17,10 +17,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: "Users" }
       },
-      teamId: {
+      projectId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: "Teams" }
+        references: { model: "Projects" }
       },
       createdAt: {
         allowNull: false,
