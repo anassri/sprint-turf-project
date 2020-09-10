@@ -23,7 +23,6 @@ app.use(projectRouter);
 app.use("/", indexRouter);
 app.use("/users", userRouter);
 
-app.use("/users", userRouter);
 //catch unhandled requests and forwawrd to error handler.
 app.use((req, res, next) => {
     const err = new Error("The requested resource couldn't be found.");
