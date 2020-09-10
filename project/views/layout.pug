@@ -5,16 +5,18 @@ html(lang="en")
       meta(charset="UTF-8")
       meta(name="viewport", content="width=device-width, initial-scale=1.0")
       title SprintTurf
-      link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous')
+      link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous")
       link(rel='stylesheet' type='text/css' href='public/style.css')
   body
     nav(class="nav-main")
       div(class="sprint-img")
       ul
         li
-          a(href="/") Sprint Turf
+          a(href="/") Sprinter
         li
-          input(type="search" id="searchBar" placeholder="Search...")
+          form(action="")
+            input(type="search" id="searchBar" placeholder="Search...")
+            i(class="fa fa-search")
       div(class="btn-toggle-nav" id="sidebar-btn")
     aside(class="nav-sidebar")
       ul
@@ -27,17 +29,3 @@ html(lang="en")
     script(src="/public/js/sideBar.js" type="module")
     script(src="/public/js/searchBar.js" type="module")
     block content
-
-
-  //- nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
-  //-     a.navbar-brand(href='/') Sprint Turf
-  //-     div
-  //-       form(class="form-inline")
-  //-         input(class="form-control mr-sm-2" id="searchBar" type="search" placeholder="Search" aria-label="Search")
-  //-         button(class="btn btn-outline-success my-2 my-sm-0" type="submit") Search
-  //-     div
-  //-       ul(id="searchList")
-  //-     div
-  //-       form(class="form-inline")
-  //-         a.nav-item.nav-link(href='/profile') My Profile
-  //-         a.nav-item.nav-link(href='/logout') Sign Out
