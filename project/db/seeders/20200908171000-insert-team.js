@@ -13,16 +13,21 @@ module.exports = {
       }], {});
     */
    return queryInterface.bulkInsert('Teams', [
-     {
-       name: "Alpha",
-       createdAt: new Date(),
-       updatedAt: new Date()
-     },
-     {
-      name: "Bravo",
+    {
+      name: "Chargers",
       createdAt: new Date(),
       updatedAt: new Date()
-    }
+    },
+    {
+     name: "El-Capitan",
+     createdAt: new Date(),
+     updatedAt: new Date()
+   },
+   {
+    name: "Maranzano",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
    ])
   },
 
