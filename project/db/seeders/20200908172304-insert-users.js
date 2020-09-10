@@ -1,7 +1,7 @@
 'use strict';
 
 const bcrypt = require("bcryptjs");
-
+const faker = require('faker')
 module.exports = {
   up: (queryInterface, Sequelize) => {
     /*
@@ -29,7 +29,7 @@ module.exports = {
       lastName: "Holt",
       email: "hello@gmail.com",
       hashedPassword: bcrypt.hashSync("password"),
-      teamId: 1,
+      teamId: 2,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -38,7 +38,7 @@ module.exports = {
       lastName: "Kim",
       email: "example@gmail.com",
       hashedPassword: bcrypt.hashSync("tenet"),
-      teamId: 2,
+      teamId: 3,
       createdAt: new Date(),
       updatedAt: new Date()
     },
@@ -47,10 +47,118 @@ module.exports = {
       lastName: "Nassri",
       email: "email@gmail.com",
       hashedPassword: bcrypt.hashSync("appacademy"),
-      teamId: 2,
+      teamId: 1,
       createdAt: new Date(),
       updatedAt: new Date()
-    }
+    },
+    {
+      firstName: faker.name.findName().split(" ")[0],
+      lastName: faker.name.findName().split(" ")[1],
+      email: faker.internet.email(),
+      hashedPassword: bcrypt.hashSync(faker.internet.password()),
+      teamId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      firstName: faker.name.findName().split(" ")[0],
+      lastName: faker.name.findName().split(" ")[1],
+      email: faker.internet.email(),
+      hashedPassword: bcrypt.hashSync(faker.internet.password()),
+      teamId: 3,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      firstName: faker.name.findName().split(" ")[0],
+      lastName: faker.name.findName().split(" ")[1],
+      email: faker.internet.email(),
+      hashedPassword: bcrypt.hashSync(faker.internet.password()),
+      teamId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      firstName: faker.name.findName().split(" ")[0],
+      lastName: faker.name.findName().split(" ")[1],
+      email: faker.internet.email(),
+      hashedPassword: bcrypt.hashSync(faker.internet.password()),
+      teamId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      firstName: faker.name.findName().split(" ")[0],
+      lastName: faker.name.findName().split(" ")[1],
+      email: faker.internet.email(),
+      hashedPassword: bcrypt.hashSync(faker.internet.password()),
+      teamId: 3,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      firstName: faker.name.findName().split(" ")[0],
+      lastName: faker.name.findName().split(" ")[1],
+      email: faker.internet.email(),
+      hashedPassword: bcrypt.hashSync(faker.internet.password()),
+      teamId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      firstName: faker.name.findName().split(" ")[0],
+      lastName: faker.name.findName().split(" ")[1],
+      email: faker.internet.email(),
+      hashedPassword: bcrypt.hashSync(faker.internet.password()),
+      teamId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      firstName: faker.name.findName().split(" ")[0],
+      lastName: faker.name.findName().split(" ")[1],
+      email: faker.internet.email(),
+      hashedPassword: bcrypt.hashSync(faker.internet.password()),
+      teamId: 3,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      firstName: faker.name.findName().split(" ")[0],
+      lastName: faker.name.findName().split(" ")[1],
+      email: faker.internet.email(),
+      hashedPassword: bcrypt.hashSync(faker.internet.password()),
+      teamId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      firstName: faker.name.findName().split(" ")[0],
+      lastName: faker.name.findName().split(" ")[1],
+      email: faker.internet.email(),
+      hashedPassword: bcrypt.hashSync(faker.internet.password()),
+      teamId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      firstName: faker.name.findName().split(" ")[0],
+      lastName: faker.name.findName().split(" ")[1],
+      email: faker.internet.email(),
+      hashedPassword: bcrypt.hashSync(faker.internet.password()),
+      teamId: 3,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      firstName: faker.name.findName().split(" ")[0],
+      lastName: faker.name.findName().split(" ")[1],
+      email: faker.internet.email(),
+      hashedPassword: bcrypt.hashSync(faker.internet.password()),
+      teamId: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
    ])
   },
 
