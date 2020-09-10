@@ -43,15 +43,9 @@ router.get('/projects/:id/notes', requireAuth, asyncHandler(async (req, res) => 
 router.post('/projects/:id/notes', validateNote, handleValidationErrors, asyncHandler(async (req, res, next) => {
      const { note, projectId, userId } = req.body;
      const userIdInt = Number(userId);
-     // console.log(req.body);
-     console.log(note, projectId, userIdInt);
-     try {
-          const newNote = await Note.create({ note, userId: userIdInt, projectId });
-          console.log(newNote);
-          res.json({ newNote });
-     } catch (e){
-          console.log(e);
-     } 
+     const newNote = await Note.create({ note, userId: userIdInt, projectId });
+     res.json({ newNote });
+   
 }));
 
 router.get('/projects-data/:value', asyncHandler(async (req, res) => {

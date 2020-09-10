@@ -158,6 +158,25 @@ function enumerateStats(projects) {
 }
 // Ammar - add a note to a specific project
 async function addNote(project) {
+     document
+          .getElementById("add-a-note")
+          .addEventListener('focus', (e) => {
+               console.log('focused');
+               document
+                    .querySelector('.note-buttons')
+                    .classList
+                    .remove('hidden');
+          });
+     document
+          .querySelector('.note-cancel-button')
+          .addEventListener('click', (e) => {
+               e.preventDefault();
+               document
+                    .querySelector('.note-buttons')
+                    .classList
+                    .add('hidden');
+          });
+     
      const addNoteForm = document.querySelector(".note-form");
 
      addNoteForm.addEventListener("submit", async (e) => {
@@ -169,8 +188,6 @@ async function addNote(project) {
           const note = formData.get("note");
           const userId = localStorage.getItem("SPRINT_TURF_CURRENT_USER_ID");
           const projectId = project.id;
-          console.log(note);
-          console.log(projectId);
           const body = { note, projectId, userId };
           try {
                const res = await fetch(`/projects/${projectId}/notes`, {
@@ -181,8 +198,6 @@ async function addNote(project) {
                          Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}` 
                     },
                });
-               console.log(res.body);
-               console.log(res.ok);
                if(res.status === 401){
                     window.location.href = "/users/login";
                     return;
@@ -208,8 +223,6 @@ async function fetchNotes(project){
                return;
           }    
           const notes = await res.json();
-          // console.log(await res.json());
-          console.log(notes);
           const errorsContainer = document.querySelector(".errors-container");
           errorsContainer.innerHTML = "";
           const addNoteContainer = document.querySelector('.add-note');
@@ -217,11 +230,11 @@ async function fetchNotes(project){
           addNoteContainer.innerHTML =
                `<form class="note-form">
                     <div class="add-note">
-                         <textarea id="add-a-note" name="note" class="form-control" rows="1" value="Add a Note"></textarea>
+                         <textarea id="add-a-note" name="note" class="form-control" rows="1" placeholder="Add a Note"></textarea>
                     </div>
-                    <div class="py-4">
+                    <div class="py-4 note-buttons hidden">
                          <button type='submit' class='btn btn-primary'>Save</button>
-                         <a href="" class='btn btn-warning ml-2'>cancel</a>
+                         <a href="" class='btn btn-warning ml-2 note-cancel-button'>cancel</a>
                     </div>
                </form>`;
           const notesContainer = document.querySelector('.notes-container');
@@ -229,8 +242,8 @@ async function fetchNotes(project){
           const notesHtml = notes.map((note, id) => `
                <div class="card" id="note-${id}">
                     <div class="card-body">
-                    <p class="card-text">${note.User.firstName} ${note.User.lastName}</p>
                     <p class="card-text">${note.note}</p>
+                    <p class="card-text" style="font-size:10px">${note.User.firstName} ${note.User.lastName}, ${splitDate(note.createdAt)}</p>
                     </div>
                </div>
                `
