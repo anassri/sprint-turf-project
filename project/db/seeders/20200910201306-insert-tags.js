@@ -12,7 +12,7 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-   return queryInterface.bulkInsert("Tags", [
+   return queryInterface.bulkInsert('Tags', [
      {name: "HR"},
      {name: "IT"},
      {name: "Marketing"}
@@ -27,5 +27,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
+   return queryInterface.bulkDelete('Tags')
   }
 };
