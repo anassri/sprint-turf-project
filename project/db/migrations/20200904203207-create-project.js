@@ -13,6 +13,9 @@ module.exports = {
         type: Sequelize.STRING(50),
         unique: true
       },
+      estimate: {
+        type: Sequelize.DATE
+      },
       deadline: {
         type: Sequelize.DATE
       },
@@ -23,6 +26,13 @@ module.exports = {
       description: {
         allowNull: false,
         type: Sequelize.TEXT
+      },
+      priority: {
+        type: Sequelize.NUMERIC(0,3)
+      },
+      assignedToId: {
+        type: Sequelize.INTEGER,
+        references: { model: "Users" }
       },
       teamId: {
         type: Sequelize.INTEGER,
