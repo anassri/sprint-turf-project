@@ -186,6 +186,7 @@ async function populateDetails(project) {
           team.innerHTML = teamName;
      }
      let taskList = JSON.parse(project.description);
+     console.log(taskList);
      if (details.hasChildNodes) {
           details.innerHTML = '';
      }
@@ -256,7 +257,7 @@ export function populateList(projects) {
 
      //yongho - get team names
      const resTeams = await fetch("/teams-names");
-     const teams = await resTeams.json();  
+     const teams = await resTeams.json();
 
      projects.forEach((project, i) => {
           i++
@@ -288,7 +289,7 @@ export function populateList(projects) {
                teamAssgin.appendChild(selector);
                li.appendChild(teamBtn);
                li.appendChild(teamAssgin);
-            
+
                teamBtn.addEventListener("click", async (event) => {
                     const body = { projectId: project.id, teamId: selector.value}
                     const resPro = await fetch( "/project-team", {
@@ -301,7 +302,7 @@ export function populateList(projects) {
                     const result = await resPro.json();
                     window.location.href = "/";
               });
-          } 
+          }
 
           conDiv.appendChild(li);
           list.appendChild(conDiv);
@@ -315,6 +316,7 @@ async function createProject(form) {
      const projectName = formData.get('projectName');
      const deadline = formData.get('deadline');
      const teamId = formData.get('teamId');
+     const priority = formData.get('priority')
      const descriptionString = formData.get('description');
      const status = false;
      const description = JSON.stringify(descriptionString.split(', '));
@@ -325,9 +327,11 @@ async function createProject(form) {
           teamId,
           description,
           status,
+          priority,
           createdAt,
           updatedAt
      };
+     console.log(body);
      try {
           const res = await fetch("/projects-data", {
                method: "POST",
@@ -354,14 +358,15 @@ async function getTeams() {
      const teamSelect = document.getElementById('team-selector');
      teamSelect.innerHTML = '';
 
+     let noTeamOpt = document.createElement('option');
+     noTeamOpt.setAttribute('value', '0');
+     noTeamOpt.innerHTML = 'No Team';
+     teamSelect.appendChild(noTeamOpt);
+
      teams.forEach(team => {
           let opt = document.createElement('option');
           opt.setAttribute('value', `${team.id}`);
           opt.innerHTML = team.name;
           teamSelect.appendChild(opt);
      });
-     let noTeamOpt = document.createElement('option');
-     noTeamOpt.setAttribute('value', '0');
-     noTeamOpt.innerHTML = 'No Team';
-     teamSelect.appendChild(noTeamOpt);
 }

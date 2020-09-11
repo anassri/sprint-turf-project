@@ -9,15 +9,15 @@ const router = express.Router();
 
 // Ammar - Sign-up route
 router.post(
-  "/", 
-  userValidators, 
-  handleValidationErrors, 
+  "/",
+  userValidators,
+  handleValidationErrors,
   asyncHandler(async (req, res, next) => {
     const { firstName, lastName, email, password } = req.body;
-    
+
     const hashedPassword = await bcrypt.hashSync(password, 10);
     const user = await User.create({ firstName, lastName, email, hashedPassword });
-        
+
     const token = getUserToken(user);
     res.status(201).json({ 
       user: { id: user.id },
