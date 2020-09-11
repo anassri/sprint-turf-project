@@ -48,7 +48,7 @@ window.addEventListener("DOMContentLoaded", async event => {
                     });
                }
           });
-
+     // Sam - Event handler for swapping between completed and incomplete project list
      document.getElementById('complete-inc-container')
           .addEventListener('click', async event => {
                let target = event.target.id;
@@ -62,7 +62,7 @@ window.addEventListener("DOMContentLoaded", async event => {
                     populateList(completed);
                }
           });
-
+     // Sam - event handler for submitting a new project
      document.getElementById('create-project-form')
           .addEventListener('submit', async event => {
                event.preventDefault();
@@ -76,7 +76,7 @@ window.addEventListener("DOMContentLoaded", async event => {
                let newProj = await res.json();
                populateList(newProj);
           });
-
+     // Sam - event handler for expandign the form on focus of the name entry field
      document.getElementById('name-entry')
           .addEventListener('focus', event => {
                getTeams();
@@ -87,7 +87,7 @@ window.addEventListener("DOMContentLoaded", async event => {
                })
                errCon.classList.remove('hidden');
           });
-
+     // Sam - event handler for the button to close the new project submission form
      document.getElementById('cancel')
           .addEventListener('click', event => {
                let popouts = document.querySelectorAll('.form-pop')
