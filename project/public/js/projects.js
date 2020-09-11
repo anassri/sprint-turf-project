@@ -1,14 +1,18 @@
+import {
+     handleCreationErrors
+} from './creation-utils.js';
 // const note = require("../../db/models/note");
-import { handleErrors } from "./utils.js"
+import {
+     handleErrors
+} from "./utils.js"
 
 window.addEventListener("DOMContentLoaded", async event => {
      // Sam - Populate the projects list with the data from the database
-
      const res = await fetch("/projects-data");
      const resInc = await fetch('/projects-data/false');
      const projects = await res.json();
      const incProjects = await resInc.json();
-     
+     let errCon = document.querySelector('.errors-container')
      enumerateStats(projects);
      populateList(incProjects);
      // Sam - Event handler to open up stats/details on click of a list element and populate details data
@@ -18,30 +22,31 @@ window.addEventListener("DOMContentLoaded", async event => {
                let stats = document.querySelector('.stats-area');
                let details = document.querySelector('.description-area');
                let element = document.getElementById(target);
-
-               if (element.classList.contains('selected')) {
-                    element.classList.remove('selected');
-                    details.classList.add('hidden');
-                    enumerateStats(projects);
-                    stats.classList.remove('hidden');
-                    return;
-               }
-
-               let projectItems = document.querySelectorAll('.project-items');
-               projectItems.forEach(project => {
-                    project.classList.remove('selected');
-               });
-
-               element.classList.add('selected');
-               stats.classList.add('hidden');
-               details.classList.remove('hidden');
-               let projId = Number(target);
-               projects.forEach(project => {
-                    if (projId === project.id) {
-                         populateDetails(project);
-                         fetchNotes(project);
+               if (element.classList.contains('project-items')) {
+                    if (element.classList.contains('selected')) {
+                         element.classList.remove('selected');
+                         details.classList.add('hidden');
+                         enumerateStats(projects);
+                         stats.classList.remove('hidden');
+                         return;
                     }
-               });
+
+                    let projectItems = document.querySelectorAll('.project-items');
+                    projectItems.forEach(project => {
+                         project.classList.remove('selected');
+                    });
+
+                    element.classList.add('selected');
+                    stats.classList.add('hidden');
+                    details.classList.remove('hidden');
+                    let projId = Number(target);
+                    projects.forEach(project => {
+                         if (projId === project.id) {
+                              populateDetails(project);
+                              fetchNotes(project);
+                         }
+                    });
+               }
           });
 
      document.getElementById('complete-inc-container')
@@ -57,9 +62,41 @@ window.addEventListener("DOMContentLoaded", async event => {
                     populateList(completed);
                }
           });
-          
-    
-     
+
+     document.getElementById('create-project-form')
+          .addEventListener('submit', async event => {
+               event.preventDefault();
+               let form = document.getElementById('create-project-form');
+               let popouts = document.querySelectorAll('.form-pop')
+               popouts.forEach(pop => {
+                    pop.classList.add('hidden');
+               })
+               await createProject(form);
+               let res = await fetch('/projects-data/false')
+               let newProj = await res.json();
+               populateList(newProj);
+          });
+
+     document.getElementById('name-entry')
+          .addEventListener('focus', event => {
+               getTeams();
+               errCon.innerHTML = '';
+               let popouts = document.querySelectorAll('.form-pop')
+               popouts.forEach(pop => {
+                    pop.classList.remove('hidden');
+               })
+               errCon.classList.remove('hidden');
+          });
+
+     document.getElementById('cancel')
+          .addEventListener('click', event => {
+               let popouts = document.querySelectorAll('.form-pop')
+               popouts.forEach(pop => {
+                    pop.classList.add('hidden');
+               });
+               errCon.classList.add('hidden');
+          });
+
 });
 
 // Sam- function to remove the time stamp from the databases date entries
@@ -127,19 +164,15 @@ function enumerateStats(projects) {
      projects.forEach(project => {
           let currentDate = Date.parse(new Date());
           let dueDate = Date.parse(project.deadline);
-          console.log(project.status)
           if (currentDate > dueDate && !project.status) {
-               console.log('over')
                overdueCount++;
           }
 
           if (project.status) {
-               console.log('complete')
                completedCount++;
           }
 
           if (!project.status) {
-               console.log('incomplete')
                totalCount++;
           }
      });
@@ -176,52 +209,56 @@ async function addNote(project) {
                     .classList
                     .add('hidden');
           });
-     
+
      const addNoteForm = document.querySelector(".note-form");
 
      addNoteForm.addEventListener("submit", async (e) => {
           e.preventDefault();
-          
+
           console.log("I'm activated");
 
           const formData = new FormData(addNoteForm);
           const note = formData.get("note");
           const userId = localStorage.getItem("SPRINT_TURF_CURRENT_USER_ID");
           const projectId = project.id;
-          const body = { note, projectId, userId };
+          const body = {
+               note,
+               projectId,
+               userId
+          };
           try {
                const res = await fetch(`/projects/${projectId}/notes`, {
                     method: "POST",
                     body: JSON.stringify(body),
-                    headers:{
+                    headers: {
                          "Content-Type": "application/json",
-                         Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}` 
+                         Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}`
                     },
                });
-               if(res.status === 401){
+               if (res.status === 401) {
                     window.location.href = "/users/login";
                     return;
                }
                if (!res.ok) throw res;
                console.log("Added");
                fetchNotes(project);
-               
+
           } catch (e) {
                handleErrors(e);
           }
 
 
-     });    
+     });
 }
 
 // Ammar - display project notes
-async function fetchNotes(project){
-     try{
+async function fetchNotes(project) {
+     try {
           const res = await fetch(`/projects/${project.id}/notes`);
-          if(res.status===401){
+          if (res.status === 401) {
                window.location.href = "/users/login";
                return;
-          }    
+          }
           const notes = await res.json();
           const errorsContainer = document.querySelector(".errors-container");
           errorsContainer.innerHTML = "";
@@ -238,7 +275,7 @@ async function fetchNotes(project){
                     </div>
                </form>`;
           const notesContainer = document.querySelector('.notes-container');
-          
+
           const notesHtml = notes.map((note, id) => `
                <div class="card" id="note-${id}">
                     <div class="card-body">
@@ -246,16 +283,16 @@ async function fetchNotes(project){
                     <p class="card-text" style="font-size:10px">${note.User.firstName} ${note.User.lastName}, ${splitDate(note.createdAt)}</p>
                     </div>
                </div>
-               `
-          );
-          
+               `);
+
           notesContainer.innerHTML = "";
           notesContainer.innerHTML = notesHtml.join("");
           addNote(project);
-     } catch(e){
+     } catch (e) {
           handleErrors(e);
      }
 }
+
 function populateList(projects) {
      let list = document.querySelector('.list-group');
      list.innerHTML = '';
@@ -275,4 +312,61 @@ function populateList(projects) {
 
           list.appendChild(conDiv);
      });
+}
+
+async function createProject(form) {
+     const createdAt = new Date();
+     const updatedAt = new Date();
+     const formData = new FormData(form);
+     const projectName = formData.get('projectName');
+     const deadline = formData.get('deadline');
+     const teamId = formData.get('teamId');
+     const descriptionString = formData.get('description');
+     const status = false;
+     const description = JSON.stringify(descriptionString.split(', '));
+
+     const body = {
+          projectName,
+          deadline,
+          teamId,
+          description,
+          status,
+          createdAt,
+          updatedAt
+     };
+     try {
+          const res = await fetch("/projects-data", {
+               method: "POST",
+               body: JSON.stringify(body),
+               headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}`
+               },
+          });
+          if (!res.ok) throw res;
+          if (res.status === 401) {
+               window.location.href = "/users/login";
+               return;
+          }
+     } catch (err) {
+          handleCreationErrors(err);
+     }
+}
+
+async function getTeams() {
+     const res = await fetch('/team-names')
+     const teams = await res.json();
+
+     const teamSelect = document.getElementById('team-selector');
+
+     teams.forEach(team => {
+          let opt = document.createElement('option');
+          opt.setAttribute('value', `${team.id}`);
+          opt.innerHTML = team.name;
+          teamSelect.appendChild(opt);
+     });
+     let noTeamOpt = document.createElement('option');
+     noTeamOpt.setAttribute('value', '0');
+     noTeamOpt.innerHTML = 'No Team';
+     teamSelect.appendChild(noTeamOpt);
 }

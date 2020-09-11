@@ -11,7 +11,7 @@ body {
   background-color: black;
   display: flex;
   flex-wrap: wrap;
-  z-index: 10000;
+  z-index: 10;
 }
 
 .sprint-img {
@@ -76,6 +76,7 @@ body {
   height: calc(100vh - 60px);
   background-color: #1b1b1b;
   transition: all 0.3s ease-in-out;
+  z-index: 20;
 }
 
 .nav-sidebar ul {

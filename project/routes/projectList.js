@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('../db/models');
 const { Project, User, Team, Note } = db;
 const { asyncHandler, handleValidationErrors } = require('../utils.js');
+const { handleCreateValidationErrors, validateCreation } = require('../create-form-utils.js');
 const { requireAuth } = require('../auth');
 const { check, validationResult } = require('express-validator');
 
@@ -45,7 +46,12 @@ router.post('/projects/:id/notes', validateNote, handleValidationErrors, asyncHa
      const userIdInt = Number(userId);
      const newNote = await Note.create({ note, userId: userIdInt, projectId });
      res.json({ newNote });
-   
+
+}));
+
+router.get('/team-names', asyncHandler(async (req, res) => {
+     const teamNames = await Team.findAll();
+     res.json( teamNames );
 }));
 
 router.get('/projects-data/:value', asyncHandler(async (req, res) => {
@@ -56,4 +62,43 @@ router.get('/projects-data/:value', asyncHandler(async (req, res) => {
      res.json( projects );
 }));
 
+router.post('/projects-data',
+     handleCreateValidationErrors,
+     validateCreation,
+     asyncHandler(async (req, res) => {
+          const {
+               projectName,
+               deadline,
+               teamId,
+               description,
+               status,
+               createdAt,
+               updatedAt
+          } = req.body;
+
+          if (teamId === '0') {
+               const newProj = await Project.create({
+                    projectName,
+                    deadline,
+                    description,
+                    status,
+                    createdAt,
+                    updatedAt
+               })
+          } else {
+               const newProj = await Project.create({
+                    projectName,
+                    deadline,
+                    description,
+                    teamId,
+                    status,
+                    createdAt,
+                    updatedAt
+               })
+          }
+          const projects = await Project.findAll({
+               order: [["createdAt", "ASC"]]
+          });
+          res.json(projects);
+}));
 module.exports = router;

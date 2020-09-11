@@ -1,6 +1,8 @@
 extends layout.pug
 
 append head
+  script(src="/public/js/utils.js" type='module')
+  script(src="/public/js/projects.js" type='module')
   link(rel="stylesheet" href="/public/list-styles.css")
 
 block content
@@ -11,6 +13,24 @@ block content
             span#incomplete.bar-text Incomplete
           #complete-box.completed-bar.border
             span#complete.bar-text Completed
+          #add-project-area
+            .errors-container
+            form(method='post' action='/projects-data' id="create-project-form")
+              .form-group
+                label(for="projectName") Enter a project name
+                input(type='text' name="projectName" class="form-control" id="name-entry")
+              .form-group.hidden.form-pop
+                label(for="deadline") Select a deadline
+                input(type='date' name="deadline" class="form-control")
+              .form-group.hidden.form-pop
+                label(for='teamId') Select the team
+                select(name='teamId' class="form-control" id="team-selector")
+              .form-group.hidden.form-pop
+                label(for='description') Enter tasks for the project, separated by commas
+                textarea(name='description' class="form-control")
+            .button-div
+                button(type="submit" form="create-project-form" class="btn btn-primary form-control form-pop hidden create-button") Create Project
+                button(class="btn btn-danger form-pop hidden" id="cancel") Cancel
         ul.list-group#list-area
       div.description-area.hidden
         h3#project-title Test title
