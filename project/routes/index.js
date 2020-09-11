@@ -3,8 +3,6 @@ const router = express.Router();
 const path = require('path');
 const { csrfProtection } = require('../utils');
 
-router.use(express.static(path.join(__dirname, 'public')));
-
 router.get('/', (req, res) => {
     res.render('projects-list');
 });

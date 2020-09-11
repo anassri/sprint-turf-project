@@ -1,6 +1,8 @@
 extends layout.pug
 
 append head
+  script(src="/public/js/utils.js" type='module')
+  script(src="/public/js/projects.js" type='module')
   link(rel="stylesheet" href="/public/list-styles.css")
 
 block content
@@ -21,6 +23,24 @@ block content
                 a#sorting-priority(href="") Sort by Priority
                 a#sorting-deadline(href="") Sort by Deadline
                 a#sorting-team(href="") Sort by Team
+          #add-project-area
+            .errors-container
+            form(method='post' action='/projects-data' id="create-project-form")
+              .form-group
+                label(for="projectName") Enter a project name
+                input(type='text' name="projectName" class="form-control" id="name-entry")
+              .form-group.hidden.form-pop
+                label(for="deadline") Select a deadline
+                input(type='date' name="deadline" class="form-control")
+              .form-group.hidden.form-pop
+                label(for='teamId') Select the team
+                select(name='teamId' class="form-control" id="team-selector")
+              .form-group.hidden.form-pop
+                label(for='description') Enter tasks for the project, separated by commas
+                textarea(name='description' class="form-control")
+            .button-div
+                button(type="submit" form="create-project-form" class="btn btn-primary form-control form-pop hidden create-button") Create Project
+                button(class="btn btn-danger form-pop hidden" id="cancel") Cancel
         ul.list-group#list-area
       div.description-area.hidden
         h3#project-title Test title
@@ -54,4 +74,3 @@ block content
     script(src="/public/js/projects.js" type="module")
     script(src="/public/js/notes.js" type="module")
     script(src="/public/js/sorting.js" type="module")
-    //- script(src="/public/js/add-note.js" type="module")
