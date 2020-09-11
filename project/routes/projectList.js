@@ -17,7 +17,7 @@ const validateNote = [
 // Sam - route for fetches to get project data
 router.get('/projects-data', asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
-          order: [["createdAt", "ASC"]]
+          order: [["createdAt", "DESC"]]
      });
      res.json( projects );
 }));
@@ -117,11 +117,13 @@ router.post('/projects-data',
                teamId,
                description,
                status,
+               priority,
                createdAt,
                updatedAt
           } = req.body;
-
-          if (teamId === '0') {
+          console.log(typeof priority)
+          if (teamId === '0' && priority === '0') {
+               console.log('No team, No priority')
                const newProj = await Project.create({
                     projectName,
                     deadline,
@@ -130,7 +132,8 @@ router.post('/projects-data',
                     createdAt,
                     updatedAt
                })
-          } else {
+          } else if (teamId !== '0' && priority === '0') {
+               console.log('Yes team, no priority')
                const newProj = await Project.create({
                     projectName,
                     deadline,
@@ -140,9 +143,32 @@ router.post('/projects-data',
                     createdAt,
                     updatedAt
                })
+          } else if ( teamId === '0' && priority !== '0') {
+               console.log('No team, yes priority')
+               const newProj = await Project.create({
+                    projectName,
+                    deadline,
+                    description,
+                    status,
+                    createdAt,
+                    updatedAt,
+                    priority
+               })
+          } else {
+               console.log('Yes team, yes priority')
+               const newProj = await Project.create({
+                    projectName,
+                    deadline,
+                    description,
+                    status,
+                    createdAt,
+                    updatedAt,
+                    teamId,
+                    priority
+               })
           }
           const projects = await Project.findAll({
-               order: [["createdAt", "ASC"]]
+               order: [["createdAt", "DESC"]]
           });
           res.json(projects);
 }));

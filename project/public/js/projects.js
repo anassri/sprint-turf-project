@@ -181,6 +181,7 @@ async function populateDetails(project) {
           team.innerHTML = teamName;
      }
      let taskList = JSON.parse(project.description);
+     console.log(taskList);
      if (details.hasChildNodes) {
           details.innerHTML = '';
      }
@@ -270,6 +271,7 @@ async function createProject(form) {
      const projectName = formData.get('projectName');
      const deadline = formData.get('deadline');
      const teamId = formData.get('teamId');
+     const priority = formData.get('priority')
      const descriptionString = formData.get('description');
      const status = false;
      const description = JSON.stringify(descriptionString.split(', '));
@@ -280,6 +282,7 @@ async function createProject(form) {
           teamId,
           description,
           status,
+          priority,
           createdAt,
           updatedAt
      };
@@ -309,14 +312,15 @@ async function getTeams() {
      const teamSelect = document.getElementById('team-selector');
      teamSelect.innerHTML = '';
 
+     let noTeamOpt = document.createElement('option');
+     noTeamOpt.setAttribute('value', '0');
+     noTeamOpt.innerHTML = 'No Team';
+     teamSelect.appendChild(noTeamOpt);
+
      teams.forEach(team => {
           let opt = document.createElement('option');
           opt.setAttribute('value', `${team.id}`);
           opt.innerHTML = team.name;
           teamSelect.appendChild(opt);
      });
-     let noTeamOpt = document.createElement('option');
-     noTeamOpt.setAttribute('value', '0');
-     noTeamOpt.innerHTML = 'No Team';
-     teamSelect.appendChild(noTeamOpt);
 }

@@ -25,6 +25,12 @@ block content
               .form-group.hidden.form-pop
                 label(for='teamId') Select the team
                 select(name='teamId' class="form-control" id="team-selector")
+                label(for="priority") Select priority level
+                select(name='priority' class='form-control' id='priority-selector')
+                  option(value='0') No Priority
+                  option(value='1') Priority 1
+                  option(value='2') Priority 2
+                  option(value='3') Priority 3
               .form-group.hidden.form-pop
                 label(for='description') Enter tasks for the project, separated by commas
                 textarea(name='description' class="form-control")
