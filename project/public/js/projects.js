@@ -2,18 +2,17 @@ import { fetchNotes } from "./notes.js"
 import {
      handleCreationErrors
 } from './creation-utils.js';
-// const note = require("../../db/models/note");
 import {
      handleErrors
 } from "./utils.js"
 
-window.addEventListener("DOMContentLoaded", async event => {
+export async function getUserAcccess(res) {
      // Sam - Populate the projects list with the data from the database
-     const res = await fetch("/projects-data");
+     
      const resInc = await fetch('/projects-data/false');
      const projects = await res.json();
      const incProjects = await resInc.json();
-     console.log(projects);
+     // console.log(projects);
      
      let errCon = document.querySelector('.errors-container')
      enumerateStats(projects);
@@ -105,7 +104,7 @@ window.addEventListener("DOMContentLoaded", async event => {
                errCon.classList.add('hidden');
           });
 
-});
+};
 
 // Sam- function to remove the time stamp from the databases date entries
 export function splitDate(date) {
