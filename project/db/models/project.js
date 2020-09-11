@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     deadline: DataTypes.DATE,
     status: DataTypes.BOOLEAN,
     description: DataTypes.TEXT,
-    teamId: DataTypes.INTEGER
+    teamId: DataTypes.INTEGER,
+    priority: DataTypes.NUMERIC(3,0)
   }, {});
   Project.associate = function(models) {
     // associations can be defined here

@@ -8,48 +8,32 @@ import {
 
 export async function getUserAcccess(res) {
      // Sam - Populate the projects list with the data from the database
-
      const resInc = await fetch('/projects-data/false');
      const projects = await res.json();
      const incProjects = await resInc.json();
+     const details = document.querySelector('.description-area');
      let errCon = document.querySelector('.errors-container')
      enumerateStats(projects);
      populateList(incProjects);
 
-
-     // Sam - Event handler to open up stats/details on click of a list element and populate details data
      document.getElementById('list-area')
-          .addEventListener('click', e => {
-               if (e.target.getAttribute("project-id")) return; //yongho - to not add eventlistener to team button
-               let target = e.target.id;
-               let stats = document.querySelector('.stats-area');
-               let details = document.querySelector('.description-area');
-               let element = document.getElementById(target);
-               if (element.classList.contains('project-items')) {
-                    if (element.classList.contains('selected')) {
-                         element.classList.remove('selected');
-                         details.classList.add('hidden');
-                         enumerateStats(projects);
-                         stats.classList.remove('hidden');
-                         return;
+          .addEventListener('click', async e => {
+               listClicks(projects, e);
+               let projId = Number(e.target.id);
+               let newInc = await fetch('/projects-data/false', {
+                    headers: {
+                         Authorization: `Bearer ${localStorage.getItem(
+                             "SPRINT_TURF_ACCESS_TOKEN"
+                         )}`,
                     }
-
-                    let projectItems = document.querySelectorAll('.project-items');
-                    projectItems.forEach(project => {
-                         project.classList.remove('selected');
-                    });
-
-                    element.classList.add('selected');
-                    stats.classList.add('hidden');
-                    details.classList.remove('hidden');
-                    let projId = Number(target);
-                    projects.forEach(project => {
-                         if (projId === project.id) {
-                              populateDetails(project);
-                              fetchNotes(project);
-                         }
-                    });
-               }
+               })
+               let newProjs = await newInc.json();
+               newProjs.forEach(project => {
+                    if (projId === project.id) {
+                         populateDetails(project);
+                         fetchNotes(project);
+                    }
+               });
           });
      // Sam - Event handler for swapping between completed and incomplete project list
      const incompleteCon = document.getElementById('incomplete-box');
@@ -66,6 +50,7 @@ export async function getUserAcccess(res) {
                     marker.innerHTML = 'Mark as Complete';
                     incompleteCon.classList.add('active');
                     completeCon.classList.remove('active');
+                    details.classList.add('hidden');
                     populateList(incomplete);
                } else if (target === 'complete' || target === 'complete-box') {
                     let res = await fetch(`/projects-data/true`);
@@ -75,6 +60,7 @@ export async function getUserAcccess(res) {
                     marker.innerHTML = 'Mark as Incomplete'
                     incompleteCon.classList.remove('active');
                     completeCon.classList.add('active');
+                    details.classList.add('hidden');
                     populateList(completed);
                }
           });
@@ -88,9 +74,31 @@ export async function getUserAcccess(res) {
                     pop.classList.add('hidden');
                })
                await createProject(form);
-               let res = await fetch('/projects-data/false')
-               let newProj = await res.json();
-               populateList(newProj);
+               const allRes = await fetch('/projects-data', {
+                    headers: {
+                         Authorization: `Bearer ${localStorage.getItem(
+                             "SPRINT_TURF_ACCESS_TOKEN"
+                         )}`,
+                    }
+               });
+               const incRes2 = await fetch('/projects-data/false', {
+                    headers: {
+                         Authorization: `Bearer ${localStorage.getItem(
+                             "SPRINT_TURF_ACCESS_TOKEN"
+                         )}`,
+                    }
+               });
+               const incProj2 = await incRes2.json();
+               const allProj = await allRes.json();
+               await populateList(incProj2);
+               await listClicks(allProj);
+               let projectsStat = document.getElementById('project-count');
+               let overdueStat = document.getElementById('overdue-count');
+               let completedStat = document.getElementById('completed-count');
+               projectsStat.innerHTML = '';
+               overdueStat.innerHTML = '';
+               completedStat.innerHTML = '';
+               enumerateStats(allProj);
           });
      // Sam - event handler for expandign the form on focus of the name entry field
      document.getElementById('name-entry')
@@ -182,6 +190,7 @@ async function populateDetails(project) {
           team.innerHTML = teamName;
      }
      let taskList = JSON.parse(project.description);
+     console.log(taskList);
      if (details.hasChildNodes) {
           details.innerHTML = '';
      }
@@ -209,7 +218,9 @@ function enumerateStats(projects) {
      let projectsStat = document.getElementById('project-count');
      let overdueStat = document.getElementById('overdue-count');
      let completedStat = document.getElementById('completed-count');
-
+     projectsStat.innerHTML = '';
+     overdueStat.innerHTML = '';
+     completedStat.innerHTML = '';
      let totalCount = 0;
      let overdueCount = 0;
      let completedCount = 0;
@@ -230,6 +241,7 @@ function enumerateStats(projects) {
           }
      });
 
+
      projectsStat.innerHTML = `
           <span id="incomplete-count" class="counter">${totalCount}</span>
           <span id="incomplete-count-title" class="counter-text">Projects</span>`;
@@ -241,6 +253,7 @@ function enumerateStats(projects) {
      completedStat.innerHTML = `
           <span id="complete-count" class="counter">${completedCount}</span>
           <span id="complete-count-text" class="counter-text">Completed</span>`;
+
 }
 
 export async function populateList(projects) {
@@ -323,6 +336,7 @@ async function createProject(form) {
      const projectName = formData.get('projectName');
      const deadline = formData.get('deadline');
      const teamId = formData.get('teamId');
+     const priority = formData.get('priority')
      const descriptionString = formData.get('description');
      const status = false;
      const description = JSON.stringify(descriptionString.split(', '));
@@ -333,9 +347,11 @@ async function createProject(form) {
           teamId,
           description,
           status,
+          priority,
           createdAt,
           updatedAt
      };
+     console.log(body);
      try {
           const res = await fetch("/projects-data", {
                method: "POST",
@@ -362,14 +378,54 @@ async function getTeams() {
      const teamSelect = document.getElementById('team-selector');
      teamSelect.innerHTML = '';
 
+     let noTeamOpt = document.createElement('option');
+     noTeamOpt.setAttribute('value', '0');
+     noTeamOpt.innerHTML = 'No Team';
+     teamSelect.appendChild(noTeamOpt);
+
      teams.forEach(team => {
           let opt = document.createElement('option');
           opt.setAttribute('value', `${team.id}`);
           opt.innerHTML = team.name;
           teamSelect.appendChild(opt);
      });
-     let noTeamOpt = document.createElement('option');
-     noTeamOpt.setAttribute('value', '0');
-     noTeamOpt.innerHTML = 'No Team';
-     teamSelect.appendChild(noTeamOpt);
 }
+
+
+async function listClicks(projects, e) {
+     if (e === undefined) {
+          return;
+     }
+     if (e.target.getAttribute("project-id")) return; //yongho - to not add eventlistener to team button
+     let target = e.target.id;
+     let detailsArea = document.querySelector('.description-area');
+     let stats = document.querySelector('.stats-area');
+     let details = document.querySelector('.description-area');
+     let element = document.getElementById(target);
+     if (element.classList.contains('project-items')) {
+          if (element.classList.contains('selected')) {
+               element.classList.remove('selected');
+               details.classList.add('hidden');
+               enumerateStats(projects);
+               stats.classList.remove('hidden');
+               return;
+          }
+          stats.classList.add('hidden');
+          detailsArea.classList.remove('hidden');
+          let projectItems = document.querySelectorAll('.project-items');
+          projectItems.forEach(project => {
+               project.classList.remove('selected');
+          });
+
+          element.classList.add('selected');
+          stats.classList.add('hidden');
+          details.classList.remove('hidden');
+          let projId = Number(target);
+          projects.forEach(project => {
+               if (projId === project.id) {
+                    populateDetails(project);
+                    fetchNotes(project);
+               }
+          });
+     }
+};

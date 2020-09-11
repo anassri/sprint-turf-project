@@ -7,7 +7,7 @@ block content
         h2 Sign Up
         form.sign-up-form(action="/users/" method="post")
             .form-group
-                input(type="hidden" name="_csrf" value=csrfToken)
+                input(type="hidden" name="_csrf" value=csrf)
             .form-group
                 label(for='firstName') First Name
                 input#firstName.form-control(type='text' name='firstName' placeholder="First Name")
