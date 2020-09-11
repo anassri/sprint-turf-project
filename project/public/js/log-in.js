@@ -2,18 +2,13 @@ import { handleErrors } from "./utils.js"
 window.addEventListener("DOMContentLoaded", async (e) => {
   //const logIn = document.querySelector(".log-in-form");
   const logIn = document.getElementById("login");
-  const logOut = document.getElementById("logout");
+  
   const logInButton = document.querySelector(".btn-primary");
 
-  // console.log("logIN::::::::", logIn)
-  console.log(typeof logIn);
-  console.log("LOGIN", logIn);
   logInButton.addEventListener("click", async (e) => {
-    console.log("INSIDE LOGIN");
     e.preventDefault();
     const formData = new FormData(logIn);
     const email = formData.get("email");
-    console.log("email::::", email);
     const password = formData.get("password");
     const body = { email, password };
 
@@ -43,28 +38,5 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     }
   });
 
-  logOut.addEventListener("click", () => {
-    console.log("Inside Click");
-    localStorage.removeItem("TURF_ACCESS_TOKEN");
-    localStorage.removeItem("TURF_CURRENT_USER_ID");
-
-    window.location.href = "/users/login'";
-
-    // (href = '/users/login')
-  });
 });
 
-
-// logOut.addEventListener("click", async (e) => {
-
-//   localStorage.removeItem("TURF_ACCESS_TOKEN");
-//   localStorage.removeItem("TURF_CURRENT_USER_ID");
-//   console.log("AAAAAA");
-//   const res = await fetch("/users/sessions", {
-//     method: "DELETE",
-//   })
-
-//   if (res.ok) {
-//     window.location.href = "/";
-//   }
-// })

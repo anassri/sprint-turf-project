@@ -8,36 +8,38 @@ window.addEventListener("DOMContentLoaded", async event => {
      enumerateStats(projects);
      populateList(incProjects);
 
+
      // Sam - Event handler to open up stats/details on click of a list element and populate details data
      document.getElementById('list-area')
           .addEventListener('click', e => {
-               let target = e.target.id;
-               let stats = document.querySelector('.stats-area');
-               let details = document.querySelector('.description-area');
-               let element = document.getElementById(target);
+            if (e.target.getAttribute("project-id")) return; //yongho - to not add eventlistener to team button
+            let target = e.target.id;
+            let stats = document.querySelector(".stats-area");
+            let details = document.querySelector(".description-area");
+            let element = document.getElementById(target);
 
-               if (element.classList.contains('selected')) {
-                    element.classList.remove('selected');
-                    details.classList.add('hidden');
-                    enumerateStats(projects);
-                    stats.classList.remove('hidden');
-                    return;
-               }
+            if (element.classList.contains("selected")) {
+              element.classList.remove("selected");
+              details.classList.add("hidden");
+              enumerateStats(projects);
+              stats.classList.remove("hidden");
+              return;
+            }
 
-               let projectItems = document.querySelectorAll('.project-items');
-               projectItems.forEach(project => {
-                    project.classList.remove('selected');
-               });
+            let projectItems = document.querySelectorAll(".project-items");
+            projectItems.forEach((project) => {
+              project.classList.remove("selected");
+            });
 
-               element.classList.add('selected');
-               stats.classList.add('hidden');
-               details.classList.remove('hidden');
-               let projId = Number(target);
-               projects.forEach(project => {
-                    if (projId === project.id) {
-                         populateDetails(project)
-                    }
-               });
+            element.classList.add("selected");
+            stats.classList.add("hidden");
+            details.classList.remove("hidden");
+            let projId = Number(target);
+            projects.forEach((project) => {
+              if (projId === project.id) {
+                populateDetails(project);
+              }
+            });
           });
 
      document.getElementById('complete-inc-container')
@@ -159,9 +161,7 @@ async function populateList(projects) {
 
      //yongho - get team names
      const resTeams = await fetch("/teams-names");
-     const teams = await resTeams.json();     
-     console.log("teams ::::: ", teams)
-   
+     const teams = await resTeams.json();  
 
      projects.forEach((project, i) => {
           i++
@@ -170,36 +170,43 @@ async function populateList(projects) {
           li.classList.add('list-group-item');
           li.classList.add('project-items')
           li.setAttribute('id', `${project.id}`);
-
-          //yongho
-          // let teamBtn = document.createElement('button');
-          // teamBtn.classList.add('list-group-item');
-          // teamBtn.classList.add('project-items');
-          // teamBtn.setAttribute('label', 'Assign')
-
-          let teamAssgin = document.createElement('div');
-          //teamAssgin.setAttribute('id', )
-
           li.innerHTML = `${i}. ${project.projectName} `;
-          //yongho adding dropdown for assigning project to different team
-        
-          console.log("project::::", project.teamId);
-          let teamHtml =
-          `    <label> Team </label>
-               <select name="assignTeamId" id="assignTeamId">
-          `
-          for(let j=0; j<teams.length; j++){
-               teamHtml +=` 
-               <option value=${teams[j].id}>${teams[j].name}</option>`         
-          }
 
-          teamHtml += `</select>`
-          teamAssgin.innerHTML = teamHtml;
-          console.log(teamHtml);
-   
-     
-         // li.appendChild(teamBtn);
-          li.appendChild(teamAssgin);
+          //yongho adding dropdown for assigning project to different team
+          if(!project.teamId) {
+               let teamBtn = document.createElement("button");
+               teamBtn.innerHTML = "Assigning Team";
+               teamBtn.classList.add("list-team-button");
+               teamBtn.setAttribute("project-id", `${project.id}`);
+
+               let teamAssgin = document.createElement("div");
+               let selector = document.createElement("select");
+               selector.id = `selector-${project.id}`;
+
+               for (let j = 0; j < teams.length; j++) {
+                    let option = document.createElement("option");
+                    option.value = `${teams[j].id}`;
+                    option.text = `${teams[j].name}`;
+                    selector.appendChild(option);
+               }
+
+               teamAssgin.appendChild(selector);
+               li.appendChild(teamBtn);
+               li.appendChild(teamAssgin);
+            
+               teamBtn.addEventListener("click", async (event) => {
+                    const body = { projectId: project.id, teamId: selector.value}
+                    const resPro = await fetch( "/project-team", {
+                         method: "POST",
+                         body: JSON.stringify(body),
+                         headers: {
+                         "Content-Type": "application/json",
+                         }
+                    })
+                    const result = await resPro.json();
+                    window.location.href = "/";
+              });
+          } 
 
           conDiv.appendChild(li);
           list.appendChild(conDiv);
