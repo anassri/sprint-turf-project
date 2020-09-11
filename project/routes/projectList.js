@@ -15,7 +15,7 @@ const validateNote = [
      handleValidationErrors,
 ];
 // Sam - route for fetches to get project data
-router.get('/projects-data', asyncHandler(async (req, res) => {
+router.get('/projects-data', requireAuth, asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
           order: [["createdAt", "DESC"]]
      });
@@ -28,7 +28,8 @@ router.get('/team-names/:id(\\d+)', asyncHandler(async (req, res) => {
      res.json(teamName);
 }));
 
-router.get('/projects/:id/notes', requireAuth, asyncHandler(async (req, res) => {
+//Ammar - fetching notes
+router.get('/projects/:id/notes', asyncHandler(async (req, res) => {
      const notes = await Note.findAll({
           where: { projectId: req.params.id },
           include: [{
@@ -41,6 +42,7 @@ router.get('/projects/:id/notes', requireAuth, asyncHandler(async (req, res) => 
      res.json(notes);
 }));
 
+//Ammar - creating a  note
 router.post('/projects/:id/notes', validateNote, handleValidationErrors, asyncHandler(async (req, res, next) => {
      const { note, projectId, userId } = req.body;
      const userIdInt = Number(userId);
@@ -53,15 +55,17 @@ router.get('/team-names', asyncHandler(async (req, res) => {
      const teamNames = await Team.findAll();
      res.json( teamNames );
 }));
-
 router.get('/projects-data/:value', asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
           where: [{ status: req.params.value }]
      });
-
+     
      res.json( projects );
 }));
 
+//Ammar - sorting by name
+//Ammar - sorting by name
+//Ammar - sorting by name
 router.get('/projects/name/:value', asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
           where:{
@@ -89,6 +93,7 @@ router.get('/projects/deadline/:value', asyncHandler(async (req, res) => {
      });
      res.json(projects);
 }));
+//Ammar - sorting by team
 router.get('/projects/team/:value', asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
           where: {
