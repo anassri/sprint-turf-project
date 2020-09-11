@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('../db/models');
 const { Project, User, Team, Note } = db;
 const { asyncHandler, handleValidationErrors } = require('../utils.js');
+const { handleCreateValidationErrors, validateCreation } = require('../create-form-utils.js');
 const { requireAuth } = require('../auth');
 const { check, validationResult } = require('express-validator');
 
@@ -63,6 +64,11 @@ router.post('/projects/:id/notes', validateNote, handleValidationErrors, asyncHa
 
 }));
 
+router.get('/team-names', asyncHandler(async (req, res) => {
+     const teamNames = await Team.findAll();
+     res.json( teamNames );
+}));
+
 router.get('/projects-data/:value', asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
           where: [{ status: req.params.value }]
@@ -71,4 +77,88 @@ router.get('/projects-data/:value', asyncHandler(async (req, res) => {
      res.json( projects );
 }));
 
+router.get('/projects/name/:value', asyncHandler(async (req, res) => {
+     const projects = await Project.findAll({
+          where:{
+               status: req.params.value
+          },
+          order: [["projectName", "ASC"]]
+     });
+     res.json(projects);
+}));
+router.get('/projects/priority/:value', asyncHandler(async (req, res) => {
+     const projects = await Project.findAll({
+          where: {
+               status: req.params.value
+          },
+          order: [["priority", "ASC"]]
+     });
+     res.json(projects);
+}));
+router.get('/projects/deadline/:value', asyncHandler(async (req, res) => {
+     const projects = await Project.findAll({
+          where: {
+               status: req.params.value
+          },
+          order: [["deadline", "ASC"]]
+     });
+     res.json(projects);
+}));
+router.get('/projects/team/:value', asyncHandler(async (req, res) => {
+     const projects = await Project.findAll({
+          where: {
+               status: req.params.value
+          },
+          order: [["teamId", "ASC"]]
+     });
+     res.json(projects);
+}));
+
+router.put('/projects/:id', asyncHandler(async (req, res) => {
+     const project = await Project.findByPk(req.params.id);
+     const { status } = req.body;
+     project.status = status;
+     let updatedProj = await project.save();
+     res.json(updatedProj);
+}));
+
+router.post('/projects-data',
+     handleCreateValidationErrors,
+     validateCreation,
+     asyncHandler(async (req, res) => {
+          const {
+               projectName,
+               deadline,
+               teamId,
+               description,
+               status,
+               createdAt,
+               updatedAt
+          } = req.body;
+
+          if (teamId === '0') {
+               const newProj = await Project.create({
+                    projectName,
+                    deadline,
+                    description,
+                    status,
+                    createdAt,
+                    updatedAt
+               })
+          } else {
+               const newProj = await Project.create({
+                    projectName,
+                    deadline,
+                    description,
+                    teamId,
+                    status,
+                    createdAt,
+                    updatedAt
+               })
+          }
+          const projects = await Project.findAll({
+               order: [["createdAt", "ASC"]]
+          });
+          res.json(projects);
+}));
 module.exports = router;
