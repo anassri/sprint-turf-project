@@ -34,7 +34,3 @@ logIn.addEventListener("submit", async (e) => {
     handleErrors(err);
   }
 });
-
-// ${
-//   localStorage.getItem(
-//     "SPRINT_TURF_ACCESS_TOKEN"
