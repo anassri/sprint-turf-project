@@ -62,37 +62,37 @@ router.get('/projects-data/:value', asyncHandler(async (req, res) => {
      res.json( projects );
 }));
 
-router.get('/projects/name', asyncHandler(async (req, res) => {
+router.get('/projects/name/:value', asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
           where:{
-               status: false
+               status: req.params.value
           },
           order: [["projectName", "ASC"]]
      });
      res.json(projects);
 }));
-router.get('/projects/priority', asyncHandler(async (req, res) => {
+router.get('/projects/priority/:value', asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
           where: {
-               status: false
+               status: req.params.value
           },
           order: [["priority", "ASC"]]
      });
      res.json(projects);
 }));
-router.get('/projects/deadline', asyncHandler(async (req, res) => {
+router.get('/projects/deadline/:value', asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
           where: {
-               status: false
+               status: req.params.value
           },
           order: [["deadline", "ASC"]]
      });
      res.json(projects);
 }));
-router.get('/projects/team', asyncHandler(async (req, res) => {
+router.get('/projects/team/:value', asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
           where: {
-               status: false
+               status: req.params.value
           },
           order: [["teamId", "ASC"]]
      });
