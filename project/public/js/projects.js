@@ -15,9 +15,12 @@ export async function getUserAcccess(res) {
      let errCon = document.querySelector('.errors-container')
      enumerateStats(projects);
      populateList(incProjects);
+
+
      // Sam - Event handler to open up stats/details on click of a list element and populate details data
      document.getElementById('list-area')
           .addEventListener('click', e => {
+               if (e.target.getAttribute("project-id")) return; //yongho - to not add eventlistener to team button
                let target = e.target.id;
                let stats = document.querySelector('.stats-area');
                let details = document.querySelector('.description-area');
@@ -247,6 +250,10 @@ export function populateList(projects) {
           return '';
      }
 
+     //yongho - get team names
+     const resTeams = await fetch("/teams-names");
+     const teams = await resTeams.json();  
+
      projects.forEach((project, i) => {
           i++
           let conDiv = document.createElement('div');
@@ -254,9 +261,45 @@ export function populateList(projects) {
           li.classList.add('list-group-item');
           li.classList.add('project-items')
           li.setAttribute('id', `${project.id}`);
-          li.innerHTML = `${i}. ${project.projectName}`;
-          conDiv.appendChild(li);
+          li.innerHTML = `${i}. ${project.projectName} `;
 
+          //yongho adding dropdown for assigning project to different team
+          if(!project.teamId) {
+               let teamBtn = document.createElement("button");
+               teamBtn.innerHTML = "Assigning Team";
+               teamBtn.classList.add("list-team-button");
+               teamBtn.setAttribute("project-id", `${project.id}`);
+
+               let teamAssgin = document.createElement("div");
+               let selector = document.createElement("select");
+               selector.id = `selector-${project.id}`;
+
+               for (let j = 0; j < teams.length; j++) {
+                    let option = document.createElement("option");
+                    option.value = `${teams[j].id}`;
+                    option.text = `${teams[j].name}`;
+                    selector.appendChild(option);
+               }
+
+               teamAssgin.appendChild(selector);
+               li.appendChild(teamBtn);
+               li.appendChild(teamAssgin);
+            
+               teamBtn.addEventListener("click", async (event) => {
+                    const body = { projectId: project.id, teamId: selector.value}
+                    const resPro = await fetch( "/project-team", {
+                         method: "POST",
+                         body: JSON.stringify(body),
+                         headers: {
+                         "Content-Type": "application/json",
+                         }
+                    })
+                    const result = await resPro.json();
+                    window.location.href = "/";
+              });
+          } 
+
+          conDiv.appendChild(li);
           list.appendChild(conDiv);
      });
 }

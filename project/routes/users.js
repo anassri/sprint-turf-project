@@ -26,7 +26,7 @@ router.post(
   })
 );
 
-// Yongho - logging in 
+// logging in
 router.post(
   "/token",
   validateEmailAndPassword,
@@ -46,5 +46,12 @@ router.post(
     res.json({ token, user: { id: user.id } });
   })
 );
+
+// Log Out
+router.delete('/session', asyncHandler(async (req, res) => {
+  res.clearCookie('token');
+  res.json({ message: 'success' });
+}));
+
 
 module.exports = router;

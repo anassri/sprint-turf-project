@@ -23,10 +23,12 @@ html(lang="en")
         li
           span My Profile
         li
-          a(href="/logout") Sign Out
+          a#logout(href="/users/login") Sign Out
+          //- div(id="logout") Sign Out
         li
           a(href="/contact") Contact Us
     script(src="/public/js/sideBar.js" type="module")
     script(src="/public/js/searchBar.js" type="module")
+    //- script(src="/public/js/log-in.js" type="module")
     block content
 
