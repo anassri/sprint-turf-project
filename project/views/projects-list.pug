@@ -31,16 +31,19 @@ block content
             .button-div
                 button(type="submit" form="create-project-form" class="btn btn-primary form-control form-pop hidden create-button") Create Project
                 button(class="btn btn-danger form-pop hidden" id="cancel") Cancel
-          div.project-list-tools
-          .sorting
-            .dropdown-btn
-              i.fas.fa-cog.fa-2x.dropdown-icon
-            .dropdown-container
-              .sorting-list-dropdown.hidden
-                a#sorting-name(href="") Sort by Name
-                a#sorting-priority(href="") Sort by Priority
-                a#sorting-deadline(href="") Sort by Deadline
-                a#sorting-team(href="") Sort by Team
+            div.project-list-tools
+              .sorting
+                .flex-btn-con
+                  .marking
+                    button(class="btn btn-success" id="marker") Mark as Complete
+                  .dropdown-btn
+                    i.fas.fa-cog.fa-2x.dropdown-icon
+                .dropdown-container
+                  .sorting-list-dropdown.hidden
+                    a#sorting-name(href="") Sort by Name
+                    a#sorting-priority(href="") Sort by Priority
+                    a#sorting-deadline(href="") Sort by Deadline
+                    a#sorting-team(href="") Sort by Team
         ul.list-group#list-area
       div.description-area.hidden
         h3#project-title Test title
