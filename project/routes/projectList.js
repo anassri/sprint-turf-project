@@ -59,7 +59,7 @@ router.get('/projects-data/:value', asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
           where: [{ status: req.params.value }]
      });
-     
+
      res.json( projects );
 }));
 
@@ -126,7 +126,9 @@ router.post('/projects-data',
                createdAt,
                updatedAt
           } = req.body;
-          console.log(typeof priority)
+
+          console.log(priority);
+
           if (teamId === '0' && priority === '0') {
                console.log('No team, No priority')
                const newProj = await Project.create({
@@ -149,18 +151,22 @@ router.post('/projects-data',
                     updatedAt
                })
           } else if ( teamId === '0' && priority !== '0') {
-               console.log('No team, yes priority')
-               const newProj = await Project.create({
-                    projectName,
-                    deadline,
-                    description,
-                    status,
-                    createdAt,
-                    updatedAt,
-                    priority
-               })
+               console.log('No team, yes priority' )
+               try {
+                    const newProj = await Project.create({
+                         projectName,
+                         deadline,
+                         description,
+                         status,
+                         createdAt,
+                         updatedAt,
+                         priority: parseInt(priority, 10)
+                    })
+               } catch(err) {
+                    console.log(err);
+               }
           } else {
-               console.log('Yes team, yes priority')
+               console.log('Yes team, yes priority', priority)
                const newProj = await Project.create({
                     projectName,
                     deadline,

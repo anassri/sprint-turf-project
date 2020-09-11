@@ -8,7 +8,7 @@ import {
 
 export async function getUserAcccess(res) {
      // Sam - Populate the projects list with the data from the database
-     
+
      const resInc = await fetch('/projects-data/false');
      const projects = await res.json();
      const incProjects = await resInc.json();
@@ -147,7 +147,7 @@ export async function getUserAcccess(res) {
                }
 
           });
-});
+};
 
 // Sam- function to remove the time stamp from the databases date entries
 export function splitDate(date) {
@@ -284,6 +284,7 @@ async function createProject(form) {
           createdAt,
           updatedAt
      };
+     console.log(body);
      try {
           const res = await fetch("/projects-data", {
                method: "POST",
