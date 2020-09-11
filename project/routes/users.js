@@ -9,24 +9,24 @@ const router = express.Router();
 
 // Ammar - Sign-up route
 router.post(
-  "/", 
-  userValidators, 
-  handleValidationErrors, 
+  "/",
+  userValidators,
+  handleValidationErrors,
   asyncHandler(async (req, res, next) => {
     const { firstName, lastName, email, password } = req.body;
-    
+
     const hashedPassword = await bcrypt.hashSync(password, 10);
     const user = await User.create({ firstName, lastName, email, hashedPassword });
-        
+
     const token = getUserToken(user);
-    res.status(201).json({
+    res.status(201).json({ 
       user: { id: user.id },
       token,
     });
   })
 );
 
-// Yongho - logging in 
+// logging in
 router.post(
   "/token",
   validateEmailAndPassword,
@@ -46,5 +46,12 @@ router.post(
     res.json({ token, user: { id: user.id } });
   })
 );
+
+// Log Out
+router.delete('/session', asyncHandler(async (req, res) => {
+  res.clearCookie('token');
+  res.json({ message: 'success' });
+}));
+
 
 module.exports = router;

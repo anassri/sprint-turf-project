@@ -27,6 +27,8 @@ module.exports = {
      deadline: new Date(),
      status: true,
      description: "[\"Test4\",\"Test5\",\"Test6\"]",
+     priority: 2,
+     tagId: 3,
      teamId: 2,
      createdAt: new Date(),
      updatedAt: new Date()
@@ -36,6 +38,8 @@ module.exports = {
      deadline: new Date(),
      status: true,
      description: "[\"Test7\",\"Test8\",\"Test9\"]",
+     priority: 3,
+     tagId: 2,
      teamId: 1,
      createdAt: new Date(),
      updatedAt: new Date()
@@ -46,6 +50,9 @@ module.exports = {
     status: false,
     teamId: 2,
     description: "[\"Test10\",\"Test11\",\"Test12\"]",
+    priority: 1,
+    tagId: 1,
+    teamId: 2,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -54,7 +61,6 @@ module.exports = {
     deadline: new Date(),
     status: true,
     description: "[\"Test13\",\"Test14\",\"Test15\"]",
-    teamId: 2,
     createdAt: new Date(),
     updatedAt: new Date()
   },
@@ -63,7 +69,6 @@ module.exports = {
     deadline: new Date(),
     status: false,
     description: "[\"Test16\",\"Test17\",\"Test18\"]",
-    teamId: 3,
     createdAt: new Date(),
     updatedAt: new Date()
   },

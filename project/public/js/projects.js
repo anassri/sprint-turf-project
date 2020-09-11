@@ -1,61 +1,163 @@
-window.addEventListener("DOMContentLoaded", async event => {
-     // Sam - Populate the projects list with the data from the database
+import { fetchNotes } from "./notes.js"
+import {
+     handleCreationErrors
+} from './creation-utils.js';
+import {
+     handleErrors
+} from "./utils.js"
 
-     const res = await fetch("/projects-data");
+export async function getUserAcccess(res) {
+     // Sam - Populate the projects list with the data from the database
+<<<<<<< HEAD
+     /* const res = await fetch("/projects-data"); */
+=======
+
+>>>>>>> master
      const resInc = await fetch('/projects-data/false');
      const projects = await res.json();
      const incProjects = await resInc.json();
+     let errCon = document.querySelector('.errors-container')
      enumerateStats(projects);
      populateList(incProjects);
+
+
      // Sam - Event handler to open up stats/details on click of a list element and populate details data
      document.getElementById('list-area')
           .addEventListener('click', e => {
+               if (e.target.getAttribute("project-id")) return; //yongho - to not add eventlistener to team button
                let target = e.target.id;
                let stats = document.querySelector('.stats-area');
                let details = document.querySelector('.description-area');
                let element = document.getElementById(target);
-
-               if (element.classList.contains('selected')) {
-                    element.classList.remove('selected');
-                    details.classList.add('hidden');
-                    enumerateStats(projects);
-                    stats.classList.remove('hidden');
-                    return;
-               }
-
-               let projectItems = document.querySelectorAll('.project-items');
-               projectItems.forEach(project => {
-                    project.classList.remove('selected');
-               });
-
-               element.classList.add('selected');
-               stats.classList.add('hidden');
-               details.classList.remove('hidden');
-               let projId = Number(target);
-               projects.forEach(project => {
-                    if (projId === project.id) {
-                         populateDetails(project)
+               if (element.classList.contains('project-items')) {
+                    if (element.classList.contains('selected')) {
+                         element.classList.remove('selected');
+                         details.classList.add('hidden');
+                         enumerateStats(projects);
+                         stats.classList.remove('hidden');
+                         return;
                     }
-               });
-          });
 
+                    let projectItems = document.querySelectorAll('.project-items');
+                    projectItems.forEach(project => {
+                         project.classList.remove('selected');
+                    });
+
+                    element.classList.add('selected');
+                    stats.classList.add('hidden');
+                    details.classList.remove('hidden');
+                    let projId = Number(target);
+                    projects.forEach(project => {
+                         if (projId === project.id) {
+                              populateDetails(project);
+                              fetchNotes(project);
+                         }
+                    });
+               }
+          });
+     // Sam - Event handler for swapping between completed and incomplete project list
+     const incompleteCon = document.getElementById('incomplete-box');
+     const completeCon = document.getElementById('complete-box');
+     const marker = document.getElementById('marker');
      document.getElementById('complete-inc-container')
           .addEventListener('click', async event => {
                let target = event.target.id;
                if (target === 'incomplete' || target === 'incomplete-box') {
                     let res = await fetch(`/projects-data/false`);
                     let incomplete = await res.json();
+                    marker.classList.remove('btn-warning');
+                    marker.classList.add('btn-success');
+                    marker.innerHTML = 'Mark as Complete';
+                    incompleteCon.classList.add('active');
+                    completeCon.classList.remove('active');
                     populateList(incomplete);
                } else if (target === 'complete' || target === 'complete-box') {
                     let res = await fetch(`/projects-data/true`);
                     let completed = await res.json();
+                    marker.classList.remove('btn-success');
+                    marker.classList.add('btn-warning');
+                    marker.innerHTML = 'Mark as Incomplete'
+                    incompleteCon.classList.remove('active');
+                    completeCon.classList.add('active');
                     populateList(completed);
                }
           });
-});
+     // Sam - event handler for submitting a new project
+     document.getElementById('create-project-form')
+          .addEventListener('submit', async event => {
+               event.preventDefault();
+               let form = document.getElementById('create-project-form');
+               let popouts = document.querySelectorAll('.form-pop')
+               popouts.forEach(pop => {
+                    pop.classList.add('hidden');
+               })
+               await createProject(form);
+               let res = await fetch('/projects-data/false')
+               let newProj = await res.json();
+               populateList(newProj);
+          });
+     // Sam - event handler for expandign the form on focus of the name entry field
+     document.getElementById('name-entry')
+          .addEventListener('focus', event => {
+               getTeams();
+               errCon.innerHTML = '';
+               let popouts = document.querySelectorAll('.form-pop')
+               popouts.forEach(pop => {
+                    pop.classList.remove('hidden');
+               })
+               errCon.classList.remove('hidden');
+          });
+     // Sam - event handler for the button to close the new project submission form
+     document.getElementById('cancel')
+          .addEventListener('click', event => {
+               let popouts = document.querySelectorAll('.form-pop')
+               popouts.forEach(pop => {
+                    pop.classList.add('hidden');
+               });
+               errCon.classList.add('hidden');
+          });
+
+     document.getElementById('marker')
+          .addEventListener('click', async event => {
+               let currTab = document.querySelector('.active');
+               let proj = document.querySelector('.selected');
+               if (!proj) {
+                    return;
+               }
+               if (currTab.id === 'incomplete-box') {
+                    const status = true;
+                    let res = await fetch(`/projects/${proj.id}`, {
+                         method: "PUT",
+                         body: JSON.stringify({status}),
+                         headers: {
+                              "Content-Type": "application/json",
+                              Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}`
+                         }
+                    });
+                    const resInc = await fetch('/projects-data/false');
+                    let projects = await resInc.json();
+                    populateList(projects);
+               } else if (currTab.id === 'complete-box') {
+                    event.preventDefault();
+                    const status = false;
+                    let res = await fetch(`/projects/${proj.id}`, {
+                         method: "PUT",
+                         body: JSON.stringify({status}),
+                         headers: {
+                              "Content-Type": "application/json",
+                              Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}`
+                         }
+                    });
+                    const resCom = await fetch('/projects-data/true');
+                    let projects = await resCom.json();
+                    populateList(projects)
+               }
+
+          });
+};
 
 // Sam- function to remove the time stamp from the databases date entries
-function splitDate(date) {
+export function splitDate(date) {
      let arr = date.split('T');
      let newDate = arr[0];
      return newDate;
@@ -84,6 +186,7 @@ async function populateDetails(project) {
           team.innerHTML = teamName;
      }
      let taskList = JSON.parse(project.description);
+     console.log(taskList);
      if (details.hasChildNodes) {
           details.innerHTML = '';
      }
@@ -119,19 +222,15 @@ function enumerateStats(projects) {
      projects.forEach(project => {
           let currentDate = Date.parse(new Date());
           let dueDate = Date.parse(project.deadline);
-          console.log(project.status)
           if (currentDate > dueDate && !project.status) {
-               console.log('over')
                overdueCount++;
           }
 
           if (project.status) {
-               console.log('complete')
                completedCount++;
           }
 
           if (!project.status) {
-               console.log('incomplete')
                totalCount++;
           }
      });
@@ -149,12 +248,16 @@ function enumerateStats(projects) {
           <span id="complete-count-text" class="counter-text">Completed</span>`;
 }
 
-function populateList(projects) {
+export function populateList(projects) {
      let list = document.querySelector('.list-group');
      list.innerHTML = '';
      if (projects.length === 0) {
           return '';
      }
+
+     //yongho - get team names
+     const resTeams = await fetch("/teams-names");
+     const teams = await resTeams.json();
 
      projects.forEach((project, i) => {
           i++
@@ -163,9 +266,107 @@ function populateList(projects) {
           li.classList.add('list-group-item');
           li.classList.add('project-items')
           li.setAttribute('id', `${project.id}`);
-          li.innerHTML = `${i}. ${project.projectName}`;
-          conDiv.appendChild(li);
+          li.innerHTML = `${i}. ${project.projectName} `;
 
+          //yongho adding dropdown for assigning project to different team
+          if(!project.teamId) {
+               let teamBtn = document.createElement("button");
+               teamBtn.innerHTML = "Assigning Team";
+               teamBtn.classList.add("list-team-button");
+               teamBtn.setAttribute("project-id", `${project.id}`);
+
+               let teamAssgin = document.createElement("div");
+               let selector = document.createElement("select");
+               selector.id = `selector-${project.id}`;
+
+               for (let j = 0; j < teams.length; j++) {
+                    let option = document.createElement("option");
+                    option.value = `${teams[j].id}`;
+                    option.text = `${teams[j].name}`;
+                    selector.appendChild(option);
+               }
+
+               teamAssgin.appendChild(selector);
+               li.appendChild(teamBtn);
+               li.appendChild(teamAssgin);
+
+               teamBtn.addEventListener("click", async (event) => {
+                    const body = { projectId: project.id, teamId: selector.value}
+                    const resPro = await fetch( "/project-team", {
+                         method: "POST",
+                         body: JSON.stringify(body),
+                         headers: {
+                         "Content-Type": "application/json",
+                         }
+                    })
+                    const result = await resPro.json();
+                    window.location.href = "/";
+              });
+          }
+
+          conDiv.appendChild(li);
           list.appendChild(conDiv);
+     });
+}
+
+async function createProject(form) {
+     const createdAt = new Date();
+     const updatedAt = new Date();
+     const formData = new FormData(form);
+     const projectName = formData.get('projectName');
+     const deadline = formData.get('deadline');
+     const teamId = formData.get('teamId');
+     const priority = formData.get('priority')
+     const descriptionString = formData.get('description');
+     const status = false;
+     const description = JSON.stringify(descriptionString.split(', '));
+
+     const body = {
+          projectName,
+          deadline,
+          teamId,
+          description,
+          status,
+          priority,
+          createdAt,
+          updatedAt
+     };
+     console.log(body);
+     try {
+          const res = await fetch("/projects-data", {
+               method: "POST",
+               body: JSON.stringify(body),
+               headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}`
+               },
+          });
+          if (!res.ok) throw res;
+          if (res.status === 401) {
+               window.location.href = "/users/login";
+               return;
+          }
+     } catch (err) {
+          handleCreationErrors(err);
+     }
+}
+
+async function getTeams() {
+     const res = await fetch('/team-names')
+     const teams = await res.json();
+
+     const teamSelect = document.getElementById('team-selector');
+     teamSelect.innerHTML = '';
+
+     let noTeamOpt = document.createElement('option');
+     noTeamOpt.setAttribute('value', '0');
+     noTeamOpt.innerHTML = 'No Team';
+     teamSelect.appendChild(noTeamOpt);
+
+     teams.forEach(team => {
+          let opt = document.createElement('option');
+          opt.setAttribute('value', `${team.id}`);
+          opt.innerHTML = team.name;
+          teamSelect.appendChild(opt);
      });
 }

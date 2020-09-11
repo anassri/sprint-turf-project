@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function(models) {
     // associations can be defined here
     User.belongsTo(models.Team, { foreignKey: "teamId" })
+    User.hasMany(models.Note, { foreignKey: "userId" })
   };
 
   User.prototype.validatePassword = function (password) {
@@ -21,3 +22,4 @@ module.exports = (sequelize, DataTypes) => {
   return User;
 
 };
+ 
