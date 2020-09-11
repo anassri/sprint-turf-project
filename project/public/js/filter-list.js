@@ -1,7 +1,13 @@
 import { populateList } from './projects.js'
 window.addEventListener("DOMContentLoaded", async event => {
 
-  const reset = await fetch("/projects-data");
+  const reset = await fetch("/projects-data",{
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem(
+            "SPRINT_TURF_ACCESS_TOKEN"
+        )}`,
+    }
+});
   const res = await fetch("/projects-deadline");
   const resTeam = await fetch("/projects-team")
   const projects = await res.json();
