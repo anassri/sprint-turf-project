@@ -8,7 +8,7 @@ window.addEventListener("DOMContentLoaded", async event => {
      const resInc = await fetch('/projects-data/false');
      const projects = await res.json();
      const incProjects = await resInc.json();
-     
+
      enumerateStats(projects);
      populateList(incProjects);
      // Sam - Event handler to open up stats/details on click of a list element and populate details data
@@ -57,9 +57,9 @@ window.addEventListener("DOMContentLoaded", async event => {
                     populateList(completed);
                }
           });
-          
-    
-     
+
+
+
 });
 
 // Sam- function to remove the time stamp from the databases date entries
@@ -176,12 +176,12 @@ async function addNote(project) {
                     .classList
                     .add('hidden');
           });
-     
+
      const addNoteForm = document.querySelector(".note-form");
 
      addNoteForm.addEventListener("submit", async (e) => {
           e.preventDefault();
-          
+
           console.log("I'm activated");
 
           const formData = new FormData(addNoteForm);
@@ -195,7 +195,7 @@ async function addNote(project) {
                     body: JSON.stringify(body),
                     headers:{
                          "Content-Type": "application/json",
-                         Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}` 
+                         Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}`
                     },
                });
                if(res.status === 401){
@@ -205,13 +205,13 @@ async function addNote(project) {
                if (!res.ok) throw res;
                console.log("Added");
                fetchNotes(project);
-               
+
           } catch (e) {
                handleErrors(e);
           }
 
 
-     });    
+     });
 }
 
 // Ammar - display project notes
@@ -221,7 +221,7 @@ async function fetchNotes(project){
           if(res.status===401){
                window.location.href = "/users/login";
                return;
-          }    
+          }
           const notes = await res.json();
           const errorsContainer = document.querySelector(".errors-container");
           errorsContainer.innerHTML = "";
@@ -238,7 +238,7 @@ async function fetchNotes(project){
                     </div>
                </form>`;
           const notesContainer = document.querySelector('.notes-container');
-          
+
           const notesHtml = notes.map((note, id) => `
                <div class="card" id="note-${id}">
                     <div class="card-body">
@@ -248,7 +248,7 @@ async function fetchNotes(project){
                </div>
                `
           );
-          
+
           notesContainer.innerHTML = "";
           notesContainer.innerHTML = notesHtml.join("");
           addNote(project);
@@ -256,7 +256,7 @@ async function fetchNotes(project){
           handleErrors(e);
      }
 }
-function populateList(projects) {
+export function populateList(projects) {
      let list = document.querySelector('.list-group');
      list.innerHTML = '';
      if (projects.length === 0) {
