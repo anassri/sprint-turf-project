@@ -257,64 +257,76 @@ function enumerateStats(projects) {
 }
 
 export async function populateList(projects) {
-     let list = document.querySelector('.list-group');
-     list.innerHTML = '';
-     if (projects.length === 0) {
-          return '';
-     }
+  let list = document.querySelector(".list-group");
+  list.innerHTML = "";
+  if (projects.length === 0) {
+    return "";
+  }
 
-     //yongho - get team names
-     const resTeams = await fetch("/teams-names");
-     const teams = await resTeams.json();
+  //yongho - get team names
+  const resTeams = await fetch("/teams-names");
+  const teams = await resTeams.json();
 
-     projects.forEach((project, i) => {
-          i++
-          let conDiv = document.createElement('div');
-          let li = document.createElement('li');
-          li.classList.add('list-group-item');
-          li.classList.add('project-items')
-          li.setAttribute('id', `${project.id}`);
-          li.innerHTML = `${i}. ${project.projectName} `;
+  projects.forEach( async (project, i) => {
+    i++;
+    let conDiv = document.createElement("div");
+    let li = document.createElement("li");
+    li.classList.add("list-group-item");
+    li.classList.add("project-items");
+    li.setAttribute("id", `${project.id}`);
 
-          //yongho adding dropdown for assigning project to different team
-          if(!project.teamId) {
-               let teamBtn = document.createElement("button");
-               teamBtn.innerHTML = "Assigning Team";
-               teamBtn.classList.add("list-team-button");
-               teamBtn.setAttribute("project-id", `${project.id}`);
+    // Yongho 
+   if (project.teamId){
+      const resTeamName = await fetch(`/team-names/${project.teamId}`); 
+      const team = await resTeamName.json();
+      const teamName = team.name;
+      li.innerHTML = `${i}. ${project.projectName} : ${teamName} `;
+    } else {
+      li.innerHTML = `${i}. ${project.projectName}`;    
+    }
 
-               let teamAssgin = document.createElement("div");
-               let selector = document.createElement("select");
-               selector.id = `selector-${project.id}`;
+    //yongho adding dropdown for assigning project to different team
+    if (!project.teamId) {
+      let teamBtn = document.createElement("button");
+      teamBtn.innerHTML = "Assigning Team";
+      teamBtn.classList.add("list-team-button");
+      teamBtn.setAttribute("project-id", `${project.id}`);
 
-               for (let j = 0; j < teams.length; j++) {
-                    let option = document.createElement("option");
-                    option.value = `${teams[j].id}`;
-                    option.text = `${teams[j].name}`;
-                    selector.appendChild(option);
-               }
+      let teamAssgin = document.createElement("div");
+      teamAssgin.classList.add("div-team-assign");
+      
+      let selector = document.createElement("select");
+      selector.id = `selector-${project.id}`;
 
-               teamAssgin.appendChild(selector);
-               li.appendChild(teamBtn);
-               li.appendChild(teamAssgin);
+      for (let j = 0; j < teams.length; j++) {
+        let option = document.createElement("option");
+        option.value = `${teams[j].id}`;
+        option.text = `${teams[j].name}`;
+        selector.appendChild(option);
+      }
 
-               teamBtn.addEventListener("click", async (event) => {
-                    const body = { projectId: project.id, teamId: selector.value}
-                    const resPro = await fetch( "/project-team", {
-                         method: "POST",
-                         body: JSON.stringify(body),
-                         headers: {
-                         "Content-Type": "application/json",
-                         }
-                    })
-                    const result = await resPro.json();
-                    window.location.href = "/";
-              });
-          }
+      teamAssgin.appendChild(selector);
+      li.appendChild(teamBtn);
+      li.appendChild(teamAssgin);
 
-          conDiv.appendChild(li);
-          list.appendChild(conDiv);
-     });
+      teamBtn.addEventListener("click", async (event) => {
+        const body = { projectId: project.id, teamId: selector.value };
+        const resPro = await fetch("/project-team", {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const result = await resPro.json();
+        window.location.href = "/";
+      });
+    }
+
+    conDiv.appendChild(li);
+    list.appendChild(conDiv);
+    
+  });
 }
 
 async function createProject(form) {

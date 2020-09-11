@@ -167,3 +167,13 @@ body {
 .sorting-list-dropdown a:hover{
      font-weight: bold;
 }
+ 
+.div-team-assign {
+     display: flex;
+     flex-direction: row;
+}
+
+.list-team-button {
+     display: flex;
+     margin: 4px;
+}
