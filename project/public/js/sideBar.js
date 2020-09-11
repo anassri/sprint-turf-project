@@ -1,5 +1,6 @@
 let toggleNavStatus = false;
 const sideBtn = document.getElementById('sidebar-btn');
+const logOut = document.getElementById("logout");
 let toggleNav = function() {
   let getSidebar = document.querySelector(".nav-sidebar");
   let getSidebarUl = document.querySelector(".nav-sidebar ul");
@@ -34,3 +35,9 @@ let toggleNav = function() {
 sideBtn.addEventListener('click', (event) => {
   toggleNav();
 })
+
+logOut.addEventListener("click", () => {
+  localStorage.removeItem("TURF_ACCESS_TOKEN");
+  localStorage.removeItem("TURF_CURRENT_USER_ID");
+  window.location.href = "/users/login";
+});

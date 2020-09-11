@@ -22,6 +22,24 @@ router.get('/projects-data', requireAuth, asyncHandler(async (req, res) => {
      res.json( projects );
 }));
 
+// Matt - route for getting project by deadlines where status is false
+router.get('/projects-deadline', asyncHandler(async (req, res) => {
+     const projects = await Project.findAll({
+          where: { status: false},
+          order:[["deadline", "DESC"]]
+     })
+     res.json(projects);
+}))
+
+
+// Matt - route for getting team names
+router.get('/projects-team', asyncHandler(async (req, res) => {
+     const teams = await Team.findAll({
+          order:[["name", "ASC"]]
+     })
+     res.json(teams);
+}))
+
 // Sam - route for fetches to get team data
 router.get('/team-names/:id(\\d+)', asyncHandler(async (req, res) => {
      const teamName = await Team.findByPk(req.params.id);
@@ -63,6 +81,27 @@ router.get('/projects-data/:value', asyncHandler(async (req, res) => {
      res.json( projects );
 }));
 
+// yongho - route for fetch to get team
+router.get('/teams-names', asyncHandler(async (req, res) => {
+     const teamNames = await Team.findAll();
+     res.json(teamNames);
+}));
+
+//yongho - route for update team in project table
+router.post('/project-team', asyncHandler(async (req, res) => {
+     const { projectId, teamId } = req.body;
+     const project = await Project.findOne({
+       where: { id: projectId },
+     });
+     if (project) {
+          await project.update({ teamId: teamId });
+          res.json({ project })
+     }     
+}))
+
+
+
+module.exports = router;
 //Ammar - sorting by name
 //Ammar - sorting by name
 //Ammar - sorting by name
