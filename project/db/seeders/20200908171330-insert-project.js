@@ -27,7 +27,9 @@ module.exports = {
      deadline: new Date(),
      status: true,
      description: "[\"Test4\",\"Test5\",\"Test6\"]",
-     teamId: 1,
+     priority: 2,
+     tagId: 3,
+     teamId: 2,
      createdAt: new Date(),
      updatedAt: new Date()
    },
@@ -36,7 +38,9 @@ module.exports = {
      deadline: new Date(),
      status: true,
      description: "[\"Test7\",\"Test8\",\"Test9\"]",
-     teamId: 2,
+     priority: 3,
+     tagId: 2,
+     teamId: 1,
      createdAt: new Date(),
      updatedAt: new Date()
    },
@@ -45,9 +49,63 @@ module.exports = {
     deadline: new Date(),
     status: false,
     description: "[\"Test10\",\"Test11\",\"Test12\"]",
+    priority: 1,
+    tagId: 1,
+    teamId: 2,
     createdAt: new Date(),
     updatedAt: new Date()
-  }
+  },
+  {
+    projectName: "Amusement Park Tracker",
+    deadline: new Date(),
+    status: true,
+    description: "[\"Test13\",\"Test14\",\"Test15\"]",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    projectName: "Recipe Box",
+    deadline: new Date(),
+    status: false,
+    description: "[\"Test16\",\"Test17\",\"Test18\"]",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    projectName: "TENET",
+    deadline: new Date(),
+    status: true,
+    description: "[\"Test19\",\"Test20\",\"Test21\"]",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    projectName: "Regex",
+    deadline: new Date(),
+    status: true,
+    description: "[\"Test20\",\"Test21\",\"Test22\"]",
+    teamId: 2,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    projectName: "Manhatten Project",
+    deadline: new Date(),
+    status: false,
+    description: "[\"Test23\",\"Test24\",\"Test25\"]",
+    teamId: 3,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    projectName: "Operation Paperclip",
+    deadline: new Date(),
+    status: true,
+    description: "[\"Test26\",\"Test27\",\"Test28\"]",
+    teamId: 1,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
    ])
   },
 

@@ -1,16 +1,58 @@
 extends layout.pug
 
 append head
-  link(rel="stylesheet" href="/public/list-styles.css")
 
+  script(src="/public/js/index.js" type="module")
+  script(src="/public/js/utils.js" type='module')
+  script(src="/public/js/projects.js" type='module')
+  link(rel="stylesheet" href="/public/list-styles.css")
+  link(rel="stylesheet" href="/public/filter-list.css")
 block content
     div.grid-container
+      div(class="filter-list")
+        div(id="task-div")
+          span(id="tasks") All Tasks
+          ul.tasks-list.hidden
+            li.deadline Deadline
+            li#teamName Team Name
+              ul#team-name-list
       div#projects-list
         #complete-inc-container
-          #incomplete-box.completed-bar.border
+          #incomplete-box.active.completed-bar.border
             span#incomplete.bar-text Incomplete
           #complete-box.completed-bar.border
             span#complete.bar-text Completed
+          #add-project-area
+            .errors-container
+            form(method='post' action='/projects-data' id="create-project-form")
+              .form-group
+                label(for="projectName") Enter a project name
+                input(type='text' name="projectName" class="form-control" id="name-entry")
+              .form-group.hidden.form-pop
+                label(for="deadline") Select a deadline
+                input(type='date' name="deadline" class="form-control")
+              .form-group.hidden.form-pop
+                label(for='teamId') Select the team
+                select(name='teamId' class="form-control" id="team-selector")
+              .form-group.hidden.form-pop
+                label(for='description') Enter tasks for the project, separated by commas
+                textarea(name='description' class="form-control")
+            .button-div
+                button(type="submit" form="create-project-form" class="btn btn-primary form-control form-pop hidden create-button") Create Project
+                button(class="btn btn-danger form-pop hidden" id="cancel") Cancel
+            div.project-list-tools
+              .sorting
+                .flex-btn-con
+                  .marking
+                    button(class="btn btn-success" id="marker") Mark as Complete
+                  .dropdown-btn
+                    i.fas.fa-cog.fa-2x.dropdown-icon
+                .dropdown-container
+                  .sorting-list-dropdown.hidden
+                    a#sorting-name(href="") Sort by Name
+                    a#sorting-priority(href="") Sort by Priority
+                    a#sorting-deadline(href="") Sort by Deadline
+                    a#sorting-team(href="") Sort by Team
         ul.list-group#list-area
       div.description-area.hidden
         h3#project-title Test title
@@ -31,6 +73,10 @@ block content
             span.title Details
             .details-area
               ul#details-list
+        .notes-area
+          .errors-container
+          .add-note
+          .notes-container
       div.stats-area
         h3 Stats
         .stats-container
@@ -38,3 +84,6 @@ block content
           #overdue-count.count-area
           #completed-count.count-area
     script(src="/public/js/projects.js" type="module")
+    script(src="/public/js/filter-list.js" type="module")
+    script(src="/public/js/notes.js" type="module")
+    script(src="/public/js/sorting.js" type="module")

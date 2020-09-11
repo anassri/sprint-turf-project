@@ -1,10 +1,18 @@
-window.addEventListener("DOMContentLoaded", async event => {
+import { fetchNotes } from "./notes.js"
+import {
+     handleCreationErrors
+} from './creation-utils.js';
+import {
+     handleErrors
+} from "./utils.js"
+
+export async function getUserAcccess(res) {
      // Sam - Populate the projects list with the data from the database
 
-     const res = await fetch("/projects-data");
      const resInc = await fetch('/projects-data/false');
      const projects = await res.json();
      const incProjects = await resInc.json();
+     let errCon = document.querySelector('.errors-container')
      enumerateStats(projects);
      populateList(incProjects);
 
@@ -12,53 +20,140 @@ window.addEventListener("DOMContentLoaded", async event => {
      // Sam - Event handler to open up stats/details on click of a list element and populate details data
      document.getElementById('list-area')
           .addEventListener('click', e => {
-            if (e.target.getAttribute("project-id")) return; //yongho - to not add eventlistener to team button
-            let target = e.target.id;
-            let stats = document.querySelector(".stats-area");
-            let details = document.querySelector(".description-area");
-            let element = document.getElementById(target);
+               if (e.target.getAttribute("project-id")) return; //yongho - to not add eventlistener to team button
+               let target = e.target.id;
+               let stats = document.querySelector('.stats-area');
+               let details = document.querySelector('.description-area');
+               let element = document.getElementById(target);
+               if (element.classList.contains('project-items')) {
+                    if (element.classList.contains('selected')) {
+                         element.classList.remove('selected');
+                         details.classList.add('hidden');
+                         enumerateStats(projects);
+                         stats.classList.remove('hidden');
+                         return;
+                    }
 
-            if (element.classList.contains("selected")) {
-              element.classList.remove("selected");
-              details.classList.add("hidden");
-              enumerateStats(projects);
-              stats.classList.remove("hidden");
-              return;
-            }
+                    let projectItems = document.querySelectorAll('.project-items');
+                    projectItems.forEach(project => {
+                         project.classList.remove('selected');
+                    });
 
-            let projectItems = document.querySelectorAll(".project-items");
-            projectItems.forEach((project) => {
-              project.classList.remove("selected");
-            });
-
-            element.classList.add("selected");
-            stats.classList.add("hidden");
-            details.classList.remove("hidden");
-            let projId = Number(target);
-            projects.forEach((project) => {
-              if (projId === project.id) {
-                populateDetails(project);
-              }
-            });
+                    element.classList.add('selected');
+                    stats.classList.add('hidden');
+                    details.classList.remove('hidden');
+                    let projId = Number(target);
+                    projects.forEach(project => {
+                         if (projId === project.id) {
+                              populateDetails(project);
+                              fetchNotes(project);
+                         }
+                    });
+               }
           });
-
+     // Sam - Event handler for swapping between completed and incomplete project list
+     const incompleteCon = document.getElementById('incomplete-box');
+     const completeCon = document.getElementById('complete-box');
+     const marker = document.getElementById('marker');
      document.getElementById('complete-inc-container')
           .addEventListener('click', async event => {
                let target = event.target.id;
                if (target === 'incomplete' || target === 'incomplete-box') {
                     let res = await fetch(`/projects-data/false`);
                     let incomplete = await res.json();
+                    marker.classList.remove('btn-warning');
+                    marker.classList.add('btn-success');
+                    marker.innerHTML = 'Mark as Complete';
+                    incompleteCon.classList.add('active');
+                    completeCon.classList.remove('active');
                     populateList(incomplete);
                } else if (target === 'complete' || target === 'complete-box') {
                     let res = await fetch(`/projects-data/true`);
                     let completed = await res.json();
+                    marker.classList.remove('btn-success');
+                    marker.classList.add('btn-warning');
+                    marker.innerHTML = 'Mark as Incomplete'
+                    incompleteCon.classList.remove('active');
+                    completeCon.classList.add('active');
                     populateList(completed);
                }
           });
-});
+     // Sam - event handler for submitting a new project
+     document.getElementById('create-project-form')
+          .addEventListener('submit', async event => {
+               event.preventDefault();
+               let form = document.getElementById('create-project-form');
+               let popouts = document.querySelectorAll('.form-pop')
+               popouts.forEach(pop => {
+                    pop.classList.add('hidden');
+               })
+               await createProject(form);
+               let res = await fetch('/projects-data/false')
+               let newProj = await res.json();
+               populateList(newProj);
+          });
+     // Sam - event handler for expandign the form on focus of the name entry field
+     document.getElementById('name-entry')
+          .addEventListener('focus', event => {
+               getTeams();
+               errCon.innerHTML = '';
+               let popouts = document.querySelectorAll('.form-pop')
+               popouts.forEach(pop => {
+                    pop.classList.remove('hidden');
+               })
+               errCon.classList.remove('hidden');
+          });
+     // Sam - event handler for the button to close the new project submission form
+     document.getElementById('cancel')
+          .addEventListener('click', event => {
+               let popouts = document.querySelectorAll('.form-pop')
+               popouts.forEach(pop => {
+                    pop.classList.add('hidden');
+               });
+               errCon.classList.add('hidden');
+          });
+
+     document.getElementById('marker')
+          .addEventListener('click', async event => {
+               let currTab = document.querySelector('.active');
+               let proj = document.querySelector('.selected');
+               if (!proj) {
+                    return;
+               }
+               if (currTab.id === 'incomplete-box') {
+                    const status = true;
+                    let res = await fetch(`/projects/${proj.id}`, {
+                         method: "PUT",
+                         body: JSON.stringify({status}),
+                         headers: {
+                              "Content-Type": "application/json",
+                              Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}`
+                         }
+                    });
+                    const resInc = await fetch('/projects-data/false');
+                    let projects = await resInc.json();
+                    populateList(projects);
+               } else if (currTab.id === 'complete-box') {
+                    event.preventDefault();
+                    const status = false;
+                    let res = await fetch(`/projects/${proj.id}`, {
+                         method: "PUT",
+                         body: JSON.stringify({status}),
+                         headers: {
+                              "Content-Type": "application/json",
+                              Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}`
+                         }
+                    });
+                    const resCom = await fetch('/projects-data/true');
+                    let projects = await resCom.json();
+                    populateList(projects)
+               }
+
+          });
+};
 
 // Sam- function to remove the time stamp from the databases date entries
-function splitDate(date) {
+export function splitDate(date) {
      let arr = date.split('T');
      let newDate = arr[0];
      return newDate;
@@ -122,19 +217,15 @@ function enumerateStats(projects) {
      projects.forEach(project => {
           let currentDate = Date.parse(new Date());
           let dueDate = Date.parse(project.deadline);
-          console.log(project.status)
           if (currentDate > dueDate && !project.status) {
-               console.log('over')
                overdueCount++;
           }
 
           if (project.status) {
-               console.log('complete')
                completedCount++;
           }
 
           if (!project.status) {
-               console.log('incomplete')
                totalCount++;
           }
      });
@@ -152,7 +243,7 @@ function enumerateStats(projects) {
           <span id="complete-count-text" class="counter-text">Completed</span>`;
 }
 
-async function populateList(projects) {
+export function populateList(projects) {
      let list = document.querySelector('.list-group');
      list.innerHTML = '';
      if (projects.length === 0) {
@@ -211,4 +302,62 @@ async function populateList(projects) {
           conDiv.appendChild(li);
           list.appendChild(conDiv);
      });
+}
+
+async function createProject(form) {
+     const createdAt = new Date();
+     const updatedAt = new Date();
+     const formData = new FormData(form);
+     const projectName = formData.get('projectName');
+     const deadline = formData.get('deadline');
+     const teamId = formData.get('teamId');
+     const descriptionString = formData.get('description');
+     const status = false;
+     const description = JSON.stringify(descriptionString.split(', '));
+
+     const body = {
+          projectName,
+          deadline,
+          teamId,
+          description,
+          status,
+          createdAt,
+          updatedAt
+     };
+     try {
+          const res = await fetch("/projects-data", {
+               method: "POST",
+               body: JSON.stringify(body),
+               headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}`
+               },
+          });
+          if (!res.ok) throw res;
+          if (res.status === 401) {
+               window.location.href = "/users/login";
+               return;
+          }
+     } catch (err) {
+          handleCreationErrors(err);
+     }
+}
+
+async function getTeams() {
+     const res = await fetch('/team-names')
+     const teams = await res.json();
+
+     const teamSelect = document.getElementById('team-selector');
+     teamSelect.innerHTML = '';
+
+     teams.forEach(team => {
+          let opt = document.createElement('option');
+          opt.setAttribute('value', `${team.id}`);
+          opt.innerHTML = team.name;
+          teamSelect.appendChild(opt);
+     });
+     let noTeamOpt = document.createElement('option');
+     noTeamOpt.setAttribute('value', '0');
+     noTeamOpt.innerHTML = 'No Team';
+     teamSelect.appendChild(noTeamOpt);
 }

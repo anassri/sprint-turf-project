@@ -1,0 +1,14 @@
+extends layout.pug
+
+append head
+  link(rel="stylesheet" href="/public/filter-list.css")
+
+block content
+div(class="filter-list-container")
+  div(id="tasks") Tasks
+    ul(class="task-group")
+      li Today
+      li Tomorrow
+      li This Week
+      li Given To Others
+      li Trash
