@@ -12,8 +12,6 @@ export async function getUserAcccess(res) {
      const resInc = await fetch('/projects-data/false');
      const projects = await res.json();
      const incProjects = await resInc.json();
-     // console.log(projects);
-     
      let errCon = document.querySelector('.errors-container')
      enumerateStats(projects);
      populateList(incProjects);
@@ -50,26 +48,34 @@ export async function getUserAcccess(res) {
                     });
                }
           });
+     // Sam - Event handler for swapping between completed and incomplete project list
      const incompleteCon = document.getElementById('incomplete-box');
      const completeCon = document.getElementById('complete-box');
+     const marker = document.getElementById('marker');
      document.getElementById('complete-inc-container')
           .addEventListener('click', async event => {
                let target = event.target.id;
                if (target === 'incomplete' || target === 'incomplete-box') {
                     let res = await fetch(`/projects-data/false`);
                     let incomplete = await res.json();
+                    marker.classList.remove('btn-warning');
+                    marker.classList.add('btn-success');
+                    marker.innerHTML = 'Mark as Complete';
                     incompleteCon.classList.add('active');
                     completeCon.classList.remove('active');
                     populateList(incomplete);
                } else if (target === 'complete' || target === 'complete-box') {
                     let res = await fetch(`/projects-data/true`);
                     let completed = await res.json();
+                    marker.classList.remove('btn-success');
+                    marker.classList.add('btn-warning');
+                    marker.innerHTML = 'Mark as Incomplete'
                     incompleteCon.classList.remove('active');
                     completeCon.classList.add('active');
                     populateList(completed);
                }
           });
-
+     // Sam - event handler for submitting a new project
      document.getElementById('create-project-form')
           .addEventListener('submit', async event => {
                event.preventDefault();
@@ -83,7 +89,7 @@ export async function getUserAcccess(res) {
                let newProj = await res.json();
                populateList(newProj);
           });
-
+     // Sam - event handler for expandign the form on focus of the name entry field
      document.getElementById('name-entry')
           .addEventListener('focus', event => {
                getTeams();
@@ -94,7 +100,7 @@ export async function getUserAcccess(res) {
                })
                errCon.classList.remove('hidden');
           });
-
+     // Sam - event handler for the button to close the new project submission form
      document.getElementById('cancel')
           .addEventListener('click', event => {
                let popouts = document.querySelectorAll('.form-pop')
@@ -104,7 +110,44 @@ export async function getUserAcccess(res) {
                errCon.classList.add('hidden');
           });
 
-};
+     document.getElementById('marker')
+          .addEventListener('click', async event => {
+               let currTab = document.querySelector('.active');
+               let proj = document.querySelector('.selected');
+               if (!proj) {
+                    return;
+               }
+               if (currTab.id === 'incomplete-box') {
+                    const status = true;
+                    let res = await fetch(`/projects/${proj.id}`, {
+                         method: "PUT",
+                         body: JSON.stringify({status}),
+                         headers: {
+                              "Content-Type": "application/json",
+                              Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}`
+                         }
+                    });
+                    const resInc = await fetch('/projects-data/false');
+                    let projects = await resInc.json();
+                    populateList(projects);
+               } else if (currTab.id === 'complete-box') {
+                    event.preventDefault();
+                    const status = false;
+                    let res = await fetch(`/projects/${proj.id}`, {
+                         method: "PUT",
+                         body: JSON.stringify({status}),
+                         headers: {
+                              "Content-Type": "application/json",
+                              Authorization: `Bearer ${localStorage.getItem("SPRINT_TURF_ACCESS_TOKEN")}`
+                         }
+                    });
+                    const resCom = await fetch('/projects-data/true');
+                    let projects = await resCom.json();
+                    populateList(projects)
+               }
+
+          });
+});
 
 // Sam- function to remove the time stamp from the databases date entries
 export function splitDate(date) {
@@ -262,6 +305,7 @@ async function getTeams() {
      const teams = await res.json();
 
      const teamSelect = document.getElementById('team-selector');
+     teamSelect.innerHTML = '';
 
      teams.forEach(team => {
           let opt = document.createElement('option');

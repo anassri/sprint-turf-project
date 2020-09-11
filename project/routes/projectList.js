@@ -104,6 +104,14 @@ router.get('/projects/team/:value', asyncHandler(async (req, res) => {
      res.json(projects);
 }));
 
+router.put('/projects/:id', asyncHandler(async (req, res) => {
+     const project = await Project.findByPk(req.params.id);
+     const { status } = req.body;
+     project.status = status;
+     let updatedProj = await project.save();
+     res.json(updatedProj);
+}));
+
 router.post('/projects-data',
      handleCreateValidationErrors,
      validateCreation,
