@@ -248,7 +248,7 @@ function enumerateStats(projects) {
           <span id="complete-count-text" class="counter-text">Completed</span>`;
 }
 
-export function populateList(projects) {
+export async function populateList(projects) {
      let list = document.querySelector('.list-group');
      list.innerHTML = '';
      if (projects.length === 0) {
