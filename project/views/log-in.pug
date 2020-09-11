@@ -4,7 +4,12 @@ block content
     div(class="log-in-container")
         div(class="errors-container")
         h2 Log In
+<<<<<<< HEAD
+        form(class="log-in-form" action="/users/token" method="post")
+            input(type="hidden" name="_csrf" value=csrf)
+=======
         form(class="log-in-form" action="/users/token" method="post" id="login")
+>>>>>>> master
             .form-group
                 label(for='email') Email Address
                 input#email.form-control(type='email' name="email" placeholder='Enter email')

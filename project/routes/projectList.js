@@ -103,8 +103,6 @@ router.post('/project-team', asyncHandler(async (req, res) => {
 
 module.exports = router;
 //Ammar - sorting by name
-//Ammar - sorting by name
-//Ammar - sorting by name
 router.get('/projects/name/:value', asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
           where:{
@@ -114,6 +112,7 @@ router.get('/projects/name/:value', asyncHandler(async (req, res) => {
      });
      res.json(projects);
 }));
+//Ammar - sorting by priority
 router.get('/projects/priority/:value', asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
           where: {
@@ -123,6 +122,7 @@ router.get('/projects/priority/:value', asyncHandler(async (req, res) => {
      });
      res.json(projects);
 }));
+//Ammar - sorting by deadline
 router.get('/projects/deadline/:value', asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
           where: {

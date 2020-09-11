@@ -1,5 +1,5 @@
 export const handleErrors = async (err) => {
-    console.log(err);
+    // console.log(err);
     if (err.status >= 400 && err.status < 600) {
         const errorJSON = await err.json();
         const errorsContainer = document.querySelector(".errors-container");

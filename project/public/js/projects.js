@@ -8,7 +8,11 @@ import {
 
 export async function getUserAcccess(res) {
      // Sam - Populate the projects list with the data from the database
+<<<<<<< HEAD
+     /* const res = await fetch("/projects-data"); */
+=======
 
+>>>>>>> master
      const resInc = await fetch('/projects-data/false');
      const projects = await res.json();
      const incProjects = await resInc.json();
