@@ -1,13 +1,36 @@
-import { populateList } from './projects.js'
+
+function populateList(projects) {
+  let list = document.querySelector('.list-group');
+  list.innerHTML = '';
+  if (projects.length === 0) {
+    return '';
+  }
+
+  projects.forEach((project, i) => {
+    i++
+    let conDiv = document.createElement('div');
+    let li = document.createElement('li');
+    li.classList.add('list-group-item');
+    li.classList.add('project-items')
+    li.setAttribute('id', `${project.id}`);
+    li.innerHTML = `${i}. ${project.projectName} `;
+
+    conDiv.appendChild(li);
+    list.appendChild(conDiv);
+  })
+}
+
+
+
 window.addEventListener("DOMContentLoaded", async event => {
 
-  const reset = await fetch("/projects-data",{
+  const reset = await fetch("/projects-data", {
     headers: {
-        Authorization: `Bearer ${localStorage.getItem(
-            "SPRINT_TURF_ACCESS_TOKEN"
-        )}`,
+      Authorization: `Bearer ${localStorage.getItem(
+        "SPRINT_TURF_ACCESS_TOKEN"
+      )}`,
     }
-});
+  });
   const res = await fetch("/projects-deadline");
   const resTeam = await fetch("/projects-team")
   const projects = await res.json();
@@ -45,7 +68,6 @@ window.addEventListener("DOMContentLoaded", async event => {
 
   teamBtn.addEventListener('click', (event) => {
 
-
     if (!teamBtn.classList.contains('bold')) {
       teamBtn.classList.add('bold')
       teamNameList.classList.remove('hidden')
@@ -54,11 +76,12 @@ window.addEventListener("DOMContentLoaded", async event => {
         teams.forEach((team, i) => {
           i++
           let li = document.createElement('li');
+          let div = document.createElement('div')
           li.classList.add('filter-items');
           li.setAttribute('id', `teamNameId-${team.id}`);
           li.innerHTML = `${i}. ${team.name}`;
-
-          list.appendChild(li);
+          list.appendChild(div)
+          div.appendChild(li);
         })
       }
 
@@ -69,29 +92,21 @@ window.addEventListener("DOMContentLoaded", async event => {
 
     const teamName = document.getElementById(`${event.target.id}`);
     teamName.addEventListener('click', (event) => {
-
-     if (!event.target.classList.contains('bold')){
-      let team = event.target.id
-      let teamProj = [];
-      for (let i = 0; i < resetProjects.length; i++){
-        if (team === `teamNameId-${resetProjects[i].teamId}`) {
-          let proj = resetProjects[i]
-          teamProj.push(proj)
+      if (!event.target.classList.contains('bold')) {
+        let team = event.target.id
+        let teamProj = [];
+        for (let i = 0; i < resetProjects.length; i++) {
+          if (team === `teamNameId-${resetProjects[i].teamId}`) {
+            let proj = resetProjects[i]
+            teamProj.push(proj)
+          }
         }
+        populateList(teamProj)
+      } else {
+        populateList(resetProjects);
       }
-      populateList(teamProj)
-
-      teamNameList.classList.remove('bold')
-      event.target.classList.add('bold')
-      teamNameList.classList.remove('hidden')
-     } else {
-       teamNameList.classList.remove('bold');
-       event.target.classList.remove('bold');
-       teamNameList.classList.add('hidden')
-       populateList(resetProjects);
-     }
-
     })
+
   });
 
 });
