@@ -6,9 +6,16 @@ append head
   script(src="/public/js/utils.js" type='module')
   script(src="/public/js/projects.js" type='module')
   link(rel="stylesheet" href="/public/list-styles.css")
-
+  link(rel="stylesheet" href="/public/filter-list.css")
 block content
     div.grid-container
+      div(class="filter-list")
+        div(id="task-div")
+          span(id="tasks") All Tasks
+          ul.tasks-list.hidden
+            li.deadline Deadline
+            li#teamName Team Name
+              ul#team-name-list
       div#projects-list
         #complete-inc-container
           #incomplete-box.active.completed-bar.border
@@ -77,5 +84,6 @@ block content
           #overdue-count.count-area
           #completed-count.count-area
     script(src="/public/js/projects.js" type="module")
+    script(src="/public/js/filter-list.js" type="module")
     script(src="/public/js/notes.js" type="module")
     script(src="/public/js/sorting.js" type="module")

@@ -22,6 +22,24 @@ router.get('/projects-data', requireAuth, asyncHandler(async (req, res) => {
      res.json( projects );
 }));
 
+// Matt - route for getting project by deadlines where status is false
+router.get('/projects-deadline', asyncHandler(async (req, res) => {
+     const projects = await Project.findAll({
+          where: { status: false},
+          order:[["deadline", "DESC"]]
+     })
+     res.json(projects);
+}))
+
+
+// Matt - route for getting team names
+router.get('/projects-team', asyncHandler(async (req, res) => {
+     const teams = await Team.findAll({
+          order:[["name", "ASC"]]
+     })
+     res.json(teams);
+}))
+
 // Sam - route for fetches to get team data
 router.get('/team-names/:id(\\d+)', asyncHandler(async (req, res) => {
      const teamName = await Team.findByPk(req.params.id);
@@ -59,7 +77,7 @@ router.get('/projects-data/:value', asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
           where: [{ status: req.params.value }]
      });
-     
+
      res.json( projects );
 }));
 
