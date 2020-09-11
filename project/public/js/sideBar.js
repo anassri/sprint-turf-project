@@ -35,9 +35,3 @@ let toggleNav = function() {
 sideBtn.addEventListener('click', (event) => {
   toggleNav();
 })
-
-logOut.addEventListener("click", () => {
-  localStorage.removeItem("TURF_ACCESS_TOKEN");
-  localStorage.removeItem("TURF_CURRENT_USER_ID");
-  window.location.href = "/users/login";
-});
