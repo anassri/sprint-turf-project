@@ -1,0 +1,30 @@
+extends layout.pug
+
+append head
+  link(rel='stylesheet' type='text/css' href='public/style.css')
+  link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous")
+
+
+
+
+block content
+nav(class="nav-main")
+  div(class="sprint-img")
+    ul
+      li
+        a(href="/") Sprinter
+      li
+        form(action="" id="search-form")
+          input(type="search" id="searchBar" class="search-bar" placeholder="Search...")
+          i(class="fa fa-search")
+  div(class="btn-toggle-nav" id="sidebar-btn")
+    aside(class="nav-sidebar")
+      ul
+        li
+          span My Profile
+        li
+          a(href="/logout") Sign Out
+        li
+          a(href="/contact") Contact Us
+    script(src="/public/js/sideBar.js" type="module")
+    script(src="/public/js/searchBar.js" type="module")
