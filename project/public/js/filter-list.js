@@ -9,11 +9,10 @@ window.addEventListener("DOMContentLoaded", async event => {
   const teams = await resTeam.json();
 
   const taskBtn = document.querySelector('#tasks')
-  const deadlineBtn = document.querySelector('#deadline');
+  const deadlineBtn = document.querySelector('.deadline');
   const teamBtn = document.querySelector('#teamName')
   const completeBox = document.querySelector('#complete');
   const teamNameList = document.querySelector('#team-name-list');
-
 
   taskBtn.addEventListener("click", async (event) => {
     let list = document.querySelector('.tasks-list');
@@ -28,7 +27,7 @@ window.addEventListener("DOMContentLoaded", async event => {
   deadlineBtn.addEventListener('click', async (event) => {
 
     populateList(projects);
-    if (!completeBox.classList.contains('hidden')){
+    if (!completeBox.classList.contains('hidden')) {
       completeBox.classList.add('hidden');
       deadlineBtn.classList.add('bold')
     } else {
@@ -41,32 +40,52 @@ window.addEventListener("DOMContentLoaded", async event => {
   teamBtn.addEventListener('click', (event) => {
 
 
-      if (!teamBtn.classList.contains('bold')){
+    if (!teamBtn.classList.contains('bold')) {
       teamBtn.classList.add('bold')
       teamNameList.classList.remove('hidden')
-        if (!teamNameList.firstChild){
-      const list = document.querySelector('#team-name-list')
-      teams.forEach((team, i) => {
-      i++
-      let li = document.createElement('li');
-      li.classList.add('filter-items');
-      li.setAttribute('id', `${team.id}`);
-      li.innerHTML = `${i}. ${team.name}`;
+      if (!teamNameList.firstChild) {
+        const list = document.querySelector('#team-name-list')
+        teams.forEach((team, i) => {
+          i++
+          let li = document.createElement('li');
+          li.classList.add('filter-items');
+          li.setAttribute('id', `teamNameId-${team.id}`);
+          li.innerHTML = `${i}. ${team.name}`;
 
-      list.appendChild(li);
-      })
-    }
+          list.appendChild(li);
+        })
+      }
+
     } else {
       teamBtn.classList.remove('bold')
       teamNameList.classList.add('hidden')
     }
 
-  const teamName = document.querySelector('.filter-items')
-  teamName.addEventListener('click', (event) => {
-    let team = event.target.id
-    // populateList();
-  })
+    const teamName = document.getElementById(`${event.target.id}`);
+    teamName.addEventListener('click', (event) => {
 
+     if (!event.target.classList.contains('bold')){
+      let team = event.target.id
+      let teamProj = [];
+      for (let i = 0; i < resetProjects.length; i++){
+        if (team === `teamNameId-${resetProjects[i].teamId}`) {
+          let proj = resetProjects[i]
+          teamProj.push(proj)
+        }
+      }
+      populateList(teamProj)
+
+      teamNameList.classList.remove('bold')
+      event.target.classList.add('bold')
+      teamNameList.classList.remove('hidden')
+     } else {
+       teamNameList.classList.remove('bold');
+       event.target.classList.remove('bold');
+       teamNameList.classList.add('hidden')
+       populateList(resetProjects);
+     }
+
+    })
   });
 
 });

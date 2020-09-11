@@ -24,3 +24,7 @@
 .bold {
   font-weight: bold;
 }
+
+.team-name-hover:hover{
+  background-color: lightgray;
+}
