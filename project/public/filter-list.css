@@ -1,5 +1,5 @@
 
-#tasks {
+#task-div {
   padding: 10px;
 }
 
@@ -19,4 +19,8 @@
 
 .tasks-list li:hover {
   background-color: #f1f1f1;
+}
+
+.bold {
+  font-weight: bold;
 }

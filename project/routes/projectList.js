@@ -21,6 +21,21 @@ router.get('/projects-data', asyncHandler(async (req, res) => {
      res.json( projects );
 }));
 
+router.get('/projects-deadline', asyncHandler(async (req, res) => {
+     const projects = await Project.findAll({
+          where: { status: false},
+          order:[["deadline", "DESC"]]
+     })
+     res.json(projects);
+}))
+
+router.get('/projects-team', asyncHandler(async (req, res) => {
+     const teams = await Team.findAll({
+          order:[["name", "ASC"]]
+     })
+     res.json(teams);
+}))
+
 // Sam - route for fetches to get team data
 router.get('/team-names/:id(\\d+)', asyncHandler(async (req, res) => {
      const teamName = await Team.findByPk(req.params.id);
@@ -45,7 +60,7 @@ router.post('/projects/:id/notes', validateNote, handleValidationErrors, asyncHa
      const userIdInt = Number(userId);
      const newNote = await Note.create({ note, userId: userIdInt, projectId });
      res.json({ newNote });
-   
+
 }));
 
 router.get('/projects-data/:value', asyncHandler(async (req, res) => {

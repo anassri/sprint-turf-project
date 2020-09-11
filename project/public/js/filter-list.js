@@ -3,12 +3,17 @@ window.addEventListener("DOMContentLoaded", async event => {
 
   const reset = await fetch("/projects-data");
   const res = await fetch("/projects-deadline");
-  const resInc = await fetch('/projects-data/false');
+  const resTeam = await fetch("/projects-team")
   const projects = await res.json();
-  const incProjects = await resInc.json();
   const resetProjects = await reset.json();
+  const teams = await resTeam.json();
 
   const taskBtn = document.querySelector('#tasks')
+  const deadlineBtn = document.querySelector('#deadline');
+  const teamBtn = document.querySelector('#teamName')
+  const completeBox = document.querySelector('#complete');
+  const teamNameList = document.querySelector('#team-name-list');
+
 
   taskBtn.addEventListener("click", async (event) => {
     let list = document.querySelector('.tasks-list');
@@ -20,14 +25,9 @@ window.addEventListener("DOMContentLoaded", async event => {
     }
   })
 
-  const deadlineBtn = document.querySelector('#deadline');
-
   deadlineBtn.addEventListener('click', async (event) => {
 
-    let target = event.target.id;
     populateList(projects);
-    let completeBox = document.querySelector('#complete');
-
     if (!completeBox.classList.contains('hidden')){
       completeBox.classList.add('hidden');
       deadlineBtn.classList.add('bold')
@@ -38,5 +38,35 @@ window.addEventListener("DOMContentLoaded", async event => {
     }
   })
 
+  teamBtn.addEventListener('click', (event) => {
+
+
+      if (!teamBtn.classList.contains('bold')){
+      teamBtn.classList.add('bold')
+      teamNameList.classList.remove('hidden')
+        if (!teamNameList.firstChild){
+      const list = document.querySelector('#team-name-list')
+      teams.forEach((team, i) => {
+      i++
+      let li = document.createElement('li');
+      li.classList.add('filter-items');
+      li.setAttribute('id', `${team.id}`);
+      li.innerHTML = `${i}. ${team.name}`;
+
+      list.appendChild(li);
+      })
+    }
+    } else {
+      teamBtn.classList.remove('bold')
+      teamNameList.classList.add('hidden')
+    }
+
+  const teamName = document.querySelector('.filter-items')
+  teamName.addEventListener('click', (event) => {
+    let team = event.target.id
+    // populateList();
+  })
+
+  });
 
 });
