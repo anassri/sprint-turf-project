@@ -8,11 +8,6 @@ import {
 
 export async function getUserAcccess(res) {
      // Sam - Populate the projects list with the data from the database
-<<<<<<< HEAD
-     /* const res = await fetch("/projects-data"); */
-=======
-
->>>>>>> master
      const resInc = await fetch('/projects-data/false');
      const projects = await res.json();
      const incProjects = await resInc.json();
@@ -248,7 +243,7 @@ function enumerateStats(projects) {
           <span id="complete-count-text" class="counter-text">Completed</span>`;
 }
 
-export function populateList(projects) {
+export async function populateList(projects) {
      let list = document.querySelector('.list-group');
      list.innerHTML = '';
      if (projects.length === 0) {

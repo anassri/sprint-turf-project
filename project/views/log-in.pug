@@ -1,21 +1,23 @@
 extends layout.pug
-block content
 
-    div(class="log-in-container")
-        div(class="errors-container")
-        h2 Log In
-<<<<<<< HEAD
-        form(class="log-in-form" action="/users/token" method="post")
-            input(type="hidden" name="_csrf" value=csrf)
-=======
-        form(class="log-in-form" action="/users/token" method="post" id="login")
->>>>>>> master
-            .form-group
-                label(for='email') Email Address
-                input#email.form-control(type='email' name="email" placeholder='Enter email')
-            .form-group
-                label(for='password') Password
-                input#password.form-control(type='password' name="password" placeholder='Password')
-            button.btn.btn-primary(type='submit') Log In
-            a(href='/users/sign-up') Don't have an account? Sign up here.
+append head
+  link(rel="stylesheet" href="/public/login.css")
+
+block content
+    .login-container
+        div(class="log-in")
+            .login-logo
+                img(src="/public/images/logo.svg" height="30" alt="logo")
+            div(class="errors-container")
+            form#login(class="log-in-form" action="/users/token" method="post")
+                input(type="hidden" name="_csrf" value=csrf)
+                .form-group
+                    //- label(for='email') Email Address
+                    input#email.form-control(type='email' name="email" placeholder='Email')
+                .form-group
+                    //- label(for='password') Password
+                    input#password.form-control(type='password' name="password" placeholder='Password')
+                button.btn.btn-primary(type='submit') Log In
+                .login-cancel
+                    a(href='/users/sign-up') Don't have an account? Sign up here.
     script(type="module" src="/public/js/log-in.js") 

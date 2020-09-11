@@ -1,0 +1,32 @@
+.sign-up-container{
+    background-color: #5cf1a9;
+    position: relative;
+    height: 100vh;
+    display: flex;
+}
+.signup-logo{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.sign-up{
+    justify-content: center;
+    align-items: center;
+    
+    margin: 0;
+    max-width: 400px;
+    padding: 40px 60px;
+    border-radius: 15px;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    
+}
+.signup-cancel{
+    margin-top: 15px;
+    color: #2b2b2b;
+    
+}
