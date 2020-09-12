@@ -35,7 +35,7 @@ const validateEmailAndPassword = [
     check("password")
         .exists({ checkFalsy: true })
         .withMessage("Please provide a password."),
-    handleValidationErrors,
+    /* handleValidationErrors, */
 ];
 
 const userValidators = [
@@ -82,7 +82,7 @@ const userValidators = [
             }
             return true;
         }),
-    handleValidationErrors,
+    // handleValidationErrors,
 ];
 
 module.exports = {

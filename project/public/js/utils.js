@@ -10,15 +10,19 @@ export const handleErrors = async (err) => {
                     </div>
                 `,
         ];
+        // console.log(errorJSON);
         if (errorJSON.errors && Array.isArray(errorJSON.errors)) {
             errorsHtml = errorJSON.errors.map(
-                (error) => `
+                (error) => {
+                    console.log(error);
+                  return  `
                     <div class="alert alert-danger">
-                        ${error.message}
+                        ${error}
                     </div>
-                `
+                `}
             );
         }
+        // console.log(errorsHtml);
         errorsContainer.innerHTML = errorsHtml.join("");
 
     } else {
