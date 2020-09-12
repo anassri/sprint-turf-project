@@ -10,7 +10,7 @@ block content
             .signup-logo
                 img(src="/public/images/logo.svg" height="30" alt="logo")
             h2 Sign Up
-            div.errors-container
+            div.errors-container.alert
             form.sign-up-form(action="/users/" method="post")
                 .form-group
                     input(type="hidden" name="_csrf" value=csrf)

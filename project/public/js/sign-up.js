@@ -17,7 +17,7 @@ signUpForm.addEventListener('submit', async (e) =>{
     const _csrf = formData.get("_csrf");
     
     const body = { firstName, lastName, email, password, confirmPassword, _csrf };
-    console.log(body);
+    // console.log(body);
     
     try {
         const res = await fetch("/users", {
