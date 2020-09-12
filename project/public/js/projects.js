@@ -169,12 +169,12 @@ export function splitDate(date) {
 
 // Sam - function to set data in the details section and fetch team names based on team id
 async function populateDetails(project) {
+     let title = document.getElementById('project-title');
      let start = document.getElementById('start-date');
      let due = document.getElementById('due-date');
      let list = document.getElementById('list-entry');
      let team = document.getElementById('team-name');
      let details = document.getElementById('details-list');
-     let title = document.getElementById('project-title');
 
      let res = await fetch(`/team-names/${project.teamId}`);
      let teamSelected = await res.json();
@@ -270,19 +270,19 @@ export async function populateList(projects) {
   projects.forEach( async (project, i) => {
     i++;
     let conDiv = document.createElement("div");
+    conDiv.classList.add('con-div-projs')
     let li = document.createElement("li");
-    li.classList.add("list-group-item");
     li.classList.add("project-items");
     li.setAttribute("id", `${project.id}`);
-
-    // Yongho 
+    li.innerHTML = `${i}. ${project.projectName}`
+    // Yongho
    if (project.teamId){
-      const resTeamName = await fetch(`/team-names/${project.teamId}`); 
+      const resTeamName = await fetch(`/team-names/${project.teamId}`);
       const team = await resTeamName.json();
       const teamName = team.name;
-      li.innerHTML = `${i}. ${project.projectName} : ${teamName} `;
+      li.innerHTML += ` : ${teamName} `;
     } else {
-      li.innerHTML = `${i}. ${project.projectName}`;    
+     //  li.innerHTML = `${i}. ${project.projectName}`;
     }
 
     //yongho adding dropdown for assigning project to different team
@@ -294,7 +294,7 @@ export async function populateList(projects) {
 
       let teamAssgin = document.createElement("div");
       teamAssgin.classList.add("div-team-assign");
-      
+
       let selector = document.createElement("select");
       selector.id = `selector-${project.id}`;
 
@@ -325,7 +325,7 @@ export async function populateList(projects) {
 
     conDiv.appendChild(li);
     list.appendChild(conDiv);
-    
+
   });
 }
 

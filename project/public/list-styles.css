@@ -16,12 +16,30 @@
      grid-area: create-task;
 }
 body {
-     height: 100vh;
+     height: 90vh;
 }
 .button-div {
      display: flex;
      justify-content: space-between;
      margin-bottom: 20px;
+}
+.con-div-projs {
+     display: inline-flex;
+     align-items: center;
+     justify-content: space-between;
+     background-color: white;
+     height: 60px;
+     margin: 5px;
+     border-radius: 10px;
+}
+
+.project-items {
+     width: 100%;
+     height: 100%;
+     display: flex;
+     align-items: center;
+     border-radius: 10px;
+     padding-left: 20px;
 }
 
 .create-button {
@@ -29,9 +47,12 @@ body {
 }
 
 .grid-container {
-     padding-top: 100px;
+     margin: 80px 30px 15px;
+     border-radius: 20px;
+     background-color: #e9e9e9;
+     /* padding-top: 100px; */
      display: grid;
-     min-height: 80vh;
+     min-height: 90vh;
      grid-template-columns: 15% 40% 45%;
      grid-template-areas:
      "sidebar list details";
@@ -40,12 +61,14 @@ body {
      display: block;
 }
 .selected {
-     background-color: green;
+     background-color: #fd7e14;
 }
 
 .description-area {
-     margin-left: 50px;
+     border-radius: 20px;
+     margin: 40px 10px 10px;
      grid-area: details;
+     background-color: #5cf1a9;
 }
 
 .stats-area {
@@ -58,50 +81,85 @@ body {
 }
 
 .details-container {
-     max-width: 70%;
+     border-radius: 20px;
+     margin: 40px 20px 10px;
+     background-color: white;
      display: grid;
-     grid-template-columns: 50% 50%;
+     grid-template-columns: 25% 85%;
      grid-template-rows: auto;
      grid-template-areas:
-     "start start"
-     "due due"
-     "list list"
-     "assigned assigned"
-     "details details";
+     "title title"
+     "start start-info"
+     "due due-info"
+     "list list-info"
+     "assigned assigned-info"
+     "details details-info";
+     justify-items: start;
 }
 
 #project-title {
      font-weight: bold;
+     margin: 20px 0px 15px 20px;
+     grid-area: title;
 }
 
-.start, .due, .list, .assigned, .details {
-     margin-top: 30px;
-     display: flex;
-     justify-content: space-between;
+#start-date {
+     grid-area: start-info;
 }
 
-.start {
+#due-date {
+     grid-area: due-info;
+     margin-top: 15px;
+}
+
+#list-entry {
+     grid-area: list-info;
+     margin-top: 15px;
+}
+
+#team-name {
+     grid-area: assigned-info;
+     margin-top: 15px;
+}
+
+#details-list {
+     grid-area: details-info;
+     margin-top: 15px;
+     margin-left: 0px;
+     padding-left: 20px;
+}
+
+#start-title {
      grid-area: start;
+     margin-left: 80px;
 }
 
-.due {
+#due-title {
      grid-area: due;
+     margin-left: 80px;
+     margin-top: 15px;
 }
 
-.list {
+#list-title {
      grid-area: list;
+     margin-left: 80px;
+     margin-top: 15px;
 }
 
-.assigned {
+#team-title {
      grid-area: assigned;
+     margin-left: 80px;
+     margin-top: 15px;
 }
 
-.details {
+#details-title {
      grid-area: details;
+     margin-left: 80px;
+     margin-top: 15px;
 }
 
 .title {
-     margin-left: 50px;
+     color: c8d4ce;
 }
 
 .stats-container {
@@ -167,13 +225,31 @@ body {
 .sorting-list-dropdown a:hover{
      font-weight: bold;
 }
- 
+
 .div-team-assign {
-     display: flex;
-     flex-direction: row;
+     display: inline-block;
 }
 
 .list-team-button {
      display: flex;
      margin: 4px;
+}
+
+.add-note {
+     margin: 0px 10px;
+}
+
+#add-a-note {
+     margin: 0px 10px 0px 0px;
+     border-radius: 50px;
+     padding: 10px;
+}
+
+.notes-container {
+     margin: 10px 17px 0px 17px;
+     border-radius: 15px;
+}
+
+.card-body {
+     border-radius: 15px;
 }
