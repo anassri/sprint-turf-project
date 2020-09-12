@@ -1,5 +1,4 @@
 let toggleNavStatus = false;
-const sideBtn = document.getElementById('sidebar-btn');
 let toggleNav = function() {
   let getSidebar = document.querySelector(".nav-sidebar");
   let getSidebarUl = document.querySelector(".nav-sidebar ul");
@@ -31,12 +30,10 @@ let toggleNav = function() {
   }
 }
 
-sideBtn.addEventListener('click', (event) => {
-  toggleNav();
+
 const logOut = document.getElementById("logout");
   logOut.addEventListener("click", () => {
     localStorage.removeItem("SPRINT_TURF_ACCESS_TOKEN");
     localStorage.removeItem("SPRINT_TURF_CURRENT_USER_ID");
     window.location.href = "/users/login";
   });
-})
