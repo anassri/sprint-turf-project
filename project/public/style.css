@@ -72,6 +72,7 @@ a:hover{
   border-radius: 15px;
   background-color: #5cf1a9;
   opacity: 0.9;
+  margin-top: 15px;
 }
 
 #logout:hover{
