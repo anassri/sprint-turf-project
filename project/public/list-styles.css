@@ -159,7 +159,8 @@ body {
 }
 
 .title {
-     color: #c8d4ce;
+     color: #2b2b2b;
+     opacity: 0.6;
 }
 
 .stats-container {
@@ -256,4 +257,18 @@ body {
      border: none;
      border-radius: 15px;
      background-color: rgba(0,0,0,0);
+}
+
+.form-check-input:checked + label {
+     color: #fd7e14;
+}
+
+input.check-item.form-check-input:checked {
+     color: #fd7e14;
+     border-color: #fd7e14;
+     background-color: #fd7e14;
+}
+
+.form-control::placeholder {
+     color: #c8d4ce;
 }

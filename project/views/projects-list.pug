@@ -27,8 +27,7 @@ block content
             .errors-container
             form(method='post' action='/projects-data' id="create-project-form")
               .form-group
-                label(for="projectName") Enter a project name
-                input(type='text' name="projectName" class="form-control" id="name-entry")
+                input(type='text' name="projectName" class="form-control" id="name-entry" placeholder="Enter a project name")
               .form-group.hidden.form-pop
                 label(for="deadline") Select a deadline
                 input(type='date' name="deadline" class="form-control")
