@@ -17,7 +17,7 @@ const validateNote = [
 // Sam - route for fetches to get project data
 router.get('/projects-data', requireAuth, asyncHandler(async (req, res) => {
      const projects = await Project.findAll({
-          order: [["createdAt", "DESC"]]
+          order: [["createdAt", "ASC"]]
      });
      res.json( projects );
 }));
@@ -96,7 +96,7 @@ router.post('/project-team', asyncHandler(async (req, res) => {
      if (project) {
           await project.update({ teamId: teamId });
           res.json({ project })
-     }     
+     }
 }))
 
 
@@ -218,7 +218,7 @@ router.post('/projects-data',
                })
           }
           const projects = await Project.findAll({
-               order: [["createdAt", "DESC"]]
+               order: [["createdAt", "ASC"]]
           });
           res.json(projects);
 }));
