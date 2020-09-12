@@ -83,10 +83,10 @@ a:hover{
 .nav-sidebar {
   position: fixed;
   right: 0;
-  bottom: 0;
+  bottom: 40%;
   width: 0;
   /* padding: 0 5px; */
-  height: calc(100vh - 60px);
+  height: calc(100vh - 50%);
   background-color: #5cf1a9;
   transition: all 0.3s ease-in-out;
   z-index: 20;
