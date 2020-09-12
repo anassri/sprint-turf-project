@@ -34,4 +34,10 @@ let toggleNav = function() {
 
 sideBtn.addEventListener('click', (event) => {
   toggleNav();
+
+  logOut.addEventListener("click", () => {
+    localStorage.removeItem("SPRINT_TURF_ACCESS_TOKEN");
+    localStorage.removeItem("SPRINT_TURF_CURRENT_USER_ID");
+    window.location.href = "/users/login";
+  });
 })
