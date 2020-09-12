@@ -313,3 +313,30 @@ input.check-item.form-check-input:checked {
      height: 70px;
      margin-right: 10px;
 }
+
+.count-area {
+     background-color: #2B2B2B;
+     border-radius: 40px;
+     padding: 15px;
+     margin: 4px;
+}
+
+#incomplete-count {
+     color: #5CF1A9;
+     font-size: 30px;
+}
+
+#overdue-count.counter {
+     color: white;
+     font-size: 30px;
+}
+
+#complete-count.counter {
+     color: white;
+     font-size: 30px;
+}
+
+.counter-text {
+     font: 20px bold;
+     color: white;
+}
