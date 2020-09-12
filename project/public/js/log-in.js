@@ -3,9 +3,9 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   //const logIn = document.querySelector(".log-in-form");
   const logIn = document.getElementById("login");
   
-  const logInButton = document.querySelector(".btn-primary");
+  // const logInButton = document.querySelector(".btn-dark");
 
-  logInButton.addEventListener("click", async (e) => {
+  logIn.addEventListener("submit", async (e) => {
     e.preventDefault();
     const formData = new FormData(logIn);
     const email = formData.get("email");
