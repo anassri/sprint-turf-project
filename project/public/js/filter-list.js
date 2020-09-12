@@ -40,7 +40,7 @@ window.addEventListener("DOMContentLoaded", async event => {
   const teams = await resTeam.json();
 
   const taskBtn = document.querySelector('#task-div')
-  const deadlineBtn = document.querySelector('.deadline');
+  const deadlineBtn = document.querySelector('.deadline-filter');
   const teamBtn = document.querySelector('#teamName')
   const completeBox = document.querySelector('#complete');
   const teamNameList = document.querySelector('#team-name-list');
@@ -60,13 +60,17 @@ window.addEventListener("DOMContentLoaded", async event => {
   })
 
   deadlineBtn.addEventListener('click', async (event) => {
-
-    populateList(projects);
-    if (!deadlineBtn.classList.contains('bold')) {
-      deadlineBtn.classList.add('bold')
-    } else {
-      deadlineBtn.classList.remove('bold')
-      populateList(resetProjects)
+    let deadlineCarat = document.getElementById('deadline-carat');
+    if (event.target.classList.contains('deadline-filter') || event.target.classList.contains('deadline')) {
+      populateList(projects);
+      if (!deadlineBtn.classList.contains('bold')) {
+        deadlineCarat.classList.add('rotate');
+        deadlineBtn.classList.add('bold')
+      } else {
+        deadlineCarat.classList.remove('rotate');
+        deadlineBtn.classList.remove('bold')
+        populateList(resetProjects)
+      }
     }
   })
 

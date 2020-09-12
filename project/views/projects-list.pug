@@ -17,12 +17,12 @@ block content
           span(id="tasks") Filters
           ul.tasks-list.hidden
             .deadline-filter
-              i(class="fas fa-caret-right" id="deadline-caret")
               li.deadline Deadline
             .teamname-filter
               i(class="fas fa-caret-right" id="team-caret")
               li#teamName Team Name
-                ul#team-name-list
+            .team-filter-list
+              ul#team-name-list
       div#projects-list
         #complete-inc-container
           #incomplete-box.active.completed-bar.border
