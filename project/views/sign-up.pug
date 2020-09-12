@@ -10,7 +10,7 @@ block content
             .signup-logo
                 img(src="/public/images/logo.svg" height="30" alt="logo")
             h2 Sign Up
-            div.errors-container
+            div.errors-container.alert
             form.sign-up-form(action="/users/" method="post")
                 .form-group
                     input(type="hidden" name="_csrf" value=csrf)
@@ -30,7 +30,7 @@ block content
                     //- label(for='confirmPassword') Confirm Password
                     input#confirmPassword.form-control(type='password' name='confirmPassword' placeholder="Confirm Password")
                 .py-2   
-                    button.btn.btn-primary(type='submit') Sign Up
+                    button.btn.btn-dark(type='submit') Sign Up
                     .signup-cancel
                         a.mr-4(href='/users/login') Already have an account? Log in here.
     script(src="/public/js/sign-up.js" type="module" defer)

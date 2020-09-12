@@ -6,6 +6,32 @@ import {
      handleErrors
 } from "./utils.js"
 
+const incompleteCon = document.getElementById('incomplete-box');
+const completeCon = document.getElementById('complete-box');
+const projectListBg = document.getElementById('projects-list');
+const tabBg = document.getElementById('tabs-content');
+const cogIcon = document.querySelector('.fa-cog');
+const labels = document.querySelector('.project-label');
+document.addEventListener("DOMContentLoaded", e => {
+     
+});
+
+function changeProjectBgColor(){
+     if (completeCon.classList.contains('active')) {
+          projectListBg.style.backgroundColor = '#5cf1a9';
+          tabBg.style.backgroundColor = '#2b2b2b';
+          tabBg.style.borderRadius = '20px 0px 40px 40px';
+          cogIcon.style.color = '#e9e9e9';
+          labels.style.color = '#e9e9e9';
+     } else {
+          projectListBg.style.backgroundColor = '#2b2b2b';
+          tabBg.style.backgroundColor = '#5cf1a9';
+          tabBg.style.borderRadius = '0px 20px 40px 40px';
+          cogIcon.style.color = '#2b2b2b';
+          labels.style.color = '#2b2b2b';
+
+     }
+}
 export async function getUserAcccess(res) {
      // Sam - Populate the projects list with the data from the database
      const resInc = await fetch('/projects-data/false');
@@ -36,8 +62,7 @@ export async function getUserAcccess(res) {
                });
           });
      // Sam - Event handler for swapping between completed and incomplete project list
-     const incompleteCon = document.getElementById('incomplete-box');
-     const completeCon = document.getElementById('complete-box');
+     
      const marker = document.getElementById('marker');
      document.getElementById('complete-inc-container')
           .addEventListener('click', async event => {
@@ -52,12 +77,11 @@ export async function getUserAcccess(res) {
                          }
                     });
                     let incomplete = await res.json();
-                    marker.classList.remove('btn-warning');
-                    marker.classList.add('btn-success');
                     marker.innerHTML = 'Mark as Complete';
                     incompleteCon.classList.add('active');
                     completeCon.classList.remove('active');
                     details.classList.add('hidden');
+                    changeProjectBgColor();
                     statArea.classList.remove('hidden')
                     populateList(incomplete);
                } else if (target === 'complete' || target === 'complete-box') {
@@ -69,12 +93,11 @@ export async function getUserAcccess(res) {
                          }
                     });
                     let completed = await res.json();
-                    marker.classList.remove('btn-success');
-                    marker.classList.add('btn-warning');
                     marker.innerHTML = 'Mark as Incomplete'
                     incompleteCon.classList.remove('active');
                     completeCon.classList.add('active');
                     details.classList.add('hidden');
+                    changeProjectBgColor();
                     statArea.classList.remove('hidden');
                     populateList(completed);
                }
@@ -290,7 +313,7 @@ export async function populateList(projects) {
     let li = document.createElement("li");
     li.classList.add("project-items");
     li.setAttribute("id", `${project.id}`);
-    li.innerHTML = `${i}. ${project.projectName}`
+    li.innerHTML = `${project.projectName}`
     conDiv.appendChild(li);
     list.appendChild(conDiv);
     // Yongho
@@ -368,7 +391,7 @@ async function createProject(form) {
           createdAt,
           updatedAt
      };
-     console.log(body);
+     // console.log(body);
      try {
           const res = await fetch("/projects-data", {
                method: "POST",

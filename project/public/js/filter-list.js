@@ -14,7 +14,7 @@ async function populateList(projects) {
     li.classList.add('list-group-item');
     li.classList.add('project-items')
     li.setAttribute('id', `${project.id}`);
-    li.innerHTML = `${i}. ${project.projectName} `;
+    li.innerHTML = `${project.projectName}`;
 
     conDiv.appendChild(li);
     list.appendChild(conDiv);
