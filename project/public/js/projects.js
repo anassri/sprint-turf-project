@@ -41,9 +41,16 @@ export async function getUserAcccess(res) {
      const marker = document.getElementById('marker');
      document.getElementById('complete-inc-container')
           .addEventListener('click', async event => {
+               let statArea = document.querySelector('.stats-area');
                let target = event.target.id;
                if (target === 'incomplete' || target === 'incomplete-box') {
-                    let res = await fetch(`/projects-data/false`);
+                    let res = await fetch(`/projects-data/false`, {
+                         headers: {
+                              Authorization: `Bearer ${localStorage.getItem(
+                                  "SPRINT_TURF_ACCESS_TOKEN"
+                              )}`,
+                         }
+                    });
                     let incomplete = await res.json();
                     marker.classList.remove('btn-warning');
                     marker.classList.add('btn-success');
@@ -51,9 +58,16 @@ export async function getUserAcccess(res) {
                     incompleteCon.classList.add('active');
                     completeCon.classList.remove('active');
                     details.classList.add('hidden');
+                    statArea.classList.remove('hidden')
                     populateList(incomplete);
                } else if (target === 'complete' || target === 'complete-box') {
-                    let res = await fetch(`/projects-data/true`);
+                    let res = await fetch(`/projects-data/true`, {
+                         headers: {
+                              Authorization: `Bearer ${localStorage.getItem(
+                                  "SPRINT_TURF_ACCESS_TOKEN"
+                              )}`,
+                         }
+                    });
                     let completed = await res.json();
                     marker.classList.remove('btn-success');
                     marker.classList.add('btn-warning');
@@ -61,6 +75,7 @@ export async function getUserAcccess(res) {
                     incompleteCon.classList.remove('active');
                     completeCon.classList.add('active');
                     details.classList.add('hidden');
+                    statArea.classList.remove('hidden');
                     populateList(completed);
                }
           });
