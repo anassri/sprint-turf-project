@@ -1,6 +1,6 @@
 
 #task-div {
-  margin: 10px;
+  padding: 10px;
 }
 
 #tasks:hover {
@@ -27,8 +27,4 @@
 
 .team-name-hover:hover{
   background-color: lightgray;
-}
-
-.filter-list{
-  padding: 15px;
 }

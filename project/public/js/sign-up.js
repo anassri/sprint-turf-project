@@ -5,7 +5,7 @@ const signUpForm = document.querySelector(".sign-up-form");
 signUpForm.addEventListener('submit', async (e) =>{
     e.preventDefault();
     
-    // console.log("I got here");
+    console.log("I got here");
     
     const formData = new FormData(signUpForm);
     
@@ -17,7 +17,7 @@ signUpForm.addEventListener('submit', async (e) =>{
     const _csrf = formData.get("_csrf");
     
     const body = { firstName, lastName, email, password, confirmPassword, _csrf };
-    // console.log(body);
+    console.log(body);
     
     try {
         const res = await fetch("/users", {

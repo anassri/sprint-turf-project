@@ -7,7 +7,6 @@ append head
   script(src="/public/js/projects.js" type='module')
   link(rel="stylesheet" href="/public/list-styles.css")
   link(rel="stylesheet" href="/public/filter-list.css")
-  
 block content
   include nav-bar.pug
     div.grid-container
@@ -20,32 +19,30 @@ block content
               ul#team-name-list
       div#projects-list
         #complete-inc-container
-          .completed-tabs
-            #incomplete-box.active.completed-bar
-              span#incomplete.bar-text Incomplete
-            #complete-box.completed-bar
-              span#complete.bar-text Completed
-        #tabs-content
+          #incomplete-box.active.completed-bar.border
+            span#incomplete.bar-text Incomplete
+          #complete-box.completed-bar.border
+            span#complete.bar-text Completed
           #add-project-area
             .errors-creation-container
             form(method='post' action='/projects-data' id="create-project-form")
-              .form-group.input
-                input(type='text' name="projectName" class="form-control form" id="name-entry" placeholder="Add a Project")
-              .form-group.input.hidden.form-pop
-                label.project-label(for="deadline") Deadline
-                input(type='date' name="deadline" class="form-control form")
-              .form-group.input.hidden.form-pop
-                label.project-label(for='teamId') Team
-                select(name='teamId' class="form-control form" id="team-selector")
-                label.project-label(for="priority") Priority
-                select(name='priority' class='form-control form' id='priority-selector')
+              .form-group
+                input(type='text' name="projectName" class="form-control" id="name-entry" placeholder="Enter a project name")
+              .form-group.hidden.form-pop
+                label(for="deadline") Select a deadline
+                input(type='date' name="deadline" class="form-control")
+              .form-group.hidden.form-pop
+                label(for='teamId') Select the team
+                select(name='teamId' class="form-control" id="team-selector")
+                label(for="priority") Select priority level
+                select(name='priority' class='form-control' id='priority-selector')
                   option(value='0') No Priority
                   option(value='1') Priority 1
                   option(value='2') Priority 2
                   option(value='3') Priority 3
               .form-group.hidden.form-pop
-                label.project-label(for='description') Tasks for The Project, Separated by Commas
-                textarea(name='description' class="form-control form")
+                label(for='description') Enter tasks for the project, separated by commas
+                textarea(name='description' class="form-control")
             .button-div
                 button(type="submit" form="create-project-form" class="btn btn-primary form-control form-pop hidden create-button") Create Project
                 button(class="btn btn-danger form-pop hidden" id="cancel") Cancel
@@ -62,7 +59,7 @@ block content
                     a#sorting-priority(href="") Sort by Priority
                     a#sorting-deadline(href="") Sort by Deadline
                     a#sorting-team(href="") Sort by Team
-          ul.list-group#list-area
+        ul.list-group#list-area
       div.description-area.hidden
         .details-container
           h3#project-title

@@ -11,24 +11,19 @@ export const handleErrors = async (err) => {
                 `,
         ];
         // console.log(errorJSON);
-        errorsContainer.innerHTML = errorsHtml.join("");
-        
         if (errorJSON.errors && Array.isArray(errorJSON.errors)) {
-            
-            errorsContainer.innerHTML = `
-                    <div class="alert alert-danger error-div">
-                    </div>
-                `;
             errorsHtml = errorJSON.errors.map(
                 (error) => {
-                    // console.log(error);
+                    console.log(error);
                   return  `
-                        <p class="error"> •  ${error}</p> 
-                    `}
+                    <div class="alert alert-danger">
+                        ${error}
+                    </div>
+                `}
             );
-            document.querySelector(".error-div").innerHTML = errorsHtml.join("");
         }
         // console.log(errorsHtml);
+        errorsContainer.innerHTML = errorsHtml.join("");
 
     } else {
         alert(

@@ -78,9 +78,9 @@ export async function fetchNotes(project) {
                         <img class="gen-pfp" src="public/images/generic-profile-picture.jpg" alt="Generic profile picture">
                         <textarea id="add-a-note" name="note" class="form-control" rows="1" placeholder="Add a Note"></textarea>
                     </div>
-                    <div class="py-2 note-buttons hidden">
-                         <button type='submit' class='btn btn-success'>Save</button>
-                         <a href="" class='btn btn-danger  ml-2 note-cancel-button'>cancel</a>
+                    <div class="py-4 note-buttons hidden">
+                         <button type='submit' class='btn btn-primary'>Save</button>
+                         <a href="" class='btn btn-warning ml-2 note-cancel-button'>cancel</a>
                     </div>
                </form>`;
         const notesContainer = document.querySelector('.notes-container');
