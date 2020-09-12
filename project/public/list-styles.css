@@ -159,7 +159,7 @@ body {
 }
 
 .title {
-     color: c8d4ce;
+     color: #c8d4ce;
 }
 
 .stats-container {
@@ -248,8 +248,12 @@ body {
 .notes-container {
      margin: 10px 17px 0px 17px;
      border-radius: 15px;
+     background-color: white;
+     border: none;
 }
 
-.card-body {
+.note-card {
+     border: none;
      border-radius: 15px;
+     background-color: rgba(0,0,0,0);
 }

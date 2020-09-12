@@ -269,63 +269,65 @@ export async function populateList(projects) {
 
   projects.forEach( async (project, i) => {
     i++;
+    console.log(project)
     let conDiv = document.createElement("div");
     conDiv.classList.add('con-div-projs')
     let li = document.createElement("li");
     li.classList.add("project-items");
     li.setAttribute("id", `${project.id}`);
     li.innerHTML = `${i}. ${project.projectName}`
-    // Yongho
-   if (project.teamId){
-      const resTeamName = await fetch(`/team-names/${project.teamId}`);
-      const team = await resTeamName.json();
-      const teamName = team.name;
-      li.innerHTML += ` : ${teamName} `;
-    } else {
-     //  li.innerHTML = `${i}. ${project.projectName}`;
-    }
-
-    //yongho adding dropdown for assigning project to different team
-    if (!project.teamId) {
-      let teamBtn = document.createElement("button");
-      teamBtn.innerHTML = "Assigning Team";
-      teamBtn.classList.add("list-team-button");
-      teamBtn.setAttribute("project-id", `${project.id}`);
-
-      let teamAssgin = document.createElement("div");
-      teamAssgin.classList.add("div-team-assign");
-
-      let selector = document.createElement("select");
-      selector.id = `selector-${project.id}`;
-
-      for (let j = 0; j < teams.length; j++) {
-        let option = document.createElement("option");
-        option.value = `${teams[j].id}`;
-        option.text = `${teams[j].name}`;
-        selector.appendChild(option);
-      }
-
-      teamAssgin.appendChild(selector);
-      li.appendChild(teamBtn);
-      li.appendChild(teamAssgin);
-
-      teamBtn.addEventListener("click", async (event) => {
-        const body = { projectId: project.id, teamId: selector.value };
-        const resPro = await fetch("/project-team", {
-          method: "POST",
-          body: JSON.stringify(body),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const result = await resPro.json();
-        window.location.href = "/";
-      });
-    }
-
     conDiv.appendChild(li);
     list.appendChild(conDiv);
+    // Yongho
+    console.log(li.innerHTML)
+   if (project.teamId){
+        console.log('here')
+          const resTeamName = await fetch(`/team-names/${project.teamId}`);
+          const team = await resTeamName.json();
+          const teamName = team.name;
+          li.innerHTML += ` : ${teamName} `;
+    } else if (!project.teamId) {
+         console.log('other here');
+          //yongho adding dropdown for assigning project to different team
+          let teamBtn = document.createElement("button");
+          teamBtn.innerHTML = "Assign Team";
+          teamBtn.classList.add("list-team-button");
+          teamBtn.classList.add('btn')
+          teamBtn.classList.add('btn-success')
+          teamBtn.setAttribute("project-id", `${project.id}`);
 
+          let teamAssgin = document.createElement("div");
+          teamAssgin.classList.add("div-team-assign");
+
+          let selector = document.createElement("select");
+          selector.id = `selector-${project.id}`;
+
+          for (let j = 0; j < teams.length; j++) {
+               let option = document.createElement("option");
+               option.value = `${teams[j].id}`;
+               option.text = `${teams[j].name}`;
+               selector.appendChild(option);
+          }
+          selector.classList.add('selectpicker')
+          selector.classList.add('form-control')
+          selector.setAttribute('data-live-search', 'true');
+          teamAssgin.appendChild(selector);
+          li.appendChild(teamBtn);
+          li.appendChild(teamAssgin);
+
+          teamBtn.addEventListener("click", async (event) => {
+               const body = { projectId: project.id, teamId: selector.value };
+               const resPro = await fetch("/project-team", {
+               method: "POST",
+               body: JSON.stringify(body),
+               headers: {
+                    "Content-Type": "application/json",
+               },
+          });
+          const result = await resPro.json();
+          window.location.href = "/";
+          });
+    }
   });
 }
 
