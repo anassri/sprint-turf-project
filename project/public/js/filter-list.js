@@ -13,7 +13,7 @@ function populateList(projects) {
     li.classList.add('list-group-item');
     li.classList.add('project-items')
     li.setAttribute('id', `${project.id}`);
-    li.innerHTML = `${i}. ${project.projectName} `;
+    li.innerHTML = `${project.projectName}`;
 
     conDiv.appendChild(li);
     list.appendChild(conDiv);
@@ -79,7 +79,7 @@ window.addEventListener("DOMContentLoaded", async event => {
           let div = document.createElement('div')
           li.classList.add('filter-items');
           li.setAttribute('id', `teamNameId-${team.id}`);
-          li.innerHTML = `${i}. ${team.name}`;
+          li.innerHTML = `${team.name}`;
           list.appendChild(div)
           div.appendChild(li);
         })

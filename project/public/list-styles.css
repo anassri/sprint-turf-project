@@ -14,6 +14,10 @@
      margin: 85px 20px 20px 20px;
      height: 89vh;
 }
+.filter-list{
+     grid-area: sidebar;
+     cursor: pointer;
+}
 .btn.btn-primary.form-control{
      background-color: #fd7e14;
      border-color: #fd7014;
@@ -32,7 +36,7 @@
 }
 #tabs-content{
      background-color: #5cf1a9;
-     border-radius: 0px 20px 0px 0px;
+     border-radius: 0px 20px 40px 40px;
 }
 
 .completed-tabs{
@@ -138,9 +142,7 @@ body {
      /* "sidebar list details"; */
 /* } */
 
-.list-team-button{
-     
-}
+
 .active {
      display: block;
 }
@@ -158,6 +160,7 @@ body {
 .stats-area {
      margin-left: 50px;
      grid-area: details;
+     margin: 25px;
 }
 
 .hidden {
@@ -166,7 +169,7 @@ body {
 
 .details-container {
      border-radius: 20px;
-     margin: 40px 20px 10px;
+     margin: 40px 10px 10px;
      background-color: white;
      display: grid;
      grid-template-columns: 25% 85%;
@@ -314,7 +317,7 @@ body {
 }
 
 #add-a-note {
-     margin: 0px 10px 0px 0px;
+     margin: 0px 15px 0px 0px;
      border-radius: 40px;
      padding: 10px;
 }
@@ -345,7 +348,9 @@ input.check-item.form-check-input:checked {
 .form-control::placeholder {
      color: #c8d4ce;
 }
-
+.note-buttons{
+     margin-left: 73px;
+}
 #add-a-note {
      width: 100%;
 }
@@ -355,8 +360,8 @@ input.check-item.form-check-input:checked {
 }
 
 .gen-pfp {
-     width: 80px;
-     height: 80px;
+     width: 50px;
+     height: 50px;
      border-radius: 100%;
      margin-right: 10px;
 }
@@ -364,6 +369,10 @@ input.check-item.form-check-input:checked {
 .add-note {
      display: inline-flex;
      width: 100%;
+     
+}
+p.card-text{
+     margin: 0 0 0 15px;
 }
 
 .card-body {
@@ -381,16 +390,19 @@ input.check-item.form-check-input:checked {
 
 .img-area > img {
      all: revert;
-     width: 70px;
+     width: 50px;
      border-radius: 100%;
-     height: 70px;
+     height: 50px;
      margin-right: 10px;
+}
+.card-text-area{
+     margin-top: 6px;
 }
 
 .count-area {
      background-color: #2B2B2B;
-     border-radius: 40px;
-     padding: 15px;
+     border-radius: 30px;
+     padding: 10px 15px;
      margin: 4px;
 }
 
@@ -410,6 +422,7 @@ input.check-item.form-check-input:checked {
 }
 
 .counter-text {
-     font: 20px bold;
+     font-size: 17px;
+     
      color: white;
 }

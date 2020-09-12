@@ -9,6 +9,7 @@ body {
   box-sizing: border-box;
   border-radius: 20px;
 }
+
 #search-form {
   position: relative;
   bottom: 30px;

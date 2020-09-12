@@ -19,12 +19,12 @@ function changeProjectBgColor(){
      if (completeCon.classList.contains('active')) {
           projectListBg.style.backgroundColor = '#5cf1a9';
           tabBg.style.backgroundColor = '#2b2b2b';
-          tabBg.style.borderRadius = '20px 0px 0px 0px';
+          tabBg.style.borderRadius = '20px 0px 40px 40px';
           cogIcon.style.color = '#e9e9e9';
      } else {
           projectListBg.style.backgroundColor = '#2b2b2b';
           tabBg.style.backgroundColor = '#5cf1a9';
-          tabBg.style.borderRadius = '0px 20px 0px 0px';
+          tabBg.style.borderRadius = '0px 20px 40px 40px';
           cogIcon.style.color = '#2b2b2b';
 
      }
