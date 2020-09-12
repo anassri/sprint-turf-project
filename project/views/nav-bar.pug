@@ -2,22 +2,10 @@
 append content
   nav(class="nav-main")
     div(class="sprint-img")
-      ul
-        li
-          a(href="/") Sprinter
-        li
-          form(action="" id="search-form")
-            input(type="search" id="searchBar" class="search-bar" placeholder="Search...")
-            i(class="fa fa-search")
-    div(class="btn-toggle-nav" id="sidebar-btn")
-      aside(class="nav-sidebar")
-        ul
-          li
-            span My Profile
-          li
-            a(href="/logout") Sign Out
-          li
-            a(href="/https://github.com/anassri/remember-the-milk-project") Contact Us
+    ul
+      li
+        input(type="search" id="searchBar" class="search-bar" placeholder="Search...")
+    a(href="users/login" id="logout") Log Out
   script(src="/public/js/sideBar.js" type="module")
   script(src="/public/js/searchBar.js" type="module")
     block nav

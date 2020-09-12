@@ -1,5 +1,5 @@
 
-function populateList(projects) {
+async function populateList(projects) {
   let list = document.querySelector('.list-group');
   list.innerHTML = '';
   if (projects.length === 0) {
@@ -9,6 +9,7 @@ function populateList(projects) {
   projects.forEach((project, i) => {
     i++
     let conDiv = document.createElement('div');
+    conDiv.classList.add('con-div-projs')
     let li = document.createElement('li');
     li.classList.add('list-group-item');
     li.classList.add('project-items')
@@ -18,6 +19,7 @@ function populateList(projects) {
     conDiv.appendChild(li);
     list.appendChild(conDiv);
   })
+
 }
 
 
@@ -56,11 +58,9 @@ window.addEventListener("DOMContentLoaded", async event => {
   deadlineBtn.addEventListener('click', async (event) => {
 
     populateList(projects);
-    if (!completeBox.classList.contains('hidden')) {
-      completeBox.classList.add('hidden');
+    if (!deadlineBtn.classList.contains('bold')) {
       deadlineBtn.classList.add('bold')
     } else {
-      completeBox.classList.remove('hidden');
       deadlineBtn.classList.remove('bold')
       populateList(resetProjects)
     }
@@ -92,6 +92,7 @@ window.addEventListener("DOMContentLoaded", async event => {
 
     const teamName = document.getElementById(`${event.target.id}`);
     teamName.addEventListener('click', (event) => {
+
       if (!event.target.classList.contains('bold')) {
         let team = event.target.id
         let teamProj = [];
