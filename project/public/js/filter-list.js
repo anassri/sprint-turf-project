@@ -39,7 +39,7 @@ window.addEventListener("DOMContentLoaded", async event => {
   const resetProjects = await reset.json();
   const teams = await resTeam.json();
 
-  const taskBtn = document.querySelector('#tasks')
+  const taskBtn = document.querySelector('#task-div')
   const deadlineBtn = document.querySelector('.deadline');
   const teamBtn = document.querySelector('#teamName')
   const completeBox = document.querySelector('#complete');
@@ -47,11 +47,15 @@ window.addEventListener("DOMContentLoaded", async event => {
 
   taskBtn.addEventListener("click", async (event) => {
     let list = document.querySelector('.tasks-list');
-
-    if (!list.classList.contains('hidden')) {
-      list.classList.add('hidden');
-    } else {
-      list.classList.remove('hidden');
+    let mainCarat = document.getElementById('main-caret');
+    if (event.target.id === 'task-div' || event.target.id === 'main-caret' || event.target.id === 'tasks') {
+      if (!list.classList.contains('hidden')) {
+        mainCarat.classList.remove('rotate');
+        list.classList.add('hidden');
+      } else {
+        mainCarat.classList.add('rotate');
+        list.classList.remove('hidden');
+      }
     }
   })
 
@@ -79,7 +83,7 @@ window.addEventListener("DOMContentLoaded", async event => {
           let div = document.createElement('div')
           li.classList.add('filter-items');
           li.setAttribute('id', `teamNameId-${team.id}`);
-          li.innerHTML = `${i}. ${team.name}`;
+          li.innerHTML = `${team.name}`;
           list.appendChild(div)
           div.appendChild(li);
         })
