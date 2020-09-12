@@ -345,3 +345,71 @@ input.check-item.form-check-input:checked {
 .form-control::placeholder {
      color: #c8d4ce;
 }
+
+#add-a-note {
+     width: 100%;
+}
+
+.note-form {
+     width: 96%;
+}
+
+.gen-pfp {
+     width: 80px;
+     height: 80px;
+     border-radius: 100%;
+     margin-right: 10px;
+}
+
+.add-note {
+     display: inline-flex;
+     width: 100%;
+}
+
+.card-body {
+     display: inline-flex;
+     justify-content: flex-start;
+     border-bottom: 1px solid #e9e9e9;
+     border-radius: 15px;
+}
+
+.img-area {
+     width: 9.3%;
+     height: 60px;
+     margin-right: 10px;
+}
+
+.img-area > img {
+     all: revert;
+     width: 70px;
+     border-radius: 100%;
+     height: 70px;
+     margin-right: 10px;
+}
+
+.count-area {
+     background-color: #2B2B2B;
+     border-radius: 40px;
+     padding: 15px;
+     margin: 4px;
+}
+
+#incomplete-count {
+     color: #5CF1A9;
+     font-size: 30px;
+}
+
+#overdue-count.counter {
+     color: white;
+     font-size: 30px;
+}
+
+#complete-count.counter {
+     color: white;
+     font-size: 30px;
+}
+
+.counter-text {
+     font: 20px bold;
+     color: white;
+}
