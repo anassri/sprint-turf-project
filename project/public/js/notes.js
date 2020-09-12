@@ -75,7 +75,8 @@ export async function fetchNotes(project) {
         addNoteContainer.innerHTML =
             `<form class="note-form">
                     <div class="add-note">
-                         <textarea id="add-a-note" name="note" class="form-control" rows="1" placeholder="Add a Note"></textarea>
+                        <img class="gen-pfp" src="public/images/generic-profile-picture.jpg" alt="Generic profile picture">
+                        <textarea id="add-a-note" name="note" class="form-control" rows="1" placeholder="Add a Note"></textarea>
                     </div>
                     <div class="py-4 note-buttons hidden">
                          <button type='submit' class='btn btn-primary'>Save</button>
@@ -87,8 +88,13 @@ export async function fetchNotes(project) {
         const notesHtml = notes.map((note, id) => `
                <div class="card note-card" id="note-${id}">
                     <div class="card-body">
-                    <p class="card-text">${note.note}</p>
-                    <p class="card-text" style="font-size:10px">${note.User.firstName} ${note.User.lastName}, ${splitDate(note.createdAt)}</p>
+                        <div class="img-area">
+                            <img class="gen-pfp" src="public/images/generic-profile-picture.jpg" alt="Generic profile picture">
+                        </div>
+                        <div class="card-text-area">
+                            <p class="card-text">${note.note}</p>
+                            <p class="card-text" style="font-size:10px">${note.User.firstName} ${note.User.lastName}, ${splitDate(note.createdAt)}</p>
+                        </div>
                     </div>
                </div>
                `
