@@ -11,6 +11,7 @@ const completeCon = document.getElementById('complete-box');
 const projectListBg = document.getElementById('projects-list');
 const tabBg = document.getElementById('tabs-content');
 const cogIcon = document.querySelector('.fa-cog');
+const labels = document.querySelector('.project-label');
 document.addEventListener("DOMContentLoaded", e => {
      
 });
@@ -21,11 +22,13 @@ function changeProjectBgColor(){
           tabBg.style.backgroundColor = '#2b2b2b';
           tabBg.style.borderRadius = '20px 0px 40px 40px';
           cogIcon.style.color = '#e9e9e9';
+          labels.style.color = '#e9e9e9';
      } else {
           projectListBg.style.backgroundColor = '#2b2b2b';
           tabBg.style.backgroundColor = '#5cf1a9';
           tabBg.style.borderRadius = '0px 20px 40px 40px';
           cogIcon.style.color = '#2b2b2b';
+          labels.style.color = '#2b2b2b';
 
      }
 }
