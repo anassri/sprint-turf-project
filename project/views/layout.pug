@@ -2,34 +2,11 @@ doctype html
 html(lang="en")
   head
     block head
-      meta(charset="UTF-8")
-      meta(name="viewport", content="width=device-width, initial-scale=1.0")
-      
-      title SprintTurf
-      link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous')
-      link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
-      script(src="https://kit.fontawesome.com/cd8158e86b.js" crossorigin="anonymous")
-      link(rel='stylesheet' type='text/css' href='/public/style.css')
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Document
+    link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous")
+    link(rel='stylesheet' type='text/css' href='public/style.css')
+    link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous')
   body
-    nav(class="nav-main")
-      div(class="sprint-img")
-      ul
-        li
-          a(href="/") Sprint Turf
-        li
-          input(type="search" id="searchBar" placeholder="Search...")
-      div(class="btn-toggle-nav" id="sidebar-btn")
-    aside(class="nav-sidebar")
-      ul
-        li
-          span My Profile
-        li
-          a#logout(href="/users/login") Sign Out
-          //- div(id="logout") Sign Out
-        li
-          a(href="/contact") Contact Us
-    script(src="/public/js/sideBar.js" type="module")
-    script(src="/public/js/searchBar.js" type="module")
-    //- script(src="/public/js/log-in.js" type="module")
     block content
-

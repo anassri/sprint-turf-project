@@ -11,44 +11,29 @@ export async function getUserAcccess(res) {
      const resInc = await fetch('/projects-data/false');
      const projects = await res.json();
      const incProjects = await resInc.json();
+     const details = document.querySelector('.description-area');
      let errCon = document.querySelector('.errors-container')
      enumerateStats(projects);
      populateList(incProjects);
 
-
-     // Sam - Event handler to open up stats/details on click of a list element and populate details data
      document.getElementById('list-area')
-          .addEventListener('click', e => {
-               if (e.target.getAttribute("project-id")) return; //yongho - to not add eventlistener to team button
-               let target = e.target.id;
-               let stats = document.querySelector('.stats-area');
-               let details = document.querySelector('.description-area');
-               let element = document.getElementById(target);
-               if (element.classList.contains('project-items')) {
-                    if (element.classList.contains('selected')) {
-                         element.classList.remove('selected');
-                         details.classList.add('hidden');
-                         enumerateStats(projects);
-                         stats.classList.remove('hidden');
-                         return;
+          .addEventListener('click', async e => {
+               listClicks(projects, e);
+               let projId = Number(e.target.id);
+               let newInc = await fetch('/projects-data/false', {
+                    headers: {
+                         Authorization: `Bearer ${localStorage.getItem(
+                             "SPRINT_TURF_ACCESS_TOKEN"
+                         )}`,
                     }
-
-                    let projectItems = document.querySelectorAll('.project-items');
-                    projectItems.forEach(project => {
-                         project.classList.remove('selected');
-                    });
-
-                    element.classList.add('selected');
-                    stats.classList.add('hidden');
-                    details.classList.remove('hidden');
-                    let projId = Number(target);
-                    projects.forEach(project => {
-                         if (projId === project.id) {
-                              populateDetails(project);
-                              fetchNotes(project);
-                         }
-                    });
-               }
+               })
+               let newProjs = await newInc.json();
+               newProjs.forEach(project => {
+                    if (projId === project.id) {
+                         populateDetails(project);
+                         fetchNotes(project);
+                    }
+               });
           });
      // Sam - Event handler for swapping between completed and incomplete project list
      const incompleteCon = document.getElementById('incomplete-box');
@@ -65,6 +50,7 @@ export async function getUserAcccess(res) {
                     marker.innerHTML = 'Mark as Complete';
                     incompleteCon.classList.add('active');
                     completeCon.classList.remove('active');
+                    details.classList.add('hidden');
                     populateList(incomplete);
                } else if (target === 'complete' || target === 'complete-box') {
                     let res = await fetch(`/projects-data/true`);
@@ -74,6 +60,7 @@ export async function getUserAcccess(res) {
                     marker.innerHTML = 'Mark as Incomplete'
                     incompleteCon.classList.remove('active');
                     completeCon.classList.add('active');
+                    details.classList.add('hidden');
                     populateList(completed);
                }
           });
@@ -87,9 +74,31 @@ export async function getUserAcccess(res) {
                     pop.classList.add('hidden');
                })
                await createProject(form);
-               let res = await fetch('/projects-data/false')
-               let newProj = await res.json();
-               populateList(newProj);
+               const allRes = await fetch('/projects-data', {
+                    headers: {
+                         Authorization: `Bearer ${localStorage.getItem(
+                             "SPRINT_TURF_ACCESS_TOKEN"
+                         )}`,
+                    }
+               });
+               const incRes2 = await fetch('/projects-data/false', {
+                    headers: {
+                         Authorization: `Bearer ${localStorage.getItem(
+                             "SPRINT_TURF_ACCESS_TOKEN"
+                         )}`,
+                    }
+               });
+               const incProj2 = await incRes2.json();
+               const allProj = await allRes.json();
+               await populateList(incProj2);
+               await listClicks(allProj);
+               let projectsStat = document.getElementById('project-count');
+               let overdueStat = document.getElementById('overdue-count');
+               let completedStat = document.getElementById('completed-count');
+               projectsStat.innerHTML = '';
+               overdueStat.innerHTML = '';
+               completedStat.innerHTML = '';
+               enumerateStats(allProj);
           });
      // Sam - event handler for expandign the form on focus of the name entry field
      document.getElementById('name-entry')
@@ -209,7 +218,9 @@ function enumerateStats(projects) {
      let projectsStat = document.getElementById('project-count');
      let overdueStat = document.getElementById('overdue-count');
      let completedStat = document.getElementById('completed-count');
-
+     projectsStat.innerHTML = '';
+     overdueStat.innerHTML = '';
+     completedStat.innerHTML = '';
      let totalCount = 0;
      let overdueCount = 0;
      let completedCount = 0;
@@ -230,6 +241,7 @@ function enumerateStats(projects) {
           }
      });
 
+
      projectsStat.innerHTML = `
           <span id="incomplete-count" class="counter">${totalCount}</span>
           <span id="incomplete-count-title" class="counter-text">Projects</span>`;
@@ -241,67 +253,80 @@ function enumerateStats(projects) {
      completedStat.innerHTML = `
           <span id="complete-count" class="counter">${completedCount}</span>
           <span id="complete-count-text" class="counter-text">Completed</span>`;
+
 }
 
 export async function populateList(projects) {
-     let list = document.querySelector('.list-group');
-     list.innerHTML = '';
-     if (projects.length === 0) {
-          return '';
-     }
+  let list = document.querySelector(".list-group");
+  list.innerHTML = "";
+  if (projects.length === 0) {
+    return "";
+  }
 
-     //yongho - get team names
-     const resTeams = await fetch("/teams-names");
-     const teams = await resTeams.json();
+  //yongho - get team names
+  const resTeams = await fetch("/teams-names");
+  const teams = await resTeams.json();
 
-     projects.forEach((project, i) => {
-          i++
-          let conDiv = document.createElement('div');
-          let li = document.createElement('li');
-          li.classList.add('list-group-item');
-          li.classList.add('project-items')
-          li.setAttribute('id', `${project.id}`);
-          li.innerHTML = `${i}. ${project.projectName} `;
+  projects.forEach( async (project, i) => {
+    i++;
+    let conDiv = document.createElement("div");
+    let li = document.createElement("li");
+    li.classList.add("list-group-item");
+    li.classList.add("project-items");
+    li.setAttribute("id", `${project.id}`);
 
-          //yongho adding dropdown for assigning project to different team
-          if(!project.teamId) {
-               let teamBtn = document.createElement("button");
-               teamBtn.innerHTML = "Assigning Team";
-               teamBtn.classList.add("list-team-button");
-               teamBtn.setAttribute("project-id", `${project.id}`);
+    // Yongho 
+   if (project.teamId){
+      const resTeamName = await fetch(`/team-names/${project.teamId}`); 
+      const team = await resTeamName.json();
+      const teamName = team.name;
+      li.innerHTML = `${i}. ${project.projectName} : ${teamName} `;
+    } else {
+      li.innerHTML = `${i}. ${project.projectName}`;    
+    }
 
-               let teamAssgin = document.createElement("div");
-               let selector = document.createElement("select");
-               selector.id = `selector-${project.id}`;
+    //yongho adding dropdown for assigning project to different team
+    if (!project.teamId) {
+      let teamBtn = document.createElement("button");
+      teamBtn.innerHTML = "Assigning Team";
+      teamBtn.classList.add("list-team-button");
+      teamBtn.setAttribute("project-id", `${project.id}`);
 
-               for (let j = 0; j < teams.length; j++) {
-                    let option = document.createElement("option");
-                    option.value = `${teams[j].id}`;
-                    option.text = `${teams[j].name}`;
-                    selector.appendChild(option);
-               }
+      let teamAssgin = document.createElement("div");
+      teamAssgin.classList.add("div-team-assign");
+      
+      let selector = document.createElement("select");
+      selector.id = `selector-${project.id}`;
 
-               teamAssgin.appendChild(selector);
-               li.appendChild(teamBtn);
-               li.appendChild(teamAssgin);
+      for (let j = 0; j < teams.length; j++) {
+        let option = document.createElement("option");
+        option.value = `${teams[j].id}`;
+        option.text = `${teams[j].name}`;
+        selector.appendChild(option);
+      }
 
-               teamBtn.addEventListener("click", async (event) => {
-                    const body = { projectId: project.id, teamId: selector.value}
-                    const resPro = await fetch( "/project-team", {
-                         method: "POST",
-                         body: JSON.stringify(body),
-                         headers: {
-                         "Content-Type": "application/json",
-                         }
-                    })
-                    const result = await resPro.json();
-                    window.location.href = "/";
-              });
-          }
+      teamAssgin.appendChild(selector);
+      li.appendChild(teamBtn);
+      li.appendChild(teamAssgin);
 
-          conDiv.appendChild(li);
-          list.appendChild(conDiv);
-     });
+      teamBtn.addEventListener("click", async (event) => {
+        const body = { projectId: project.id, teamId: selector.value };
+        const resPro = await fetch("/project-team", {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const result = await resPro.json();
+        window.location.href = "/";
+      });
+    }
+
+    conDiv.appendChild(li);
+    list.appendChild(conDiv);
+    
+  });
 }
 
 async function createProject(form) {
@@ -365,3 +390,42 @@ async function getTeams() {
           teamSelect.appendChild(opt);
      });
 }
+
+
+async function listClicks(projects, e) {
+     if (e === undefined) {
+          return;
+     }
+     if (e.target.getAttribute("project-id")) return; //yongho - to not add eventlistener to team button
+     let target = e.target.id;
+     let detailsArea = document.querySelector('.description-area');
+     let stats = document.querySelector('.stats-area');
+     let details = document.querySelector('.description-area');
+     let element = document.getElementById(target);
+     if (element.classList.contains('project-items')) {
+          if (element.classList.contains('selected')) {
+               element.classList.remove('selected');
+               details.classList.add('hidden');
+               enumerateStats(projects);
+               stats.classList.remove('hidden');
+               return;
+          }
+          stats.classList.add('hidden');
+          detailsArea.classList.remove('hidden');
+          let projectItems = document.querySelectorAll('.project-items');
+          projectItems.forEach(project => {
+               project.classList.remove('selected');
+          });
+
+          element.classList.add('selected');
+          stats.classList.add('hidden');
+          details.classList.remove('hidden');
+          let projId = Number(target);
+          projects.forEach(project => {
+               if (projId === project.id) {
+                    populateDetails(project);
+                    fetchNotes(project);
+               }
+          });
+     }
+};

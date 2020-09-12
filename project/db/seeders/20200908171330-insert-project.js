@@ -48,6 +48,7 @@ module.exports = {
     projectName: "Yeehaw",
     deadline: new Date(),
     status: false,
+    teamId: 2,
     description: "[\"Test10\",\"Test11\",\"Test12\"]",
     priority: 1,
     tagId: 1,
@@ -76,6 +77,7 @@ module.exports = {
     deadline: new Date(),
     status: true,
     description: "[\"Test19\",\"Test20\",\"Test21\"]",
+    teamId: 1,
     createdAt: new Date(),
     updatedAt: new Date()
   },
