@@ -24,6 +24,13 @@ body {
   padding: 5px;
 }
 
+.search-bar-container{
+  display: flex;
+}
+.search-icon{
+  align-items: center;
+  margin-right: 10px;
+}
 .search-bar {
   position: absolute;
   top: 0;
@@ -33,10 +40,10 @@ body {
   line-height: 30px;
   outline: 0;
   border: 0;
-  display: none;
+  display: block;
   font-size: 1em;
   border-radius: 20px;
-  padding: 0 20px;
+  padding: 20px 20px;
 }
 
 .fa{
@@ -113,6 +120,7 @@ a:hover{
 #searchBar {
   height: 90%;
   background-color: #e9e9e9;
+
 }
 .nav-main ul {
   display: flex;

@@ -6,13 +6,18 @@
 
 .grid-container{
      display: grid;
-     grid-template-columns:  1fr 3fr 3fr;
+     grid-template-columns:  1fr 3fr 4fr;
      grid-template-rows: 1fr;
      grid-template-areas: "sidebar list details";
      background-color: #e9e9e9;
      border-radius: 40px;
      margin: 85px 20px 20px 20px;
      height: 89vh;
+}
+.btn.btn-primary.form-control{
+     background-color: #fd7e14;
+     border-color: #fd7014;
+     color: #2b2b2b;
 }
 #projects-list {
      grid-area: list;
@@ -25,6 +30,10 @@
      background-color: #2b2b2b;
      border-radius: 40px;
 }
+#tabs-content{
+     background-color: #5cf1a9;
+     border-radius: 0px 20px 0px 0px;
+}
 
 .completed-tabs{
      height: 60px;
@@ -33,26 +42,42 @@
      grid-template-rows: 1fr ;
      grid-template-areas:
      "incomplete completed";
-     color:#e9e9e9;
      /* padding: 20px; */
      justify-items: center;
      align-items: center;
      font-size: 18px;
+     cursor: pointer;
 }
 
 #incomplete-box{
-     grid-area: "incomplete";
+     grid-area: incomplete;
      background-color: #5cf1a9;
-     border-radius: 40px 40px 40px 0px ;
+     border-radius: 40px 40px 0px 0px ;
      height: 60px;
      margin:0;
-     padding: 20px;
-     width: 200px;
+     padding: 20px 9vw;
      /* width: 13em; */
      color: #2b2b2b;
 }
+ .btn.btn-success{
+     background-color: #fd7e14;
+     color: #2b2b2b;
+     border-color: #fd7014;
+
+ }
+ .fa-cog{
+     color: #2b2b2b;
+ }
 #complete-box{
-     grid-area: "completed";
+     grid-area: completed;
+     background-color: #2b2b2b;
+     border-radius: 40px 40px 0px 0px ;
+     height: 60px;
+     margin:0;
+     padding: 20px 9vw;
+     /* width: 200px; */
+     /* width: 13em; */
+     color: #e9e9e9;
 }
 
 .list-group {
@@ -61,7 +86,7 @@
 
 #add-project-area {
      grid-area: create-task;
-     padding: 15px;
+     padding: 10px;
 }
 .form-control.form{
      border-radius: .7rem;
@@ -82,8 +107,8 @@ body {
      align-items: center;
      justify-content: space-between;
      background-color: white;
-     height: 60px;
-     margin: 5px;
+     height: 50px;
+     margin: 5px 10px;
      border-radius: 10px;
 }
 
@@ -94,22 +119,27 @@ body {
      align-items: center;
      border-radius: 10px;
      padding-left: 20px;
+     cursor: pointer;
 }
 
 .create-button {
      max-width: 150px;
 }
 
-.grid-container {
-     margin: 80px 30px 15px;
-     border-radius: 20px;
-     background-color: #e9e9e9;
+/* .grid-container { */
+     /* margin: 80px 30px 15px; */
+     /* border-radius: 20px; */
+     /* background-color: #e9e9e9; */
      /* padding-top: 100px; */
-     display: grid;
-     min-height: 90vh;
-     grid-template-columns: 15% 40% 45%;
-     grid-template-areas:
-     "sidebar list details";
+     /* display: grid; */
+     /* min-height: 90vh; */
+     /* grid-template-columns: 15% 40% 45%; */
+     /* grid-template-areas: */
+     /* "sidebar list details"; */
+/* } */
+
+.list-team-button{
+     
 }
 .active {
      display: block;
@@ -285,7 +315,7 @@ body {
 
 #add-a-note {
      margin: 0px 10px 0px 0px;
-     border-radius: 50px;
+     border-radius: 40px;
      padding: 10px;
 }
 

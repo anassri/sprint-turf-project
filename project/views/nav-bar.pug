@@ -7,8 +7,10 @@ append content
           a(href="/") Sprinter
         li
           form(action="" id="search-form")
-            input(type="search" id="searchBar" class="search-bar" placeholder="Search...")
-            i(class="fa fa-search")
+            .search-bar-container
+              input(type="search" id="searchBar" class="search-bar" placeholder="Search...")
+              .search-icon
+                i(class="fa fa-search")
     div(class="btn-toggle-nav" id="sidebar-btn")
       aside(class="nav-sidebar")
         ul

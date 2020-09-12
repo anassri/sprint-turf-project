@@ -25,10 +25,11 @@ block content
               span#incomplete.bar-text Incomplete
             #complete-box.completed-bar
               span#complete.bar-text Completed
+        #tabs-content
           #add-project-area
             .errors-container
             form(method='post' action='/projects-data' id="create-project-form")
-              .form-group
+              .form-group.input
                 input(type='text' name="projectName" class="form-control form" id="name-entry" placeholder="Add a Project")
               .form-group.input.hidden.form-pop
                 label(for="deadline") Deadline
@@ -42,7 +43,7 @@ block content
                   option(value='1') Priority 1
                   option(value='2') Priority 2
                   option(value='3') Priority 3
-              .form-group.input.hidden.form-pop
+              .form-group.hidden.form-pop
                 label(for='description') Enter Tasks for The Project, Separated by Commas
                 textarea(name='description' class="form-control form")
             .button-div
@@ -61,7 +62,7 @@ block content
                     a#sorting-priority(href="") Sort by Priority
                     a#sorting-deadline(href="") Sort by Deadline
                     a#sorting-team(href="") Sort by Team
-        ul.list-group#list-area
+          ul.list-group#list-area
       div.description-area.hidden
         .details-container
           h3#project-title
