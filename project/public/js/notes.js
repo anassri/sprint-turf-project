@@ -85,7 +85,7 @@ export async function fetchNotes(project) {
         const notesContainer = document.querySelector('.notes-container');
 
         const notesHtml = notes.map((note, id) => `
-               <div class="card" id="note-${id}">
+               <div class="card note-card" id="note-${id}">
                     <div class="card-body">
                     <p class="card-text">${note.note}</p>
                     <p class="card-text" style="font-size:10px">${note.User.firstName} ${note.User.lastName}, ${splitDate(note.createdAt)}</p>
