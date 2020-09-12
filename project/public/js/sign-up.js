@@ -5,7 +5,7 @@ const signUpForm = document.querySelector(".sign-up-form");
 signUpForm.addEventListener('submit', async (e) =>{
     e.preventDefault();
     
-    console.log("I got here");
+    // console.log("I got here");
     
     const formData = new FormData(signUpForm);
     

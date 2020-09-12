@@ -351,7 +351,7 @@ async function createProject(form) {
           createdAt,
           updatedAt
      };
-     console.log(body);
+     // console.log(body);
      try {
           const res = await fetch("/projects-data", {
                method: "POST",
