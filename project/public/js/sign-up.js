@@ -1,12 +1,11 @@
 import { handleErrors } from "./utils.js"
 
 const signUpForm = document.querySelector(".sign-up-form");
-
 signUpForm.addEventListener('submit', async (e) =>{
     e.preventDefault();
     
     // console.log("I got here");
-    
+
     const formData = new FormData(signUpForm);
     
     const firstName = formData.get("firstName");
