@@ -60,14 +60,21 @@ window.addEventListener("DOMContentLoaded", async event => {
   })
 
   deadlineBtn.addEventListener('click', async (event) => {
-    let deadlineCarat = document.getElementById('deadline-carat');
     if (event.target.classList.contains('deadline-filter') || event.target.classList.contains('deadline')) {
-      populateList(projects);
+      let compBox = document.getElementById('complete-box');
+      let incBox = document.getElementById('incomplete-box');
+      let res;
+      if (compBox.classList.contains('active')) {
+        res = await fetch('/projects-data/false')
+      } else if (incBox.classList.contains('active')) {
+        res = await fetch('/projects-data/false');
+      }
+
+      let resetProjects = await res.json();
+
       if (!deadlineBtn.classList.contains('bold')) {
-        deadlineCarat.classList.add('rotate');
         deadlineBtn.classList.add('bold')
       } else {
-        deadlineCarat.classList.remove('rotate');
         deadlineBtn.classList.remove('bold')
         populateList(resetProjects)
       }
@@ -75,10 +82,11 @@ window.addEventListener("DOMContentLoaded", async event => {
   })
 
   teamBtn.addEventListener('click', (event) => {
-
+    let teamCarat = document.getElementById('team-caret');
     if (!teamBtn.classList.contains('bold')) {
       teamBtn.classList.add('bold')
       teamNameList.classList.remove('hidden')
+      teamCarat.classList.add('rotate');
       if (!teamNameList.firstChild) {
         const list = document.querySelector('#team-name-list')
         teams.forEach((team, i) => {
@@ -96,6 +104,7 @@ window.addEventListener("DOMContentLoaded", async event => {
     } else {
       teamBtn.classList.remove('bold')
       teamNameList.classList.add('hidden')
+      teamCarat.classList.remove('rotate');
     }
 
     const teamName = document.getElementById(`${event.target.id}`);

@@ -1,15 +1,16 @@
 
 #task-div {
-  padding: 30px;
-  border-radius: 20px;
+  padding: 20px;
+  border-radius: 37px 37px 0px 0px;
+  max-width: 100%;
 }
 
 #task-div:hover {
   background-color: lightgray;
 }
 .tasks-list {
-  margin-right: 60px;
   padding: 0;
+
 }
 
 .tasks-list li {
@@ -18,13 +19,13 @@
   list-style: none;
 }
 
-.tasks-list div:hover:not(.team-filter-list) {
+.tasks-list div:not(.team-filter-list):hover {
   background-color: #f1f1f1;
   border-radius: 20px;
 }
 
 #tasks {
-  padding: 20px 0px 0px 5px;
+  margin-left: 5px;
 }
 
 .bold {
@@ -34,7 +35,7 @@
 .teamname-filter {
   display: flex;
   align-items: center;
-  margin-left: 20px;
+  margin-left: 10px;
   width: 100%;
 }
 
@@ -45,15 +46,20 @@
 .deadline-filter {
   display: flex;
   align-items: center;
-  margin-left: 46px;
+  padding-left: 18px;
+  margin-left: 20px;
   width: 100%;
 }
 
 .rotate {
   transform: rotate(90deg);
-  transition-duration: 0.5s;
+  transition-duration: 0.25s;
 }
 
-.team-filter-list {
+.task-list > .team-filter-list {
   margin-left: 20px;
+}
+
+#team-name-list {
+  margin-left: 45px;
 }
