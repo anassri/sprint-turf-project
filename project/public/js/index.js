@@ -14,10 +14,11 @@ import { getUserAcccess } from "./projects.js"
             window.location.href = "/users/login";
             return;
         }
-        
+
         getUserAcccess(res);
         
     } catch (e) {
         console.error(e);
     }
 })();
+
