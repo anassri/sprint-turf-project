@@ -5,7 +5,7 @@ searchBar.addEventListener('keyup', (event) => {
   // grab the string typed in the search bar
   const searchString = event.target.value.toLowerCase();
   // grab all of the li elements generated in the ul, each the li elements will be every seperate projoect
-  const projects = list.getElementsByTagName('li');
+  const projects = list.getElementsByTagName('div');
 
   // create an array from these projects to iterate
   Array.from(projects).forEach((project) => {
