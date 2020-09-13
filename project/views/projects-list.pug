@@ -8,7 +8,7 @@ append head
   script(src="https://kit.fontawesome.com/eef9e5f6e9.js" crossorigin="anonymous")
   link(rel="stylesheet" href="/public/list-styles.css")
   link(rel="stylesheet" href="/public/filter-list.css")
-  
+
 block content
   include nav-bar.pug
     div.grid-container
@@ -18,7 +18,6 @@ block content
           span(id="tasks") Filters
           ul.tasks-list.hidden
             .deadline-filter
-              li.deadline Deadline
             .teamname-filter
               i(class="fas fa-caret-right" id="team-caret")
               li#teamName Team Name

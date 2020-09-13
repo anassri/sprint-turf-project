@@ -3,11 +3,10 @@ append content
   nav(class="nav-main")
     .logo
       img.sprint-img(src="/public/images/logo.svg" height="30" alt="logo")
-            
     ul
       li
-        input(type="search" id="searchBar" class="search-bar" placeholder="Search...")
-    a(href="users/login" id="logout") Log Out
+        input(type="search" id="searchBar" class="search-bar")
+    i(class="fas fa-sign-out-alt" id="logout")
   script(src="/public/js/sideBar.js" type="module")
   script(src="/public/js/searchBar.js" type="module")
     block nav
