@@ -1,14 +1,16 @@
 
 #task-div {
-  margin: 10px;
+  padding: 20px;
+  border-radius: 37px 37px 0px 0px;
+  max-width: 100%;
 }
 
-#tasks:hover {
+#task-div:hover {
   background-color: lightgray;
 }
 .tasks-list {
-  margin-right: 60px;
   padding: 0;
+
 }
 
 .tasks-list li {
@@ -17,18 +19,47 @@
   list-style: none;
 }
 
-.tasks-list li:hover {
+.tasks-list div:not(.team-filter-list):hover {
   background-color: #f1f1f1;
+  border-radius: 20px;
+}
+
+#tasks {
+  margin-left: 5px;
 }
 
 .bold {
   font-weight: bold;
 }
 
-.team-name-hover:hover{
-  background-color: lightgray;
+.teamname-filter {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  width: 100%;
 }
 
-.filter-list{
-  padding: 15px;
+.fa-caret-right {
+  margin-left: 20px;
+}
+
+.deadline-filter {
+  display: flex;
+  align-items: center;
+  padding-left: 18px;
+  margin-left: 20px;
+  width: 100%;
+}
+
+.rotate {
+  transform: rotate(90deg);
+  transition-duration: 0.25s;
+}
+
+.task-list > .team-filter-list {
+  margin-left: 20px;
+}
+
+#team-name-list {
+  margin-left: 45px;
 }

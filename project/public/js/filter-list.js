@@ -39,38 +39,54 @@ window.addEventListener("DOMContentLoaded", async event => {
   const resetProjects = await reset.json();
   const teams = await resTeam.json();
 
-  const taskBtn = document.querySelector('#tasks')
-  const deadlineBtn = document.querySelector('.deadline');
+  const taskBtn = document.querySelector('#task-div')
+  const deadlineBtn = document.querySelector('.deadline-filter');
   const teamBtn = document.querySelector('#teamName')
   const completeBox = document.querySelector('#complete');
   const teamNameList = document.querySelector('#team-name-list');
 
   taskBtn.addEventListener("click", async (event) => {
     let list = document.querySelector('.tasks-list');
-
-    if (!list.classList.contains('hidden')) {
-      list.classList.add('hidden');
-    } else {
-      list.classList.remove('hidden');
+    let mainCarat = document.getElementById('main-caret');
+    if (event.target.id === 'task-div' || event.target.id === 'main-caret' || event.target.id === 'tasks') {
+      if (!list.classList.contains('hidden')) {
+        mainCarat.classList.remove('rotate');
+        list.classList.add('hidden');
+      } else {
+        mainCarat.classList.add('rotate');
+        list.classList.remove('hidden');
+      }
     }
   })
 
   deadlineBtn.addEventListener('click', async (event) => {
+    if (event.target.classList.contains('deadline-filter') || event.target.classList.contains('deadline')) {
+      let compBox = document.getElementById('complete-box');
+      let incBox = document.getElementById('incomplete-box');
+      let res;
+      if (compBox.classList.contains('active')) {
+        res = await fetch('/projects-data/false')
+      } else if (incBox.classList.contains('active')) {
+        res = await fetch('/projects-data/false');
+      }
 
-    populateList(projects);
-    if (!deadlineBtn.classList.contains('bold')) {
-      deadlineBtn.classList.add('bold')
-    } else {
-      deadlineBtn.classList.remove('bold')
-      populateList(resetProjects)
+      let resetProjects = await res.json();
+
+      if (!deadlineBtn.classList.contains('bold')) {
+        deadlineBtn.classList.add('bold')
+      } else {
+        deadlineBtn.classList.remove('bold')
+        populateList(resetProjects)
+      }
     }
   })
 
   teamBtn.addEventListener('click', (event) => {
-
+    let teamCarat = document.getElementById('team-caret');
     if (!teamBtn.classList.contains('bold')) {
       teamBtn.classList.add('bold')
       teamNameList.classList.remove('hidden')
+      teamCarat.classList.add('rotate');
       if (!teamNameList.firstChild) {
         const list = document.querySelector('#team-name-list')
         teams.forEach((team, i) => {
@@ -88,6 +104,7 @@ window.addEventListener("DOMContentLoaded", async event => {
     } else {
       teamBtn.classList.remove('bold')
       teamNameList.classList.add('hidden')
+      teamCarat.classList.remove('rotate');
     }
 
     const teamName = document.getElementById(`${event.target.id}`);
