@@ -13,7 +13,7 @@ const tabBg = document.getElementById('tabs-content');
 const cogIcon = document.querySelector('.fa-cog');
 const labels = document.querySelectorAll('.project-label');
 document.addEventListener("DOMContentLoaded", e => {
-     
+
 });
 
 function changeProjectBgColor(){
@@ -62,7 +62,7 @@ export async function getUserAcccess(res) {
                });
           });
      // Sam - Event handler for swapping between completed and incomplete project list
-     
+
      const marker = document.getElementById('marker');
      document.getElementById('complete-inc-container')
           .addEventListener('click', async event => {
@@ -307,7 +307,6 @@ export async function populateList(projects) {
 
   projects.forEach( async (project, i) => {
     i++;
-    console.log(project)
     let conDiv = document.createElement("div");
     conDiv.classList.add('con-div-projs')
     let li = document.createElement("li");
@@ -317,7 +316,6 @@ export async function populateList(projects) {
     conDiv.appendChild(li);
     list.appendChild(conDiv);
     // Yongho
-    console.log(li.innerHTML)
    if (project.teamId){
         console.log('here')
           const resTeamName = await fetch(`/team-names/${project.teamId}`);

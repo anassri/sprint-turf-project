@@ -33,16 +33,18 @@ window.addEventListener("DOMContentLoaded", async event => {
       )}`,
     }
   });
-  const res = await fetch("/projects-deadline");
+
+  const compProj = await fetch('/projects-complete');
+  const incProj = await fetch('/projects-incomplete');
   const resTeam = await fetch("/projects-team")
-  const projects = await res.json();
   const resetProjects = await reset.json();
   const teams = await resTeam.json();
+  const inc = await incProj.json();
+  const comp = await compProj.json();
 
   const taskBtn = document.querySelector('#task-div')
-  const deadlineBtn = document.querySelector('.deadline-filter');
   const teamBtn = document.querySelector('#teamName')
-  const completeBox = document.querySelector('#complete');
+  const completeBox = document.querySelector('#complete-box');
   const teamNameList = document.querySelector('#team-name-list');
 
   taskBtn.addEventListener("click", async (event) => {
@@ -59,27 +61,6 @@ window.addEventListener("DOMContentLoaded", async event => {
     }
   })
 
-  deadlineBtn.addEventListener('click', async (event) => {
-    if (event.target.classList.contains('deadline-filter') || event.target.classList.contains('deadline')) {
-      let compBox = document.getElementById('complete-box');
-      let incBox = document.getElementById('incomplete-box');
-      let res;
-      if (compBox.classList.contains('active')) {
-        res = await fetch('/projects-data/false')
-      } else if (incBox.classList.contains('active')) {
-        res = await fetch('/projects-data/false');
-      }
-
-      let resetProjects = await res.json();
-
-      if (!deadlineBtn.classList.contains('bold')) {
-        deadlineBtn.classList.add('bold')
-      } else {
-        deadlineBtn.classList.remove('bold')
-        populateList(resetProjects)
-      }
-    }
-  })
 
   teamBtn.addEventListener('click', (event) => {
     let teamCarat = document.getElementById('team-caret');
@@ -107,22 +88,50 @@ window.addEventListener("DOMContentLoaded", async event => {
       teamCarat.classList.remove('rotate');
     }
 
-    const teamName = document.getElementById(`${event.target.id}`);
+    const teamName = document.getElementById('team-name-list');
     teamName.addEventListener('click', (event) => {
+      const name = document.querySelectorAll('.filter-items')
 
       if (!event.target.classList.contains('bold')) {
         let team = event.target.id
         let teamProj = [];
         for (let i = 0; i < resetProjects.length; i++) {
-          if (team === `teamNameId-${resetProjects[i].teamId}`) {
+          if (team === `teamNameId-${resetProjects[i].teamId}` && resetProjects[i].status === false && !completeBox.classList.contains('active')) {
             let proj = resetProjects[i]
             teamProj.push(proj)
           }
+           if (team === `teamNameId-${resetProjects[i].teamId}` && resetProjects[i].status === true && completeBox.classList.contains('active')) {
+            let proj = resetProjects[i];
+            teamProj.push(proj)
+          }
         }
+
+        event.target.classList.add('bold');
         populateList(teamProj)
+        name.forEach(el => {
+          if (!el.classList.contains('bold')){
+            let arr = [];
+            arr.push(el)
+            arr.forEach(el => {
+              el.classList.add('hidden');
+            })
+          }
+        })
       } else {
-        populateList(resetProjects);
+        if (!completeBox.classList.contains('active')){populateList(inc)}
+        if (completeBox.classList.contains('active')){populateList(comp)}
+        event.target.classList.remove('bold')
+        name.forEach(el => {
+          if (!el.classList.contains('bold')){
+            let arr = [];
+            arr.push(el)
+            arr.forEach(el => {
+              el.classList.remove('hidden');
+            })
+          }
+        })
       }
+
     })
 
   });
