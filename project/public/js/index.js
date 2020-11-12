@@ -2,7 +2,6 @@ import { getUserAcccess } from "./projects.js"
 
 (async () => {
     try {
-        // console.log('I got here');
         const res = await fetch("/projects-data", {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem(
@@ -16,9 +15,8 @@ import { getUserAcccess } from "./projects.js"
         }
 
         getUserAcccess(res);
-        
+
     } catch (e) {
         console.error(e);
     }
 })();
-

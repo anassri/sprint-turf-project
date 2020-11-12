@@ -6,7 +6,6 @@ async function addNote(project) {
     document
         .getElementById("add-a-note")
         .addEventListener('focus', (e) => {
-            console.log('focused');
             document
                 .querySelector('.note-buttons')
                 .classList
@@ -27,8 +26,6 @@ async function addNote(project) {
     addNoteForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        console.log("I'm activated");
-
         const formData = new FormData(addNoteForm);
         const note = formData.get("note");
         const userId = localStorage.getItem("SPRINT_TURF_CURRENT_USER_ID");
@@ -48,7 +45,6 @@ async function addNote(project) {
                 return;
             }
             if (!res.ok) throw res;
-            console.log("Added");
             fetchNotes(project);
 
         } catch (e) {

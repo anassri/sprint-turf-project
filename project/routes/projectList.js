@@ -63,7 +63,6 @@ router.get('/projects/:id/notes', asyncHandler(async (req, res) => {
           }],
           order: [["createdAt", "DESC"]]
      });
-     console.log({ notes });
      res.json(notes);
 }));
 
@@ -173,10 +172,7 @@ router.post('/projects-data',
                updatedAt
           } = req.body;
 
-          console.log(priority);
-
           if (teamId === '0' && priority === '0') {
-               console.log('No team, No priority')
                const newProj = await Project.create({
                     projectName,
                     deadline,
@@ -186,7 +182,6 @@ router.post('/projects-data',
                     updatedAt
                })
           } else if (teamId !== '0' && priority === '0') {
-               console.log('Yes team, no priority')
                const newProj = await Project.create({
                     projectName,
                     deadline,
@@ -197,7 +192,6 @@ router.post('/projects-data',
                     updatedAt
                })
           } else if ( teamId === '0' && priority !== '0') {
-               console.log('No team, yes priority' )
                try {
                     const newProj = await Project.create({
                          projectName,
@@ -209,10 +203,8 @@ router.post('/projects-data',
                          priority: parseInt(priority, 10)
                     })
                } catch(err) {
-                    console.log(err);
                }
           } else {
-               console.log('Yes team, yes priority', priority)
                const newProj = await Project.create({
                     projectName,
                     deadline,
