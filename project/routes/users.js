@@ -19,7 +19,7 @@ router.post(
     const user = await User.create({ firstName, lastName, email, hashedPassword });
 
     const token = getUserToken(user);
-    res.status(201).json({ 
+    res.status(201).json({
       user: { id: user.id },
       token,
     });

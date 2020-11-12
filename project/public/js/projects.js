@@ -233,20 +233,11 @@ async function populateDetails(project) {
           details.innerHTML = '';
      }
      taskList.forEach(task => {
-          let check = document.createElement('input');
-          let checkLabel = document.createElement('label');
+          let check = document.createElement('span');
           let conDiv = document.createElement('div');
-          conDiv.classList.add('details-check-container');
-          check.setAttribute('type', 'checkbox');
-          check.setAttribute('name', task);
-          check.classList.add('check-item');
-          check.classList.add('form-check-input');
-          checkLabel.classList.add('check-label');
-          checkLabel.classList.add('form-check-label');
-          checkLabel.setAttribute('for', task);
-          checkLabel.innerHTML = task;
+          conDiv.classList.add('detail-container');
+          check.innerHTML = task;
           conDiv.appendChild(check);
-          conDiv.appendChild(checkLabel);
           details.appendChild(conDiv);
      });
 }
