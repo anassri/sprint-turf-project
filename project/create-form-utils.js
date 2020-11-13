@@ -8,7 +8,6 @@ const handleCreateValidationErrors = (req,res,next) =>{
         const errors = validationErrors.array().map((err) => err.msg);
         const err = Error("Bad Request");
         err.errors = errors;
-        console.log(err.errors);
         err.status = 400;
         err.title = "Bad request.";
         return next(err);

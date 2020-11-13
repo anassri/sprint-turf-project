@@ -1,9 +1,7 @@
 export const handleCreationErrors = async (err) => {
      if (err.status >= 400 && err.status < 600) {
          const errorJSON = await err.json();
-         console.log(errorJSON);
          const errorsContainer = document.querySelector(".errors-creation-container");
-         console.log(errorsContainer);
          const div = document.createElement('div');
          div.classList.add('alert');
          div.classList.add('alert-danger');
@@ -11,7 +9,6 @@ export const handleCreationErrors = async (err) => {
 
          if (errorJSON.errors && Array.isArray(errorJSON.errors)) {
              errorJSON.errors.forEach(error => {
-                  console.log(error);
                   div.innerHTML += error + '<br />'
              });
          }

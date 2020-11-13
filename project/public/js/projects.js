@@ -228,7 +228,6 @@ async function populateDetails(project) {
           team.innerHTML = teamName;
      }
      let taskList = JSON.parse(project.description);
-     console.log(taskList);
      if (details.hasChildNodes) {
           details.innerHTML = '';
      }
@@ -317,13 +316,11 @@ export async function populateList(projects) {
     list.appendChild(conDiv);
     // Yongho
    if (project.teamId){
-        console.log('here')
           const resTeamName = await fetch(`/team-names/${project.teamId}`);
           const team = await resTeamName.json();
           const teamName = team.name;
           li.innerHTML += ` : ${teamName} `;
     } else if (!project.teamId) {
-         console.log('other here');
           //yongho adding dropdown for assigning project to different team
           let teamBtn = document.createElement("button");
           teamBtn.innerHTML = "Assign Team";
@@ -389,7 +386,7 @@ async function createProject(form) {
           createdAt,
           updatedAt
      };
-     // console.log(body);
+
      try {
           const res = await fetch("/projects-data", {
                method: "POST",
