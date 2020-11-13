@@ -5,6 +5,8 @@ append head
 
 block content
     .login-container
+        div(class="descript")
+            p Sprint Turf is a simple project management app. Create projects, keep track of your progress, add comments, and assign them to teams.
         div(class="log-in")
             .login-logo
                 img(src="/public/images/logo.svg" height="30" alt="logo")
@@ -17,7 +19,9 @@ block content
                 .form-group
                     //- label(for='password') Password
                     input#password.form-control(type='password' name="password" placeholder='Password')
-                button.btn.btn-dark(type='submit') Log In
+                div(class="login-buttons")
+                    button.btn.btn-dark(type='submit') Log In
+                    button#demo-user.btn.btn-dark(type="submit") Demo User
                 .login-cancel
                     a(href='/users/sign-up') Don't have an account? Sign up here.
     script(type="module" src="/public/js/log-in.js") 

@@ -41,3 +41,22 @@
     margin-bottom: 10px;
     
 }
+
+.descript {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-right: 120px;
+    margin-left: 120px;
+    margin-top: 120px;
+    color : white;
+    font-size: 18px;
+}
+
+.login-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
