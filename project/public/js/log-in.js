@@ -1,6 +1,6 @@
 import { handleErrors } from "./utils.js"
 window.addEventListener("DOMContentLoaded", async (e) => {
- 
+
   const logIn = document.getElementById("login");
   const demoUser = document.getElementById("demo-user");
 
@@ -37,7 +37,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     }
 
   })
-  
+
 
   logIn.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -71,6 +71,6 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       handleErrors(err);
     }
   });
-  
-  
+
+
 });

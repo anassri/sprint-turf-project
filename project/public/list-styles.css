@@ -214,8 +214,7 @@ body {
 #details-list {
      grid-area: details-info;
      margin-top: 15px;
-     margin-left: 0px;
-     padding-left: 20px;
+     padding-left: 0px;
 }
 
 #start-title {
@@ -257,9 +256,6 @@ body {
      display: flex;
      justify-content: space-between;
 }
-
-
-
 
 .flex-btn-con {
      display: flex;
