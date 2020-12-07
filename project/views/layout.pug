@@ -11,3 +11,59 @@ html(lang="en")
     link(rel="stylesheet" href="/public/list-styles.css")
   body
     block content
+    block foot
+      #footer
+        p contributers
+          div(class="developers")
+            div(class="person") Ammar Nassri
+              a(href='https://www.linkedin.com/in/anassri/' target='_blank') 
+                img(src="/public/images/linkedin.png" height="30" alt="LinkedIn")
+            div(class="person") Matt Zamora
+              a(href='https://www.linkedin.com/in/matt-zamora-95b38316b/' target='_blank') 
+                img(src="/public/images/linkedin.png" height="30" alt="LinkedIn")
+            div(class="person") Samuel Holt
+              a(href='https://www.linkedin.com/in/sam-holt-6a47a81bb/' target='_blank') 
+                img(src="/public/images/linkedin.png" height="30" alt="LinkedIn")
+            div(class="person") Yongho Kim
+              a(href='https://www.linkedin.com/in/yongho-kim-024451199/' target='_blank') 
+                img(src="/public/images/linkedin.png" height="30" alt="LinkedIn")
+
+                //-    a(href='https://www.linkedin.com/in/yongho-kim-024451199/' target='_blank') 
+                //- | linkedin
+            //- h3 Yongho Kim
+            //-   a(href='https://www.linkedin.com/in/yongho-kim-024451199/' target='_blank')
+            //-     i.fa.fa-twitter
+
+
+//- h3 Matt Zamora
+//- h3 Samuel Hol
+
+//-  const sitePointEmployees = [
+//-     {
+//-       'firstName': 'James',
+//-       'lastName': 'Hibbard',
+//-       'twitter': 'https://twitter.com/jchibbard',
+//-       'position': 'JavaScript Editor',
+//-       'imgSrc': 'https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2019/02/1550836753jim1-150x150.jpg'
+//-     },
+//-     {
+//-       'firstName': 'Nilson',
+//-       'lastName': 'Jacques',
+//-       'twitter': 'https://twitter.com/nilsonjacques',
+//-       'position': 'JavaScript Editor',
+//-       'imgSrc': 'https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2015/11/1447635158nilsonjacques-96x96.jpg'
+//-     }
+//-   ]
+  
+//- h1 SitePoint JavaScript
+
+//- ul.team
+//-   each employee in sitePointEmployees
+//-     li
+//-       figure
+//-         img(src=employee.imgSrc alt=`${employee.firstName} ${employee.lastName}`)
+//-         figcaption
+//-           h3 #{employee.firstName} #{employee.lastName}
+//-           p= employee.position
+//-           a(href=employee.twitter target='_blank')
+//-             i.fa.fa-twitter
