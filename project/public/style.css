@@ -89,3 +89,20 @@ a:hover{
 #logout:hover{
   opacity: 0.4;
 }
+
+.developers {
+  display: flex;
+  justify-content: space-around;
+}
+
+.person {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.icons {
+  display: flex;
+  justify-content: space-around;
+
+}
