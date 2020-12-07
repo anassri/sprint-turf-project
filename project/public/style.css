@@ -100,3 +100,9 @@ a:hover{
   flex-direction: column;
   justify-content: center;
 }
+
+.icons {
+  display: flex;
+  justify-content: space-around;
+
+}
