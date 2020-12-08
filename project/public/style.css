@@ -93,6 +93,15 @@ a:hover{
 .developers {
   display: flex;
   justify-content: space-around;
+
+}
+
+#footer {
+  /* position: fixed; */
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
 }
 
 .person {
@@ -104,5 +113,10 @@ a:hover{
 .icons {
   display: flex;
   justify-content: space-around;
+  bottom: 20px;
+}
 
+.icons a:hover {
+  transform: scale(1.1);
+  color: #e9e9e9;
 }
